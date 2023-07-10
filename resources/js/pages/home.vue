@@ -2,7 +2,7 @@
     <section id="home" class="w-full flex p-10" >
         <div class="w-full md:w-1/2 pt-32">
             <p class="text-[#0673c3] text-[40px] font-extrabold">Welcome to EasyFees - Simplifying School Fee Management </p>
-            <p class="text-lg mt-10">Manage & Pay School Fees easily, Efficiently and Effectively with EasyFees</p>
+            <p class="text-lg mt-10">Manage &amp; Pay School Fees easily, Efficiently and Effectively with EasyFees</p>
             <div class="flex space-x-10 mt-10">
                 <router-link to="/pay" >
                     <button class="w-[180px] md:w-[270px] h-10 text-sm md:text-lg rounded-xl text-center pl-4 text-[#0673c3]  ring-2 ring-[#0673c3] hover:scale-110 "><p class="flex md:pl-5"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-[#0673c3]">
@@ -99,7 +99,7 @@
     </section>
     <section class="w-full  p-10 " id="help">
       <div class="pt-10"></div>
-      <h1 class="text-[#0673c3] text-[40px] text-center  font-extrabold pb-10">FAQ & Support </h1>
+      <h1 class="text-[#0673c3] text-[40px] text-center  font-extrabold pb-10">FAQ &amp; Support </h1>
       <div class="md:flex">
          <div class="w-full md:w-1/2  m-4">
           <p class="text-[#0673c3] text-[30px] pb-6"> Frequently Asked Questions (FAQs) </p>
@@ -225,9 +225,3 @@ data: () => ({
     },
 }
 </script>
-<style>
-@font-face {
-  font-family: 'Rubik';
-  src:  url("../../public/fonts/Rubik/Rubik-VariableFont_wght.ttf") format('truetype');
-}
-</style>

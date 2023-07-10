@@ -30,9 +30,3 @@
      }
   }
   </script>
-  <style>
-  @font-face {
-    font-family: 'Rubik';
-    src:  url("../../public/fonts/Rubik/Rubik-VariableFont_wght.ttf") format('truetype');
-  }
-</style>
