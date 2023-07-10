@@ -5,9 +5,9 @@
         <p class=" pt-2 text-sm font-light"> Are you already registered? please login to use the system</p>
         <div class="pt-4 space-y-3">
           <p class="pt-2 text-sm font-bold text-left">Email:</p>
-          <input type='text' className='w-[330px] h-9 ring-1 ring-[#f6f6f6] rounded-lg     placeholder:p-1 placeholder:font-light  enabled:p-2' placeholder='Enter Email'/>
+          <input type='text' className='w-[330px] h-9 ring-2 ring-[#f6f6f6] rounded-lg     placeholder:p-1 placeholder:font-light  enabled:p-2' placeholder='Enter Email'/>
           <p class="pt-2 text-sm font-bold text-left">Password:</p>
-          <input type='password' className='w-[330px] h-9 ring-1 ring-[#f6f6f6] rounded-lg    placeholder:p-1 placeholder:font-light  enabled:p-2' placeholder='Enter Password'/>
+          <input type='password' className='w-[330px] h-9 ring-2 ring-[#f6f6f6] rounded-lg    placeholder:p-1 placeholder:font-light  enabled:p-2' placeholder='Enter Password'/>
           <p class=" pt-4 pb-3 text-sm font-light text-left"> Having trouble in sign in? <router-link to="/resetPassword"><a href="#" class=" text-sm font-bold  hover:text-[#0673c3]">Reset Password </a></router-link></p>
         
           <button class="w-[330px] h-10 text-sm rounded-lg  font-semibold bg-[#0673c3]"><p class="flex text-center text-white pl-[130px]">
@@ -38,3 +38,4 @@
     src:  url("../../public/fonts/Rubik/Rubik-VariableFont_wght.ttf") format('truetype');
   }
 </style>
+

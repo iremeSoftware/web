@@ -19,7 +19,6 @@ const routes = [
     component: resetPassword
   },
  
- 
 ]
 
 export default routes
