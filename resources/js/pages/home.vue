@@ -28,11 +28,11 @@
         </div>
         
     </section>
-    <section id="solutions" class="w-full flex pt-20 pl-20 pr-10 bg-white text-center" >
-        <div class=" w-full text-center">
+    <section id="solutions" class="w-full flex md:pt-20 pl-10 md:pl-20 md:pr-10 bg-white md:text-center" >
+        <div class=" w-full md:text-center">
             <h1 class="text-[#0673c3] text-[40px]  font-extrabold pb-6">Solutions </h1>
             <h1 class="text-[#0673c3] text-[25px]  font-bold ">~ For Schools ~</h1>
-            <div class="grid grid-cols-3 gap-44 mt-4">
+            <div class="grid md:grid-cols-3 md:gap-44 mt-4">
             <div class="w-[300px] h-[300px] text-left">
                 <div class="ml-20">
                   <img src="../../../public/images/icons8-graph-report-100.png" >
@@ -62,7 +62,7 @@
             
         </div>
         <h1 class="text-[#0673c3] text-[25px]  font-bold pt-10 ">~ For Parents ~</h1>
-        <div class="grid grid-cols-3 gap-44 mt-4">
+        <div class="grid  md:grid-cols-3 gap-y-10 md:gap-44 mt-4">
             <div class="w-[300px] h-[300px] text-left">
                 <div class="ml-20">
                   <img src="../../../public/images/icons8-run-100.png">
@@ -100,8 +100,8 @@
     <section class="w-full  p-10 " id="help">
       <div class="pt-10"></div>
       <h1 class="text-[#0673c3] text-[40px] text-center  font-extrabold pb-10">FAQ & Support </h1>
-      <div class="flex">
-         <div class="w-1/2  m-4">
+      <div class="md:flex">
+         <div class="w-full md:w-1/2  m-4">
           <p class="text-[#0673c3] text-[30px] pb-6"> Frequently Asked Questions (FAQs) </p>
 
           <div class="w-full" v-for="(faq,i) in faqContents" :key="faq.header" @click="activeFaq(i)">
@@ -123,7 +123,7 @@
           
 
          </div>
-         <div class="w-1/2 inline-flex">
+         <div class="w-full md:w-1/2 md:inline-flex pl-6">
           
           <div class="w-full">
             <p class="text-[#0673c3] text-[30px] pt-4"> Do you need support? </p>
@@ -136,7 +136,7 @@
           <p class="pt-2 text-sm font-semibold text-left">Email:</p>
           <input type='text' className='w-full h-9 ring-2 ring-[#f6f6f6] rounded-lg     placeholder:p-1 placeholder:font-light  enabled:p-2' placeholder='Enter your email here'/>
           <p class="pt-2 text-sm font-semibold text-left">Describe your inquiry:</p>
-          <textarea type='text' className='w-full h-24 ring-2 ring-[#f6f6f6] rounded-lg     placeholder:p-1  placeholder:font-light  enabled:p-2' placeholder="Briefly describe your equiry here"></textarea>
+          <textarea type='text' className='w-full h-24 ring-2 ring-[#f6f6f6] rounded-lg     placeholder:p-1  placeholder:font-light  enabled:p-2' placeholder="Briefly describe your inquiry here"></textarea>
           <br><br>
       
         
@@ -154,9 +154,9 @@
          </div>
       </div>
     </section>
-    <section class="w-full  p-10 bg-white " id="follow_us">
-      <h1 class="text-[#0673c3] text-[40px] text-center  font-extrabold pb-10">Follow us</h1>
-      <div class="flex content-center w-full space-x-2 pl-[450px]">
+    <section class="w-full  p-10 bg-[#0673c3] text-white" id="follow_us">
+      <h1 class=" text-[40px] text-center  font-extrabold pb-10">Follow us</h1>
+      <div class="flex  w-full space-x-2 pl-20 md:pl-[450px]">
         <a href="#" target="_blank" >
           <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48" width="70px" height="70px"><path fill="#039be5" d="M24 5A19 19 0 1 0 24 43A19 19 0 1 0 24 5Z"/><path fill="#fff" d="M26.572,29.036h4.917l0.772-4.995h-5.69v-2.73c0-2.075,0.678-3.915,2.619-3.915h3.119v-4.359c-0.548-0.074-1.707-0.236-3.897-0.236c-4.573,0-7.254,2.415-7.254,7.917v3.323h-4.701v4.995h4.701v13.729C22.089,42.905,23.032,43,24,43c0.875,0,1.729-0.08,2.572-0.194V29.036z"/></svg>
         </a>
@@ -172,9 +172,7 @@
       </div>
 
     </section>
-    <section id="footer" class="h-20 w-full">
-      
-    </section>
+
 </template>
 <script>
 export default {
