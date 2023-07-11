@@ -1,6 +1,7 @@
 import login from '../pages/login.vue'
 import resetPassword from '../pages/reset_password.vue'
 import home from '../pages/home.vue'
+import registerSchool from '../pages/register_school.vue'
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     name: 'reset_password',
     component: resetPassword
   },
+  {
+    path: '/registerSchool',
+    name:'register_school',
+    component:registerSchool
+  }
  
 ]
 

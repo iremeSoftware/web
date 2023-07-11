@@ -12,7 +12,7 @@
                         </button>
                 </router-link>
 
-                <router-link to="/login">
+                <router-link to="/registerSchool">
                     <button class=" w-[180px] md:w-[270px] h-10 text-sm md:text-lg rounded-xl text-center ring-2 ring-[#0673c3] text-[#0673c3] hover:scale-110 "><p class="flex md:pl-5"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-[#0673c3]">
   <path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z" />
 </svg>
@@ -131,12 +131,25 @@
 
               <p class=" pt-2 text-sm font-bold"> If you need personalized assistance or have specific inquiries, our support team is readily available to help.</p>
         <div class="pt-4 space-y-3">
-          <p class="pt-2 text-sm font-semibold text-left">Names:</p>
-          <input type='text' className='w-full h-9 ring-2 ring-[#f6f6f6] rounded-lg     placeholder:p-1 placeholder:font-light  enabled:p-2' placeholder='Enter your names here'/>
-          <p class="pt-2 text-sm font-semibold text-left">Email:</p>
-          <input type='text' className='w-full h-9 ring-2 ring-[#f6f6f6] rounded-lg     placeholder:p-1 placeholder:font-light  enabled:p-2' placeholder='Enter your email here'/>
-          <p class="pt-2 text-sm font-semibold text-left">Describe your inquiry:</p>
-          <textarea type='text' className='w-full h-24 ring-2 ring-[#f6f6f6] rounded-lg     placeholder:p-1  placeholder:font-light  enabled:p-2' placeholder="Briefly describe your inquiry here"></textarea>
+          <p class="pt-2 text-sm font-semibold text-left">Names: <span class=" text-red-600" title="Required field">(*)</span></p>
+          <input type='text' class='w-full h-9 ring-2 ring-[#f6f6f6] rounded-lg  placeholder:p-1 placeholder:font-light  enabled:p-2' placeholder='Enter your names here' v-model="formData[0].names.value" :class="formData[0].names.value =='' ? formData[0].names.required.className :''"/>
+          <span class="w-full md:pl-[370px] text-red-600 text-xs" >{{formData[0].names.value =="" ? formData[0].names.required.value : ""}}</span>
+
+
+          <p class="pt-2 text-sm font-semibold text-left">Email: <span class=" text-red-600" title="Required field">(*)</span></p>
+          <input type='text' class='w-full h-9 ring-2 ring-[#f6f6f6] rounded-lg     placeholder:p-1 placeholder:font-light  enabled:p-2' placeholder='Enter your email here' v-model="formData[1].email.value" :class="formData[1].email.value =='' ? formData[1].email.required.className :''"/>
+          <span class="w-full md:pl-[350px] text-red-600 text-xs" >{{formData[1].email.value =="" ? formData[1].email.required.value : ""}}</span>
+
+          <p class="pt-2 text-sm font-semibold text-left">Select reason for reaching out:</p>
+                      <select  v-model="reason"  class="w-full h-9 ring-2 ring-[#f6f6f6] rounded-lg enabled:p-2 enabled:font-light" id="exampleInputSchoolSector">
+                      <option value=''>Select reason here:</option>
+                      <option value="">Need to know more about the system</option>
+                      <option value="">Need to be partner with us</option>
+                      <option value="">Another reason</option>
+                      </select>
+          <p class="pt-2 text-sm font-semibold text-left">Describe your inquiry: <span class=" text-red-600" title="Required field">(*)</span></p>
+          <textarea type='text' class='w-full h-24 ring-2 ring-[#f6f6f6] rounded-lg     placeholder:p-1  placeholder:font-light  enabled:p-2' v-model="formData[2].description.value" :class="formData[2].description.value =='' ? formData[2].description.required.className :''" placeholder="Briefly describe your inquiry here"></textarea>
+          <span class="w-full md:pl-[350px] text-red-600 text-xs" >{{formData[2].description.value =="" ? formData[2].description.required.value : ""}}</span>
           <br><br>
       
         
@@ -211,8 +224,40 @@ data: () => ({
             "isActive":false,
             "contents":"If you encounter any issues or have additional questions about the school fees management system, our dedicated support team is available to assist you. You can reach out to our support staff through the contact information provided on our website, and they will be happy to address any concerns or queries you may have."
           }
-          
         ],
+        formData:[
+    {
+      names:{
+      required:{
+        isRequired:true,
+        className:"ring-1 ring-red-500",
+        value:"Your names are required"
+      },
+      value:""
+    }
+    },
+    {
+      email:{
+      required:{
+        isRequired:true,
+        className:"ring-1 ring-red-500",
+        value:"Your email address is required"
+      },
+      value:""
+    }
+    },
+    {
+      description:{
+      required:{
+        isRequired:true,
+        className:"ring-1 ring-red-500",
+        value:"Your description is required"
+      },
+      value:""
+    }
+    }
+  ],
+        reason:""
       }),
       mounted () {
         },

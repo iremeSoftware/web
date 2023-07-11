@@ -1,0 +1,526 @@
+{
+		"Kicukiro":[
+			{"sector": "Gahanga"},
+			{"sector": "Gatenga"},
+			{"sector": "Gikondo"},
+			{"sector": "Kagarama"},
+			{"sector": "Kanombe"},
+			{"sector": "Kicukiro"},
+			{"sector": "Kigarama"},
+			{"sector": "Masaka"},
+			{"sector": "Nyarugunga"},
+			{"sector": "Niboye"}
+		],
+		"Nyarugenge":[
+			{"sector": "Gitega"},
+			{"sector": "Kanyinya"},
+			{"sector": "Kigali"},
+			{"sector": "Kimisagara"},
+			{"sector": "Mageragere"},
+			{"sector": "Muhima"},
+			{"sector": "Nyakabanda"},
+			{"sector": "Nyamirambo"},
+			{"sector": "Rwezamenyo"},
+			{"sector": "Nyarugenge"}
+		],
+		"Gasabo":[
+			{"sector": "Bumbogo"},
+			{"sector": "Gatsata"},
+			{"sector": "Jali"},
+			{"sector": "Gikomero"},
+			{"sector": "Gisozi"},
+			{"sector": "Jabana"},
+			{"sector": "Kinyinya"},
+			{"sector": "Ndera"},
+			{"sector": "Nduba"},
+			{"sector": "Rusororo"},
+			{"sector": "Rutunga"},
+			{"sector": "Kacyiru"},
+			{"sector": "Kimihurura"},
+			{"sector": "Kimironko"},
+			{"sector": "Remera"}
+
+		],
+		"Gatsibo":[
+			{"sector": "Gasange"},
+			{"sector": "Gatsibo"},
+			{"sector": "Gitoki"},
+			{"sector": "Kabarore"},
+			{"sector": "Kageyo"},
+			{"sector": "Kiramuruzi"},
+			{"sector": "Kiziguro"},
+			{"sector": "Muhura"},
+			{"sector": "Murambi"},
+			{"sector": "Ngarama"},
+			{"sector": "Nyagihanga"},
+			{"sector": "Remera"},
+			{"sector": "Rugarama"},
+			{"sector": "Rwimbogo"}
+
+		],
+		"Bugesera":[
+			{"sector": "Gashora"},
+			{"sector": "Juru"},
+			{"sector": "Kamabuye"},
+			{"sector": "Ntarama"},
+			{"sector": "Mareba"},
+			{"sector": "Mayange"},
+			{"sector": "Musenyi"},
+			{"sector": "Mwogo"},
+			{"sector": "Ngeruka"},
+			{"sector": "Nyamata"},
+			{"sector": "Nyarugenge"},
+			{"sector": "Rilima"},
+			{"sector": "Ruhuha"},
+			{"sector": "Rweru"},
+			{"sector": "Shyara"}
+
+		],
+		"Kayonza":[
+			{"sector": "Gahini"},
+			{"sector": "Kabare"},
+			{"sector": "Kabarondo"},
+			{"sector": "Mukarange"},
+			{"sector": "Murama"},
+			{"sector": "Murundi"},
+			{"sector": "Mwiri"},
+			{"sector": "Ndego"},
+			{"sector": "Nyamirama"},
+			{"sector": "Rukara"},
+			{"sector": "Ruramira"},
+			{"sector": "Rwinkwavu"}
+
+		],
+		"Kirehe":[
+			{"sector": "Gahara"},
+			{"sector": "Gatore"},
+			{"sector": "Kigina"},
+			{"sector": "Kirehe"},
+			{"sector": "Mahama"},
+			{"sector": "Mpanga"},
+			{"sector": "Musaza"},
+			{"sector": "Mushikiri"},
+			{"sector": "Nasho"},
+			{"sector": "Nyamugari"},
+			{"sector": "Nyarubuye"},
+			{"sector": "Kigarama"}
+
+		],
+		"Ngoma":[
+			{"sector": "Gashanda"},
+			{"sector": "Jarama"},
+			{"sector": "Karembo"},
+			{"sector": "Kazo"},
+			{"sector": "Kibungo"},
+			{"sector": "Mugesera"},
+			{"sector": "Murama"},
+			{"sector": "Mutenderi"},
+			{"sector": "Remera"},
+			{"sector": "Rukira"},
+			{"sector": "Rukumberi"},
+			{"sector": "Rurenge"},
+			{"sector": "Sake"},
+			{"sector": "Zaza"}
+
+		],
+		"Nyagatare":[
+			{"sector": "Gatunda"},
+			{"sector": "Kiyombe"},
+			{"sector": "Karama"},
+			{"sector": "Karangazi"},
+			{"sector": "Katabagemu"},
+			{"sector": "Matimba"},
+			{"sector": "Mimuri"},
+			{"sector": "Mukama"},
+			{"sector": "Musheri"},
+			{"sector": "Nyagatare"},
+			{"sector": "Rukomo"},
+			{"sector": "Rwempasha"},
+			{"sector": "Rwimiyaga"},
+			{"sector": "Tabagwe"}
+
+		],
+		"Rwamagana":[
+			{"sector": "Fumbwe"},
+			{"sector": "Gahengeri"},
+			{"sector": "Gishari"},
+			{"sector": "Karenge"},
+			{"sector": "Kigabiro"},
+			{"sector": "Muhazi"},
+			{"sector": "Munyaga"},
+			{"sector": "Munyiginya"},
+			{"sector": "Musha"},
+			{"sector": "Muyumbu"},
+			{"sector": "Mwulire"},
+			{"sector": "Nyakariro"},
+			{"sector": "Nzige"},
+			{"sector": "Rubona"}
+
+		]
+		,
+		"Gakenke":[
+			{"sector": "Busengo"},
+			{"sector": "Coko"},
+			{"sector": "Cyabingo"},
+			{"sector": "Gakenke"},
+			{"sector": "Gashenyi"},
+			{"sector": "Mugunga"},
+			{"sector": "Janja"},
+			{"sector": "Kamubuga"},
+			{"sector": "Karambo"},
+			{"sector": "Kivuruga"},
+			{"sector": "Mataba"},
+			{"sector": "Minazi"},
+			{"sector": "Muhondo"},
+			{"sector": "Muyongwe"},
+			{"sector": "Muzo"},
+			{"sector": "Nemba"},
+			{"sector": "Ruli"},
+			{"sector": "Rusasa"},
+			{"sector": "Rushashi"}
+
+
+		],
+		"Burera":[
+			{"sector": "Bungwe"},
+			{"sector": "Butaro"},
+			{"sector": "Cyanika"},
+			{"sector": "Cyeru"},
+			{"sector": "Gahunga"},
+			{"sector": "Gatebe"},
+			{"sector": "Gitovu"},
+			{"sector": "Kagogo"},
+			{"sector": "Kinoni"},
+			{"sector": "Kinyababa"},
+			{"sector": "Kivuye"},
+			{"sector": "Nemba"},
+			{"sector": "Rugarama"},
+			{"sector": "Rugendabari"},
+			{"sector": "Ruhunde"},
+			{"sector": "Rusarabuge"},
+			{"sector": "Rwerere"}
+
+
+		],
+		"Gicumbi":[
+			{"sector": "Bukure"},
+			{"sector": "Bwisige"},
+			{"sector": "Byumba"},
+			{"sector": "Cyumba"},
+			{"sector": "Giti"},
+			{"sector": "Kaniga"},
+			{"sector": "Manyagiro"},
+			{"sector": "Miyove"},
+			{"sector": "Kageyo"},
+			{"sector": "Mukarange"},
+			{"sector": "Muko"},
+			{"sector": "Mutete"},
+			{"sector": "Nyamiyaga"},
+			{"sector": "Nyankenke"},
+			{"sector": "Rubaya"},
+			{"sector": "Rukomo"},
+			{"sector": "Rushaki"},
+			{"sector": "Rutare"},
+			{"sector": "Ruvune"},
+			{"sector": "Rwamiko"},
+			{"sector": "Shangasha"}
+
+
+		],
+		"Musanze":[
+			{"sector": "Busogo"},
+			{"sector": "Cyuve"},
+			{"sector": "Gacaca"},
+			{"sector": "Gashaki"},
+			{"sector": "Gataraga"},
+			{"sector": "Kimonyi"},
+			{"sector": "Kinigi"},
+			{"sector": "Muhoza"},
+			{"sector": "Muko"},
+			{"sector": "Musanze"},
+			{"sector": "Nkotsi"},
+			{"sector": "Nyange"},
+			{"sector": "Remera"},
+			{"sector": "Rwaza"},
+			{"sector": "Shingiro"}
+			
+
+
+		],
+		"Rulindo":[
+			{"sector": "Base"},
+			{"sector": "Burega"},
+			{"sector": "Bushoki"},
+			{"sector": "Buyoga"},
+			{"sector": "Cyinzuzi"},
+			{"sector": "Cyungo"},
+			{"sector": "Kinihira"},
+			{"sector": "Kisaro"},
+			{"sector": "Kisaro"},
+			{"sector": "Mbogo"},
+			{"sector": "Murambi"},
+			{"sector": "Ngoma"},
+			{"sector": "Ntarabana"},
+			{"sector": "Rukozo"},
+			{"sector": "Rusiga"},
+			{"sector": "Shyorongi"},
+			{"sector": "Tumba"}
+			
+
+
+		],
+		"Huye":[
+			{"sector": "Gishamvu"},
+			{"sector": "Karama"},
+			{"sector": "Kigoma"},
+			{"sector": "Kinazi"},
+			{"sector": "Maraba"},
+			{"sector": "Mbazi"},
+			{"sector": "Mukura"},
+			{"sector": "Ngoma"},
+			{"sector": "Ruhashya"},
+			{"sector": "Rusatira"},
+			{"sector": "Rwaniro"},
+			{"sector": "Simbi"},
+			{"sector": "Tumba"},
+			{"sector": "Huye"}
+
+
+		],
+		"Kamonyi":[
+			{"sector": "Gacurambwenge"},
+			{"sector": "Karama"},
+			{"sector": "Kayenzi"},
+			{"sector": "Kayumbu"},
+			{"sector": "Mugina"},
+			{"sector": "Musambira"},
+			{"sector": "Ngamba"},
+			{"sector": "Nyamiyaga"},
+			{"sector": "Nyarubaka"},
+			{"sector": "Rugarika"},
+			{"sector": "Rukoma"},
+			{"sector": "Runda"}
+			
+
+
+		],
+		"Muhanga":[
+			{"sector": "Cyeza"},
+			{"sector": "Kabacuzi"},
+			{"sector": "Kibangu"},
+			{"sector": "Kiyumba"},
+			{"sector": "Muhanga"},
+			{"sector": "Mushishiro"},
+			{"sector": "Nyabinoni"},
+			{"sector": "Nyamabuye"},
+			{"sector": "Nyarusange"},
+			{"sector": "Rongi"},
+			{"sector": "Shyogwe"}
+			
+
+
+		],
+		"Nyamagabe":[
+			{"sector": "Buruhukiro"},
+			{"sector": "Cyanika"},
+			{"sector": "Gatare"},
+			{"sector": "Kaduha"},
+			{"sector": "Kamegeli"},
+			{"sector": "Kibirizi"},
+			{"sector": "Kibumbwe"},
+			{"sector": "Kitabi"},
+			{"sector": "Mbazi"},
+			{"sector": "Mugano"},
+			{"sector": "Musange"},
+			{"sector": "Musebeya"},
+			{"sector": "Mushubi"},
+			{"sector": "Nkomane"},
+			{"sector": "Gasaka"},
+			{"sector": "Tare"},
+			{"sector": "Uwinkingi"}
+			
+
+
+		],
+		"Nyanza":[
+			{"sector": "Busasamana"},
+			{"sector": "Busoro"},
+			{"sector": "Cyabakamyi"},
+			{"sector": "Kibirizi"},
+			{"sector": "Kigoma"},
+			{"sector": "Mukingo"},
+			{"sector": "Rwabicuma"},
+			{"sector": "Muyira"},
+			{"sector": "Ntyazo"},
+			{"sector": "Nyagisozi"}
+
+		],
+		"Nyaruguru":[
+			{"sector": "Cyahinda"},
+			{"sector": "Kibeho"},
+			{"sector": "Mata"},
+			{"sector": "Munini"},
+			{"sector": "Kivu"},
+			{"sector": "Ngera"},
+			{"sector": "Ngoma"},
+			{"sector": "Nyabimata"},
+			{"sector": "Nyagisozi"},
+			{"sector": "Ruheru"},
+			{"sector": "Muganza"},
+			{"sector": "Ruramba"},
+			{"sector": "Rusange"}
+
+		],
+		"Gisagara":[
+			{"sector": "Gikonko"},
+			{"sector": "Gishubi"},
+			{"sector": "Kansi"},
+			{"sector": "Kibirizi"},
+			{"sector": "Kigembe"},
+			{"sector": "Mamba"},
+			{"sector": "Muganza"},
+			{"sector": "Mugombwa"},
+			{"sector": "Mukindo"},
+			{"sector": "Musha"},
+			{"sector": "Ndora"},
+			{"sector": "Nyanza"},
+			{"sector": "Save"}
+
+		],
+		"Ruhango":[
+			{"sector": "Bweramana"},
+			{"sector": "Byimana"},
+			{"sector": "Kabagari"},
+			{"sector": "Kinazi"},
+			{"sector": "Kinihira"},
+			{"sector": "Mbuye"},
+			{"sector": "Mwendo"},
+			{"sector": "Ntongwe"},
+			{"sector": "Ruhango"}
+
+		],
+		"Karongi":[
+			{"sector": "Bwishyura"},
+			{"sector": "Gishari"},
+			{"sector": "Gishyita"},
+			{"sector": "Gisovu"},
+			{"sector": "Gitesi"},
+			{"sector": "Murundi"},
+			{"sector": "Murambi"},
+			{"sector": "Mubuga"},
+			{"sector": "Mutuntu"},
+			{"sector": "Rugabano"},
+			{"sector": "Ruganda"},
+			{"sector": "Rwankuba"},
+			{"sector": "Twumba"}
+
+		],
+		"Ngororero":[
+			{"sector": "Bwira"},
+			{"sector": "Gatumba"},
+			{"sector": "Hindiro"},
+			{"sector": "Kabaya"},
+			{"sector": "Kageyo"},
+			{"sector": "Kavumu"},
+			{"sector": "Matyazo"},
+			{"sector": "Muhanda"},
+			{"sector": "Muhororo"},
+			{"sector": "Ndaro"},
+			{"sector": "Ngororero"},
+			{"sector": "Nyange"},
+			{"sector": "Sovu"}
+
+		],
+		"Nyabihu":[
+			{"sector": "Bigogwe"},
+			{"sector": "Jenda"},
+			{"sector": "Jomba"},
+			{"sector": "Katabwa"},
+			{"sector": "Karago"},
+			{"sector": "Kintobo"},
+			{"sector": "Mukamira"},
+			{"sector": "Muringa"},
+			{"sector": "Rambura"},
+			{"sector": "Rugera"},
+			{"sector": "Rurembo"},
+			{"sector": "Shyira"}
+
+		],
+		"Nyamasheke":[
+			{"sector": "Bushekeri"},
+			{"sector": "Bushenge"},
+			{"sector": "Cyato"},
+			{"sector": "Gihombo"},
+			{"sector": "Kagano"},
+			{"sector": "Kanjongo"},
+			{"sector": "Karambi"},
+			{"sector": "Karengera"},
+			{"sector": "Kirimbi"},
+			{"sector": "Macuba"},
+			{"sector": "Mahembe"},
+			{"sector": "Nyabitekeri"},
+			{"sector": "Rangiro"},
+			{"sector": "Ruharambuga"},
+			{"sector": "Shangi"}
+
+		],
+		"Rubavu":[
+			{"sector": "Bugeshi"},
+			{"sector": "Busasamana"},
+			{"sector": "Cyanzarwe"},
+			{"sector": "Gisenyi"},
+			{"sector": "Kanama"},
+			{"sector": "Kanzenze"},
+			{"sector": "Mudende"},
+			{"sector": "Nyakirima"},
+			{"sector": "Nyamyumba"},
+			{"sector": "Nyundo"},
+			{"sector": "Rubavu"},
+			{"sector": "Rugerero"}
+
+		],
+		"Rusizi":[
+			{"sector": "Bugarama"},
+			{"sector": "Butare"},
+			{"sector": "Bweyeye"},
+			{"sector": "Gikundamvura"},
+			{"sector": "Gashonga"},
+			{"sector": "Giheke"},
+			{"sector": "Gihungwe"},
+			{"sector": "Gitambi"},
+			{"sector": "Kamembe"},
+			{"sector": "Muganza"},
+			{"sector": "Mururu"},
+			{"sector": "Nkanka"},
+			{"sector": "Nkombo"},
+			{"sector": "Nkungu"},
+			{"sector": "Nyakabuye"},
+			{"sector": "Nyakarenzo"},
+			{"sector": "Nzahaha"},
+			{"sector": "Rwimbogo"}
+
+		],
+		"Rutsiro":[
+			{"sector": "Boneza"},
+			{"sector": "Gihango"},
+			{"sector": "Kigeyo"},
+			{"sector": "Kivumu"},
+			{"sector": "Manihira"},
+			{"sector": "Mukura"},
+			{"sector": "Murunda"},
+			{"sector": "Musasa"},
+			{"sector": "Mushonyi"},
+			{"sector": "Mushubati"},
+			{"sector": "Nyabirasi"},
+			{"sector": "Ruhango"},
+			{"sector": "Rusebeya"}
+
+		]
+
+
+
+
+
+
+	
+}
