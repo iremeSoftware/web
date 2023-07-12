@@ -132,13 +132,18 @@
               <p class=" pt-2 text-sm font-bold"> If you need personalized assistance or have specific inquiries, our support team is readily available to help.</p>
         <div class="pt-4 space-y-3">
           <p class="pt-2 text-sm font-semibold text-left">Names: <span class=" text-red-600" title="Required field">(*)</span></p>
-          <input type='text' class='w-full h-9 ring-2 ring-[#f6f6f6] rounded-lg  placeholder:p-1 placeholder:font-light  enabled:p-2' placeholder='Enter your names here' v-model="formData[0].names.value" :class="formData[0].names.value =='' ? formData[0].names.required.className :''"/>
-          <span class="w-full md:pl-[370px] text-red-600 text-xs" >{{formData[0].names.value =="" ? formData[0].names.required.value : ""}}</span>
+          <input type='text' class='w-full h-9 ring-2 ring-[#f6f6f6] rounded-lg  placeholder:p-1 placeholder:font-light  enabled:p-2' placeholder='Enter your names here' :class="messages.names.className"   @keyup="validation" v-model="formData.names"/>
+          <div class="text-end">
+            <span class=" text-red-600 text-xs" >{{messages.names.slot}}</span>
+          </div>
 
 
           <p class="pt-2 text-sm font-semibold text-left">Email: <span class=" text-red-600" title="Required field">(*)</span></p>
-          <input type='text' class='w-full h-9 ring-2 ring-[#f6f6f6] rounded-lg     placeholder:p-1 placeholder:font-light  enabled:p-2' placeholder='Enter your email here' v-model="formData[1].email.value" :class="formData[1].email.value =='' ? formData[1].email.required.className :''"/>
-          <span class="w-full md:pl-[350px] text-red-600 text-xs" >{{formData[1].email.value =="" ? formData[1].email.required.value : ""}}</span>
+          <input type='text' class='w-full h-9 ring-2 ring-[#f6f6f6] rounded-lg     placeholder:p-1 placeholder:font-light  enabled:p-2' placeholder='Enter your email here' :class="messages.email.className"   @keyup="validation" v-model="formData.email"/>
+       
+          <div class="text-end">
+            <span class=" text-red-600 text-xs" >{{messages.email.slot}}</span>
+          </div>
 
           <p class="pt-2 text-sm font-semibold text-left">Select reason for reaching out:</p>
                       <select  v-model="reason"  class="w-full h-9 ring-2 ring-[#f6f6f6] rounded-lg enabled:p-2 enabled:font-light" id="exampleInputSchoolSector">
@@ -148,12 +153,14 @@
                       <option value="">Another reason</option>
                       </select>
           <p class="pt-2 text-sm font-semibold text-left">Describe your inquiry: <span class=" text-red-600" title="Required field">(*)</span></p>
-          <textarea type='text' class='w-full h-24 ring-2 ring-[#f6f6f6] rounded-lg     placeholder:p-1  placeholder:font-light  enabled:p-2' v-model="formData[2].description.value" :class="formData[2].description.value =='' ? formData[2].description.required.className :''" placeholder="Briefly describe your inquiry here"></textarea>
-          <span class="w-full md:pl-[350px] text-red-600 text-xs" >{{formData[2].description.value =="" ? formData[2].description.required.value : ""}}</span>
+          <textarea type='text' class='w-full h-24 ring-2 ring-[#f6f6f6] rounded-lg     placeholder:p-1  placeholder:font-light  enabled:p-2' :class="messages.description.className"   @keyup="validation" v-model="formData.description" placeholder="Briefly describe your inquiry here"></textarea>
+          <div class="text-end">
+            <span class=" text-red-600 text-xs" >{{messages.description.slot}}</span>
+          </div>
           <br><br>
       
         
-          <button class="w-full h-10  text-sm rounded-lg  font-bold bg-[#0673c3]"><p class=" text-center text-white ">Submit your inquiry</p>
+          <button class="w-full h-10  text-sm rounded-lg  font-bold bg-[#0673c3]" @click="submitInquiry()"><p class=" text-center text-white ">Submit your inquiry</p>
 
           </button>
          
@@ -225,38 +232,43 @@ data: () => ({
             "contents":"If you encounter any issues or have additional questions about the school fees management system, our dedicated support team is available to assist you. You can reach out to our support staff through the contact information provided on our website, and they will be happy to address any concerns or queries you may have."
           }
         ],
-        formData:[
-    {
-      names:{
-      required:{
-        isRequired:true,
-        className:"ring-1 ring-red-500",
-        value:"Your names are required"
+
+        formData:{
+    names:"",
+    email: "",
+    description:"",
+    },  
+    
+    rules: {
+      names: {
+        required: true,
       },
-      value:""
-    }
-    },
-    {
-      email:{
-      required:{
-        isRequired:true,
-        className:"ring-1 ring-red-500",
-        value:"Your email address is required"
+      email: {
+        email:true
       },
-      value:""
-    }
-    },
-    {
       description:{
-      required:{
-        isRequired:true,
-        className:"ring-1 ring-red-500",
-        value:"Your description is required"
+        required: true,
       },
-      value:""
-    }
-    }
-  ],
+     className:"ring-1 ring-red-500"
+    },
+
+    messages: {
+      names: {
+        required: "Names field is required",
+        slot:"",
+        className:""
+      },
+      email: {
+        email:"Valid email is required",
+        slot:"",
+        className:""
+      },
+      description:{
+        required: "Your description is required",
+        slot:"",
+        className:""
+      },
+          },
         reason:""
       }),
       mounted () {
@@ -267,6 +279,76 @@ data: () => ({
       activeFaq(i){
          this.faqContents[i].isActive =! this.faqContents[i].isActive;
       },
+
+    submitInquiry(){
+        if(this.validation())
+        {
+          alert('Validated')
+        }
+       },
+
+       validation(){
+        let isValidated = []
+          for(const prop in this.rules)
+          {
+            if(this.rules[prop]['required'])
+            {
+              if(this.formData[prop] == "" )
+              {
+                this.messages[prop]['slot'] =  this.messages[prop]['required'];
+                this.messages[prop]['className'] = this.rules['className'];
+              }
+              else
+              {
+                this.messages[prop]['slot'] = ""
+                this.messages[prop]['className'] = ""
+              }            
+              isValidated.push(this.formData[prop] != "");
+            }
+
+            if(this.rules[prop]['email'])
+            {
+              if(this.validateEmail(this.formData[prop]) == false)
+              {
+                this.messages[prop]['slot'] =   this.messages[prop]['email'] 
+                this.messages[prop]['className'] = this.rules['className'];
+              }
+              else
+              {
+                this.messages[prop]['slot'] = ""
+                this.messages[prop]['className'] = "";
+              }
+              
+              isValidated.push(this.validateEmail(this.formData[prop]));
+            }
+
+            if(this.rules[prop]['minlength'] != undefined)
+            {
+              if(this.formData[prop].length < parseInt(this.rules[prop]['minlength']))
+              {
+                this.messages[prop]['slot'] =   this.messages[prop]['minlength'].replace("$minlength",this.rules[prop]['minlength']);
+                this.messages[prop]['className'] = this.rules['className'];
+                isValidated.push(this.validateEmail(this.formData[prop]));
+
+              }
+             
+            }
+            
+          }
+          return isValidated.toString().includes('false')?false:true;
+       },
+
+       validateEmail(input) {
+          var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+          if (input.match(validRegex)) {
+
+            return true;
+
+          } else {
+            return false;
+          }
+        }
     },
 }
 </script>

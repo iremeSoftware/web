@@ -5,37 +5,47 @@
         <p class=" pt-2 text-sm font-light"> Are you ready to try our system, please fill the form below we'll reach you as soon as possible.</p>
         <div class="pt-4 space-y-3">
           <p class="pt-2 text-sm font-bold text-left">School name: <span class=" text-red-600" title="Required field">(*)</span></p>
-          <input type='text' class='w-[330px] h-9 ring-2 ring-[#f6f6f6] rounded-lg placeholder:p-1 placeholder:font-light  enabled:p-2' v-model="formData[0].school_name.value" :class="formData[0].school_name.value =='' ? formData[0].school_name.required.className :''" placeholder='Enter school name'/>
-          <span class="w-full pl-40 text-red-600 text-xs" >{{formData[0].school_name.value =="" ? formData[0].school_name.required.value : ""}}</span>
+          <input type='text' class='w-[330px] h-9 ring-2 ring-[#f6f6f6] rounded-lg placeholder:p-1 placeholder:font-light  enabled:p-2' :class="messages.school_name.className"   @keyup="validation" v-model="formData.school_name"  placeholder='Enter school name'/>
+          <div class="text-end">
+            <span class=" text-red-600 text-xs" >{{messages.school_name.slot}}</span>
+          </div>
           
 
           <p class="pt-2 text-sm font-semibold text-left">Names: <span class=" text-red-600" title="Required field">(*)</span></p>
-          <input type='text' class='w-[330px] h-9 ring-2 ring-[#f6f6f6] rounded-lg placeholder:p-1 placeholder:font-light  enabled:p-2' placeholder='Enter your names' v-model="formData[1].names.value" :class="formData[1].names.value =='' ? formData[1].names.required.className :''" />
-          <span class="w-full pl-40 text-red-600 text-xs" >{{formData[1].names.value =="" ? formData[1].names.required.value : ""}}</span>
+          <input type='text' class='w-[330px] h-9 ring-2 ring-[#f6f6f6] rounded-lg placeholder:p-1 placeholder:font-light  enabled:p-2' @keyup="validation" placeholder='Enter your names' v-model="formData.names" :class="messages.names.className" />
+          <div class="text-end">
+          <span class="  text-red-600 text-xs" >{{messages.names.slot}}</span>
+          </div>
           
          
 
           <p class="pt-2 text-sm font-semibold text-left">Email: <span class=" text-red-600" title="Required field">(*)</span></p>
-          <input type='email' class='w-[330px] h-9 ring-2 ring-[#f6f6f6] rounded-lg    placeholder:p-1 placeholder:font-light  enabled:p-2' placeholder='Enter your email' v-model="formData[2].email.value" :class="formData[2].email.value =='' ? formData[2].email.required.className :''"/>
-          <span class="w-full pl-40 text-red-600 text-xs" >{{formData[2].email.value =="" ? formData[2].email.required.value : ""}}</span>
+          <input type='email' class='w-[330px] h-9 ring-2 ring-[#f6f6f6] rounded-lg    placeholder:p-1 placeholder:font-light  enabled:p-2' @keyup="validation" placeholder='Enter your email' v-model="formData.email" :class="messages.email.className" />
+          <div class="text-end">
+          <span class="  text-red-600 text-xs" >{{messages.email.slot}}</span>
+          </div>
 
 
           <p class="pt-2 text-sm font-semibold text-left">Bank you work with:</p>
-          <input type='text' className='w-[330px] h-9 ring-2 ring-[#f6f6f6] rounded-lg    placeholder:p-1 placeholder:font-light  enabled:p-2' placeholder='Enter the bank you work with'/>
+          <input type='text' className='w-[330px] h-9 ring-2 ring-[#f6f6f6] rounded-lg    placeholder:p-1 placeholder:font-light  enabled:p-2' placeholder='Enter the bank you work with' />
          <br>
          <p class="pt-2 text-sm font-semibold text-left">Select location district: <span class=" text-red-600" title="Required field">(*)</span></p>
-         <select @change='display_sectors($event)'  name='school_district' class="w-[330px] h-9 ring-2 ring-[#f6f6f6] rounded-lg   enabled:p-2 enabled:font-light" id="exampleInputSchoolDistrict" v-model="formData[3].district.value" :class="formData[3].district.value =='' ? formData[3].district.required.className :''">
+         <select @change='display_sectors($event)'  name='school_district' class="w-[330px] h-9 ring-2 ring-[#f6f6f6] rounded-lg   enabled:p-2 enabled:font-light" id="exampleInputSchoolDistrict"  v-model="formData.district" :class="messages.district.className" >
                       <option value=''>Select district</option>
                       <option v-for="a in districts" :value="a.name" :key="a.name">{{a.name}} </option>
                       </select>
-                      <span class="w-full pl-40 text-red-600 text-xs" >{{formData[3].district.value =="" ? formData[3].district.required.value : ""}}</span>
+                      <div class="text-end">
+                      <span class="  text-red-600 text-xs" >{{messages.district.slot}}</span>
+                      </div>
 
                       <p class="pt-2 text-sm font-semibold text-left">Select location sector: <span class=" text-red-600" title="Required field">(*)</span></p>
-                      <select name='school_district' class="w-[330px] h-9 ring-2 ring-[#f6f6f6] rounded-lg enabled:p-2 enabled:font-light" id="exampleInputSchoolSector" v-model="formData[4].sector.value" :class="formData[4].sector.value =='' ? formData[4].sector.required.className :''">
+                      <select name='school_district' class="w-[330px] h-9 ring-2 ring-[#f6f6f6] rounded-lg enabled:p-2 enabled:font-light" id="exampleInputSchoolSector" v-model="formData.sector" :class="messages.sector.className">
                       <option value=''>Select location sector:</option>
                       <option  v-for="a in sector" v-bind:value="a.sector" :key="a.sector">{{a.sector}} </option>
                       </select>
-                      <span class="w-full pl-40 text-red-600 text-xs" >{{formData[4].sector.value =="" ? formData[4].sector.required.value : ""}}</span>
+                      <div class="text-end">
+                      <span class="  text-red-600 text-xs" >{{messages.sector.slot}}</span>
+                      </div>
 <br>
           <label class="text-xs font-light text-left cursor-pointer" for="term_and_conditions"> <input type="checkbox" class="mt-5" id='term_and_conditions'>&nbsp;&nbsp;I have read and accepted our <router-link to="/resetPassword"><a href="#" class=" text-xs font-semibold  hover:text-[#0673c3]">Terms & Conditions </a></router-link></label><br>
         
@@ -66,87 +76,142 @@
     school_district:"",
     school_sector:"",
     selected_district:'',
-    formData:[
-      {
-      school_name:{
-      required:{
-        isRequired:true,
-        className:"ring-1 ring-red-500",
-        value:"School name is required"
-      },
-      value:""
-    }},
-    {
-      names:{
-      required:{
-        isRequired:true,
-        className:"ring-1 ring-red-500",
-        value:"Your names are required"
-      },
-      value:""
-    }
-    },
-    {
-      email:{
-      required:{
-        isRequired:true,
-        className:"ring-1 ring-red-500",
-        value:"Your email address is required"
-      },
-      value:""
-    }
-    },
-    {
-      district:{
-      required:{
-        isRequired:true,
-        className:"ring-1 ring-red-500",
-        value:"District location is required"
-      },
-      value:""
-    }
-    },
-    {
-      sector:{
-      required:{
-        isRequired:true,
-        className:"ring-1 ring-red-500",
-        value:"Sector location is required"
-      },
-      value:""
-    }
-    }
-    
-  ],
-  isValidated:false
 
+    formData:{
+    school_name: "",
+    names:"",
+    email: "",
+    district:"",
+    sector:"",
+    },  
+
+    rules: {
+      school_name: {
+        required: true,
+      },
+      names:{
+        required:true,
+      },
+      email: {
+        email:true
+      },
+      district:{
+        required: true,
+      },
+     sector:{
+        required: true,
+     },
+     className:"ring-1 ring-red-500"
+    },
+
+    messages: {
+      school_name: {
+        required: "School name is required",
+        slot:"",
+        className:""
+      },
+      names:{
+        required:"Your names are required",
+        slot:"",
+        className:""
+      },
+      email: {
+        required: "Your email is required",
+        email:"Enter valid email",
+        slot:"",
+        className:""
+      },
+      district:{
+        required: "District location is required",
+        slot:"",
+        className:""
+      },
+     sector:{
+        required: "Sector location is required",
+        slot:"",
+        className:""
+        },
+      },
+          
   }),
     setup() {
-  
      },
      methods:{
         display_sectors(){
         this.sector=sectors[event.target.value];
        },
        sendRequest(){
-        if(this.validated())
+        if(this.validation())
         {
-          alert('Validated')
+          alert('validation')
         }
        },
 
-       validated(){
-          
-          for(const prop in this.formData)
+       validation(){
+        let isValidated = []
+          for(const prop in this.rules)
           {
-            for (const getData in this.formData[prop])
+            if(this.rules[prop]['required'])
             {
-              this.isValidated = this.formData[prop][getData].required.isRequired ? (this.formData[prop][getData].value == ""? false :true):true;
-
+              if(this.formData[prop] == "" )
+              {
+                this.messages[prop]['slot'] =  this.messages[prop]['required'];
+                this.messages[prop]['className'] = this.rules['className'];
+              }
+              else
+              {
+                this.messages[prop]['slot'] = ""
+                this.messages[prop]['className'] = ""
+              }            
+              isValidated.push(this.formData[prop] != "");
             }
+
+            if(this.rules[prop]['email'])
+            {
+              if(this.validateEmail(this.formData[prop]) == false)
+              {
+                this.messages[prop]['slot'] =   this.messages[prop]['email'] 
+                this.messages[prop]['className'] = this.rules['className'];
+              }
+              else
+              {
+                this.messages[prop]['slot'] = ""
+                this.messages[prop]['className'] = "";
+              }
+              
+              isValidated.push(this.validateEmail(this.formData[prop]));
+            }
+
+            if(this.rules[prop]['minlength'] != undefined)
+            {
+              if(this.formData[prop].length < parseInt(this.rules[prop]['minlength']))
+              {
+                this.messages[prop]['slot'] =   this.messages[prop]['minlength'].replace("$minlength",this.rules[prop]['minlength']);
+                this.messages[prop]['className'] = this.rules['className'];
+                isValidated.push(this.validateEmail(this.formData[prop]));
+
+              }
+             
+            }
+            
           }
-          return this.isValidated;
-       }
+            console.log(isValidated.toString());
+          return isValidated.toString().includes('false')?false:true;
+       },
+
+       validateEmail(input) {
+          var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+          if (input.match(validRegex)) {
+
+            return true;
+
+          } else {
+            return false;
+          }
+        }
+
+
      }
   }
   </script>

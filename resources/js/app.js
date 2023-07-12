@@ -10,6 +10,8 @@ import VueSmoothScroll from 'v-smooth-scroll'
 
 
 
+
+
 const router = VueRouter.createRouter({
     history: VueRouter.createWebHistory(),
     routes, // short for `routes: routes`
