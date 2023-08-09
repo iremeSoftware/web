@@ -6,9 +6,7 @@ import * as VueRouter from 'vue-router'
 import App from './App.vue'
 import routes from './router/'
 import VueSmoothScroll from 'v-smooth-scroll'
-
-
-
+import {validations} from "../js/helpers/validations"
 
 
 
@@ -18,4 +16,6 @@ const router = VueRouter.createRouter({
   })
 
 
-createApp(App).use(VueSmoothScroll).use(router).mount("#app")
+let app = createApp(App)
+app.config.globalProperties.$validations = "Hello"
+app.use(VueSmoothScroll).use(router).mount("#app")

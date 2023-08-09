@@ -2,6 +2,9 @@ import login from '../pages/login.vue'
 import resetPassword from '../pages/reset_password.vue'
 import home from '../pages/home.vue'
 import registerSchool from '../pages/register_school.vue'
+import pay from '../pages/pay.vue'
+import dashboard from '../pages/dashboard/dashboard.vue'
+
 
 const routes = [
   {
@@ -23,6 +26,22 @@ const routes = [
     path: '/registerSchool',
     name:'register_school',
     component:registerSchool
+  },
+  {
+    path: '/pay',
+    name:'pay',
+    component:pay
+  },
+  {
+    path: '/dashboard',
+    component:dashboard,
+    children: [
+      {
+        path: '/',
+        component: dashboard,
+      },
+    ],
+
   }
  
 ]

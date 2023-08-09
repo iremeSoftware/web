@@ -15,6 +15,7 @@
 
         <!-- Styles -->
         <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/font-awesome-line-awesome/css/all.min.css">
             @vite('resources/css/app.css')
     </head>
     <body class="bg-[#f5f8fa]" >

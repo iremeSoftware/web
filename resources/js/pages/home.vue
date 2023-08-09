@@ -124,6 +124,8 @@
 
          </div>
          <div class="w-full md:w-1/2 md:inline-flex pl-6">
+
+          <Alert :feedback=feedbackStatus :message=feedbackMessage :type=feedbackType :closeMethod="closeFeedback" ></Alert>
           
           <div class="w-full">
             <p class="text-[#0673c3] text-[30px] pt-4"> Do you need support? </p>
@@ -132,17 +134,17 @@
               <p class=" pt-2 text-sm font-bold"> If you need personalized assistance or have specific inquiries, our support team is readily available to help.</p>
         <div class="pt-4 space-y-3">
           <p class="pt-2 text-sm font-semibold text-left">Names: <span class=" text-red-600" title="Required field">(*)</span></p>
-          <input type='text' class='w-full h-9 ring-2 ring-[#f6f6f6] rounded-lg  placeholder:p-1 placeholder:font-light  enabled:p-2' placeholder='Enter your names here' :class="messages.names.className"   @keyup="validation" v-model="formData.names"/>
+          <input type='text' class='w-full h-9 ring-2 ring-[#f6f6f6] rounded-lg  placeholder:p-1 placeholder:font-light  enabled:p-2' placeholder='Enter your names here'  id="formData.names"   @keyup="validate(messages,rules,formData)" v-model="formData.names"/>
           <div class="text-end">
-            <span class=" text-red-600 text-xs" >{{messages.names.slot}}</span>
+            <span class=" text-red-600 text-xs" v-html="messages.names.slot" ></span>
           </div>
 
 
           <p class="pt-2 text-sm font-semibold text-left">Email: <span class=" text-red-600" title="Required field">(*)</span></p>
-          <input type='text' class='w-full h-9 ring-2 ring-[#f6f6f6] rounded-lg     placeholder:p-1 placeholder:font-light  enabled:p-2' placeholder='Enter your email here' :class="messages.email.className"   @keyup="validation" v-model="formData.email"/>
+          <input type='text' class='w-full h-9 ring-2 ring-[#f6f6f6] rounded-lg     placeholder:p-1 placeholder:font-light  enabled:p-2' placeholder='Enter your email here' id="formData.email"   @keyup="validate(messages,rules,formData)" v-model="formData.email"/>
        
           <div class="text-end">
-            <span class=" text-red-600 text-xs" >{{messages.email.slot}}</span>
+            <span class=" text-red-600 text-xs" v-html="messages.email.slot"></span>
           </div>
 
           <p class="pt-2 text-sm font-semibold text-left">Select reason for reaching out:</p>
@@ -153,14 +155,19 @@
                       <option value="">Another reason</option>
                       </select>
           <p class="pt-2 text-sm font-semibold text-left">Describe your inquiry: <span class=" text-red-600" title="Required field">(*)</span></p>
-          <textarea type='text' class='w-full h-24 ring-2 ring-[#f6f6f6] rounded-lg     placeholder:p-1  placeholder:font-light  enabled:p-2' :class="messages.description.className"   @keyup="validation" v-model="formData.description" placeholder="Briefly describe your inquiry here"></textarea>
+          <textarea type='text' class='w-full h-24 ring-2 ring-[#f6f6f6] rounded-lg     placeholder:p-1  placeholder:font-light  enabled:p-2' id="formData.description"   @keyup="validate(messages,rules,formData)" v-model="formData.description" placeholder="Briefly describe your inquiry here"></textarea>
           <div class="text-end">
-            <span class=" text-red-600 text-xs" >{{messages.description.slot}}</span>
+            <span class=" text-red-600 text-xs" v-html="messages.description.slot"></span>
           </div>
           <br><br>
-      
-        
-          <button class="w-full h-10  text-sm rounded-lg  font-bold bg-[#0673c3]" @click="submitInquiry()"><p class=" text-center text-white ">Submit your inquiry</p>
+
+          <button class="w-full h-10 text-sm rounded-lg  font-semibold bg-[#0673c3] " @click="submitInquiry()"><p class="flex text-white  pl-24 md:pl-[200px]">
+            
+<svg v-if="isLoading" class="animate-spin -ml-1 mr-1 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    </svg>
+    Submit your inquiry</p>
 
           </button>
          
@@ -195,11 +202,20 @@
 
 </template>
 <script>
+import {validations} from "../helpers/validations"
+import Alert from '../components/alert.vue'
 export default {
   name:"home",
   components:{
-},
-data: () => ({
+      Alert
+      },
+    data: () => ({
+    feedbackStatus:false,
+    feedbackMessage:"",
+    feedbackType:"",
+    isLoading:false,
+
+
         faqContents:[
           {
             "header":"How does the school fees management system work?",
@@ -233,7 +249,7 @@ data: () => ({
           }
         ],
 
-        formData:{
+    formData:{
     names:"",
     email: "",
     description:"",
@@ -241,20 +257,23 @@ data: () => ({
     
     rules: {
       names: {
-        required: true,
+        required:true,
+        validationClass:"ring-1 ring-red-500",
       },
       email: {
-        email:true
+        email:true,
+        validationClass:"ring-1 ring-red-500",
       },
       description:{
-        required: true,
-      },
-     className:"ring-1 ring-red-500"
+        required:true,
+        maxlength: 500,
+        counter:true,
+        validationClass:"ring-1 ring-red-500",
+      }
     },
-
     messages: {
       names: {
-        required: "Names field is required",
+        required:"Name field is required",
         slot:"",
         className:""
       },
@@ -264,91 +283,36 @@ data: () => ({
         className:""
       },
       description:{
-        required: "Your description is required",
+        maxlength: 500,
+        required:"Description is required",
+        counter:"$count / $maxlength",
         slot:"",
         className:""
       },
           },
-        reason:""
+        reason:"",
       }),
       mounted () {
         },
     created() {
       },
     methods: {
+      validate: (messages,rules,formData) =>  validations(messages,rules,formData),
       activeFaq(i){
          this.faqContents[i].isActive =! this.faqContents[i].isActive;
       },
-
+      closeFeedback() {
+       this.feedbackStatus =! this.feedbackStatus
+       },
     submitInquiry(){
-        if(this.validation())
+      this.isLoading = true
+        if(this.validate(this.messages,this.rules,this.formData))
         {
-          alert('Validated')
+          this.feedbackStatus = true
+          this.feedbackMessage="Your message is successfully sent"
+          this.feedbackType="success"
         }
        },
-
-       validation(){
-        let isValidated = []
-          for(const prop in this.rules)
-          {
-            if(this.rules[prop]['required'])
-            {
-              if(this.formData[prop] == "" )
-              {
-                this.messages[prop]['slot'] =  this.messages[prop]['required'];
-                this.messages[prop]['className'] = this.rules['className'];
-              }
-              else
-              {
-                this.messages[prop]['slot'] = ""
-                this.messages[prop]['className'] = ""
-              }            
-              isValidated.push(this.formData[prop] != "");
-            }
-
-            if(this.rules[prop]['email'])
-            {
-              if(this.validateEmail(this.formData[prop]) == false)
-              {
-                this.messages[prop]['slot'] =   this.messages[prop]['email'] 
-                this.messages[prop]['className'] = this.rules['className'];
-              }
-              else
-              {
-                this.messages[prop]['slot'] = ""
-                this.messages[prop]['className'] = "";
-              }
-              
-              isValidated.push(this.validateEmail(this.formData[prop]));
-            }
-
-            if(this.rules[prop]['minlength'] != undefined)
-            {
-              if(this.formData[prop].length < parseInt(this.rules[prop]['minlength']))
-              {
-                this.messages[prop]['slot'] =   this.messages[prop]['minlength'].replace("$minlength",this.rules[prop]['minlength']);
-                this.messages[prop]['className'] = this.rules['className'];
-                isValidated.push(this.validateEmail(this.formData[prop]));
-
-              }
-             
-            }
-            
-          }
-          return isValidated.toString().includes('false')?false:true;
-       },
-
-       validateEmail(input) {
-          var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
-          if (input.match(validRegex)) {
-
-            return true;
-
-          } else {
-            return false;
-          }
-        }
     },
 }
 </script>

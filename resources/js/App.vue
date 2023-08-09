@@ -1,6 +1,6 @@
 <template>
     <div  style="font-family: 'Rubik';">
-      <header1 />
+      <header1 v-if="fullUrl.includes('dashboard') == false"  />
       <router-view></router-view>
     </div>
   </template>
@@ -10,10 +10,15 @@
     name: 'App',
     components:{
     header1
-  },
-    setup() {
-  
-     }
+    },
+    data: () => ({
+        fullUrl:"",
+      }),
+      watch:{
+    '$route' (){
+      this.fullUrl = window.location.href;
+      }
+     },
   }
   </script>
   <style>
