@@ -6,10 +6,7 @@ import * as VueRouter from 'vue-router'
 import App from './App.vue'
 import routes from './router/'
 import VueSmoothScroll from 'v-smooth-scroll'
-import {validations} from "../js/helpers/validations"
-
-
-
+import { pinia } from './stores'
 const router = VueRouter.createRouter({
     history: VueRouter.createWebHistory(),
     routes, // short for `routes: routes`
@@ -17,5 +14,7 @@ const router = VueRouter.createRouter({
 
 
 let app = createApp(App)
-app.config.globalProperties.$validations = "Hello"
-app.use(VueSmoothScroll).use(router).mount("#app")
+app
+.use(pinia)
+.use(VueSmoothScroll)
+.use(router).mount("#app")
