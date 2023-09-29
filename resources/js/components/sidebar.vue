@@ -1,11 +1,11 @@
 <template>
-    <div class="w-2/12 shadow-sm bg-white fixed overflow-y">
+    <div class="fixed w-2/12 h-full  shadow-md bg-white ">
       <div class=" pl-2 pt-2 ">
 
         <router-link to="/" href="#home" v-smooth-scroll class="hidden pb-2 md:block shadow-sm -pr-2">
                 <img class=" w-[80px] h-[40px] " src="https://www.iremeapp.com/logo/logo.png" />
           </router-link>
-          <div class="overflow-y-auto h-[550px]">          
+          <div class="overflow-y-auto">          
           <div class="pt-4  text-[13px] group">
             <a href="#">
               <div class="h-10 flex space-x-3  group-hover:text-[#000000] group-hover:bg-[#f3f3f3] mr-2 pl-2 pt-2 rounded-lg">
@@ -54,17 +54,6 @@
             <a href="#">
               <div class="h-10 flex space-x-3  group-hover:text-[#000000] group-hover:bg-[#f3f3f3] mr-2 pl-2 pt-2 rounded-lg">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M14.5002 9.50007L15.9218 9.75007L19.8773 5.79455C20.3153 5.35656 21.0476 5.41812 21.3154 5.97663C21.7544 6.89181 22.0002 7.91719 22.0002 9C22.0002 12.866 18.8662 16 15.0002 16C13.9731 16 12.9976 15.7788 12.1189 15.3814L6.08601 21.4142C5.71093 21.7893 5.19493 22.0271 4.67919 21.9032C3.40565 21.597 2.4032 20.5946 2.09705 19.321C1.97308 18.8053 2.21093 18.2893 2.58601 17.9142L8.61885 11.8814C8.22145 11.0026 8.00022 10.0271 8.00022 9C8.00022 5.13401 11.1342 2 15.0002 2C16.0831 2 17.1085 2.24587 18.0237 2.68484C18.5822 2.95271 18.6437 3.68497 18.2058 4.12296L14.2502 8.07849L14.5002 9.50007ZM13.3592 7.55533C13.2439 7.67063 13.192 7.8349 13.2203 7.99549L13.576 10.0184C13.6125 10.2256 13.7747 10.3878 13.9819 10.4243L16.0048 10.78C16.1654 10.8083 16.3297 10.7564 16.445 10.6411L20.4966 6.58945C20.8202 7.32607 21.0002 8.14082 21.0002 9C21.0002 12.3137 18.3139 15 15.0002 15C14.118 15 13.2828 14.8102 12.5309 14.4702C12.1517 14.2987 11.706 14.38 11.4117 14.6743L5.3789 20.7071C5.27501 20.811 5.16901 20.8775 5.08177 20.9104C4.99979 20.9414 4.94739 20.9392 4.91292 20.9309C4.00479 20.7126 3.28766 19.9954 3.06936 19.0873C3.06107 19.0528 3.0588 19.0004 3.08979 18.9184C3.12277 18.8312 3.18923 18.7252 3.29311 18.6213L9.32596 12.5885C9.62022 12.2942 9.70149 11.8485 9.53001 11.4693C9.19 10.7175 9.00022 9.88225 9.00022 9C9.00022 5.68629 11.6865 3 15.0002 3C15.8594 3 16.6742 3.18001 17.4109 3.50364L13.3592 7.55533Z" fill="black"/>
-                  </svg>
-                <p class="pt-1  ">Fees settings</p>
-            </div>
-            </a>
-          </div>
-
-          <div class="pt-4 text-[14px] group">
-            <a href="#">
-              <div class="h-10 flex space-x-3  group-hover:text-[#000000] group-hover:bg-[#f3f3f3] mr-2 pl-2 pt-2 rounded-lg">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M10.25 12.5C11.6307 12.5 12.75 11.3807 12.75 10C12.75 8.61929 11.6307 7.5 10.25 7.5C8.86929 7.5 7.75 8.61929 7.75 10C7.75 11.3807 8.86929 12.5 10.25 12.5ZM10.25 11.5C11.0784 11.5 11.75 10.8284 11.75 10C11.75 9.17157 11.0784 8.5 10.25 8.5C9.42157 8.5 8.75 9.17157 8.75 10C8.75 10.8284 9.42157 11.5 10.25 11.5Z" fill="black"/>
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M0.25 6C0.25 4.89543 1.14543 4 2.25 4H18.25C19.3546 4 20.25 4.89543 20.25 6V14C20.25 15.1046 19.3546 16 18.25 16H2.25C1.14543 16 0.25 15.1046 0.25 14V6ZM1.25 6C1.25 5.44772 1.69772 5 2.25 5H18.25C18.8023 5 19.25 5.44772 19.25 6V14C19.25 14.5523 18.8023 15 18.25 15H2.25C1.69772 15 1.25 14.5523 1.25 14V6Z" fill="black"/>
                 <path d="M20.25 18.5C21.6307 18.5 22.75 17.3807 22.75 16V8.5C22.75 8.22386 22.9739 8 23.25 8C23.5261 8 23.75 8.22386 23.75 8.5V16C23.75 17.933 22.183 19.5 20.25 19.5H3.75C3.47386 19.5 3.25 19.2761 3.25 19C3.25 18.7239 3.47386 18.5 3.75 18.5H20.25Z" fill="black"/>
@@ -94,7 +83,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M9.348 14.651a3.75 3.75 0 010-5.303m5.304 0a3.75 3.75 0 010 5.303m-7.425 2.122a6.75 6.75 0 010-9.546m9.546 0a6.75 6.75 0 010 9.546M5.106 18.894c-3.808-3.808-3.808-9.98 0-13.789m13.788 0c3.808 3.808 3.808 9.981 0 13.79M12 12h.008v.007H12V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                 </svg>
-                <p class="pt-1  ">Broadcasting</p>
+                <p class="pt-1  ">Send SMS</p>
                 <i class="las la-bell"></i>
             </div>
             </a>
@@ -132,25 +121,26 @@
         </div>
 
         <div class="pt-2 text-[14px] group">
-            <router-link to="/login"> <a href="#">
+            <a href="javascript:;" @click="logout()">
               <div class="h-10 flex space-x-3  group-hover:text-[#000000] group-hover:bg-[#f3f3f3] mr-2 pl-2 pt-2 rounded-lg">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 3.99998C12 4.27613 11.7761 4.49998 11.5 4.49998H5C4.72386 4.49998 4.5 4.72384 4.5 4.99998V19C4.5 19.2761 4.72386 19.5 5 19.5H11.5C11.7761 19.5 12 19.7238 12 20C12 20.2761 11.7761 20.5 11.5 20.5H5C4.17157 20.5 3.5 19.8284 3.5 19V4.99998C3.5 4.17156 4.17157 3.49998 5 3.49998H11.5C11.7761 3.49998 12 3.72384 12 3.99998Z" fill="black"/>
                 <path d="M15.0001 16.2929L18.7929 12.5001H8.50005C8.22391 12.5001 8.00005 12.2762 8.00005 12.0001C8.00005 11.7239 8.22391 11.5001 8.50005 11.5001H18.7929L15 7.70715C14.8048 7.51189 14.8048 7.19531 15 7.00005C15.1953 6.80478 15.5119 6.80478 15.7071 7.00005L20.3536 11.6465C20.4474 11.7403 20.5 11.8675 20.5 12.0001C20.5 12.1327 20.4474 12.2599 20.3536 12.3536L15.7072 17C15.5119 17.1953 15.1953 17.1953 15.0001 17C14.8048 16.8048 14.8048 16.4882 15.0001 16.2929Z" fill="black"/>
                 </svg>
-                <p class="pt-1  ">Logout</p>
+                <p class="pt-1  ">Logout </p>
             </div>
-            </a></router-link>
+            </a>
         </div>
 
         <div class="h-4"></div>
         <div class="h-10 mt-2 mr-1  bg-transparent ring-2 ring-[#f3f3f3] rounded-lg  flex cursor-pointer">
-          <img src="https://img.icons8.com/?size=512&id=108652&format=png" class="h-[40px] w-[40px] rounded-full">
+          <!-- src="https://img.icons8.com/?size=512&id=108652&format=png" -->
+          <img  :src="currentUser[0] != undefined ? urlPath+'/avatar/' +currentUser[0].profile_pic : 'https://img.icons8.com/?size=512&id=108652&format=png'" class="h-[40px] w-[40px] rounded-full">
           <span class="flex-none -space-y-2">
-            <p class="font-bold text-[12px] pt-1 flex-none">Mayad Ahmed</p>
-            <p class="w-24 text-xs pt-2 overflow-hidden text-ellipsis">nyakurilevite@gmail.com</p>
+            <p class="font-bold text-[12px] pt-1 flex-none">{{ currentUser[0] != undefined ? currentUser[0].name : "" }}</p>
+            <p class="w-28 text-xs pt-2 overflow-hidden text-ellipsis">{{ currentUser[0] != undefined ? currentUser[0].email : "" }}</p>
           </span>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mt-3 ml-4 w-4 h-4 text-grey">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mt-3 ml-20 w-4 h-4 text-grey">
             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
           </svg>
         </div>
@@ -161,8 +151,45 @@
     </div>
 </template>
 <script>
+import { useUserStore } from '../stores/auth'
+import { onMounted,ref,computed } from 'vue';
+import { useRouter } from 'vue-router';
+
+
+
+
 export default {
     name:"Sidebar",
-    
+    components:{
+   },
+  setup() {
+    const store = useUserStore();
+    const currentUser = ref([]);
+    const urlPath = window.location.origin;
+    const router = useRouter();
+
+
+    function logout(){
+      if(store.logout())
+      {
+        setInterval(function () {router.push({ path:"/auth/login"})},3000)
+      }
+    }
+
+    const getUsers = computed(() => {
+      currentUser.value = store.userDetails
+    });
+
+    onMounted(() => {
+      if(store.getUserData())
+      {
+        currentUser.value = store.userDetails
+        currentUser.value.length == 0 && localStorage.getItem("token") == undefined  ? router.push({ path:"/auth/login"}):"";
+      }
+    });
+
+    return {currentUser,urlPath,logout,getUsers}
+
+  },
 }
 </script>

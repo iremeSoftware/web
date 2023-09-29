@@ -5,6 +5,7 @@ export default {
     backgroundImage: {
       'techPayment': url('../public/images/Piggy-Bank-Illustration.jpeg'),
     },
+    
     screens: {
       'sm': '640px',
       // => @media (min-width: 640px) { ... }

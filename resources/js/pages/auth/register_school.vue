@@ -5,7 +5,7 @@
 
 
 
-      <div class=" w-[400px] bg-white p-8  rounded-3xl mt-[90px] ml-14 md:ml-[450px] text-center shadow-lg">
+      <div class=" w-[400px] bg-white p-8  rounded-3xl mt-[90px] ml-14 md:ml-[500px] text-center shadow-lg">
         <p class=" text-lg font-bold"> Send school registration request</p>
         <p class=" pt-2 text-sm font-light"> Are you ready to try our system, please fill the form below we'll reach you as soon as possible.</p>
         <div class="pt-4 space-y-3">
@@ -30,10 +30,6 @@
           <span class="  text-red-600 text-xs" >{{messages.email.slot}}</span>
           </div>
 
-
-          <p class="pt-2 text-sm font-semibold text-left">Bank you work with:</p>
-          <input type='text' className='w-[330px] h-9 ring-2 ring-[#f6f6f6] rounded-lg    placeholder:p-1 placeholder:font-light  enabled:p-2' placeholder='Enter the bank you work with' />
-         <br>
          <p class="pt-2 text-sm font-semibold text-left">Select location district: <span class=" text-red-600" title="Required field">(*)</span></p>
          <select @change='display_sectors($event),validate(messages,rules,formData)'  name='school_district' class="w-[330px] h-9 ring-2 ring-[#f6f6f6] rounded-lg   enabled:p-2 enabled:font-light" id="formData.district"  v-model="formData.district"  >
                       <option value=''>Select district</option>
@@ -57,7 +53,7 @@
                       <span class="  text-red-600 text-xs" >{{messages.accepted.slot}}</span>
                       </div>
         
-          <button  class="w-full h-10 text-sm rounded-lg  font-semibold bg-[#0673c3]" @click="sendRequest()"><p class="flex text-center text-white pl-[110px]">
+          <button  class="w-full h-10 text-sm rounded-lg  font-semibold bg-[#000000]" @click="sendRequest()"><p class="flex text-center text-white pl-[110px]">
             Send Request&nbsp;&nbsp;<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
 </svg>
@@ -71,10 +67,10 @@
     
   </template>
   <script>
-  import districts from "../data/districts.json"
-  import sectors from '../data/sectors.json'
-  import Alert from '../components/alert.vue'
-  import {validations} from "../helpers/validations"
+  import districts from "../../data/districts.json"
+  import sectors from '../../data/sectors.json'
+  import Alert from '../../components/alert.vue'
+  import {validations} from "../../helpers/validations"
 
 
   export default {

@@ -9,69 +9,42 @@
     
 </template>
   <script>
-  import {validations} from "../../helpers/validations"
-  import Alert from '../../components/alert.vue'
-  import Header2 from '../../components/header2.vue'
-  import sidebarVue from '../../components/sidebar.vue'
+import { useUserStore } from '../../stores/auth'
+import {validations} from "../../helpers/validations"
+import Alert from '../../components/alert.vue'
+import Header2 from '../../components/header2.vue'
+import sidebarVue from '../../components/sidebar.vue'
+import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 
-  export default {
+
+export default {
     name:"dashboard",
     components:{
       Alert,
       Header2,
       sidebarVue
    },
-  data: () => ({
-    feedbackStatus:false,
-    feedbackMessage:"",
-    feedbackType:"",
-    isLoading:false,
-    formData:{
-    email: "",
-    password:"",
-    },
-
-    rules: {
-      email: {
-        email:true,
-        validationClass:"ring-1 ring-red-500",
-      },
-      password: {
-        required:true,
-        validationClass:"ring-1 ring-red-500",
-      },
-    },
-    messages: {
-      email: {
-        email:"Please enter valid email",
-        slot:"",
-        className:""
-      },
-      password:{
-        required:"Please fill password field",
-        slot:"",
-        className:""
-      },
-    },
+  setup() {
+    const store = useUserStore();
 
 
-  }),
-  methods: {
-      validate: (messages,rules,formData) =>  validations(messages,rules,formData),
-      closeFeedback() {
-       this.feedbackStatus =! this.feedbackStatus
-       },
-      loginBtn()
-      {
-        this.isLoading = true;
-        if(this.validate(this.messages,this.rules,this.formData))
-        {
-          this.feedbackStatus = true
-          this.feedbackMessage="Your email or password is not valid"
-          this.feedbackType="danger"
-          this.isLoading = false;
-        }
-      }
-   }
+  function validate (messages,rules,formData){
+     return validations(messages,rules,formData)
   }
+
+  function closeFeedback() {
+        feedbackStatus.value =! feedbackStatus.value
+  }
+
+    const getUsers = computed(() => {
+      return store.userDetails;
+    });
+
+    return {
+     closeFeedback,getUsers,validate
+    }
+
+  },
+}
   </script>

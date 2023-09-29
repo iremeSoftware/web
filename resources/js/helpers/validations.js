@@ -99,7 +99,6 @@ export const validations = function(messages,rules,formData){
             }
             
           }
-          console.log(isValidated.toString())
           return isValidated.toString().includes('false')?false:true;
        }
 
@@ -107,3 +106,12 @@ export const validations = function(messages,rules,formData){
         var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         return input.match(validRegex) ? true : false;
       }
+
+    export function onlyNumberKey(evt) {
+             
+        // Only ASCII character in that range allowed
+        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+            return false;
+        return true;
+    }

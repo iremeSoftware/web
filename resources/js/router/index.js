@@ -1,8 +1,9 @@
-import login from '../pages/login.vue'
-import resetPassword from '../pages/reset_password.vue'
+import login from '../pages/auth/login.vue'
+import resetPassword from '../pages/auth/reset_password.vue'
 import home from '../pages/home.vue'
-import registerSchool from '../pages/register_school.vue'
+import registerSchool from '../pages/auth/register_school.vue'
 import pay from '../pages/pay.vue'
+import verification_code from '../pages/auth/verification_code.vue'
 import dashboard from '../pages/dashboard/dashboard.vue'
 
 
@@ -13,19 +14,31 @@ const routes = [
     component: home
   },
   {
-    path: '/login',
-    name: 'login',
-    component: login
-  },
-  {
-    path: '/resetPassword',
-    name: 'reset_password',
-    component: resetPassword
-  },
-  {
-    path: '/registerSchool',
-    name:'register_school',
-    component:registerSchool
+    path: '/auth',
+    children: [
+      {
+        path: 'login',
+        name: 'login',
+        component: login
+      },
+      {
+        path: 'resetPassword',
+        name: 'reset_password',
+        component: resetPassword
+      },
+      {
+        path: 'registerSchool',
+        name:'register_school',
+        component:registerSchool
+      },
+
+      {
+        path: 'verification_code',
+        name:'verification_code',
+        component:verification_code
+      },
+    ],
+
   },
   {
     path: '/pay',

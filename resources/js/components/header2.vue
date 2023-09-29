@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full h-14 shadow-sm bg-white ml-[210px]">
+    <div class="w-5/6 h-14 shadow-md bg-white fixed ml-[240px]">
         <div class="flex pl-10 pt-4">
           <p class="text-[17px] font-semibold">Dashboard</p>
           <div class="w-full text-right space-x-4 pr-2">
@@ -16,7 +16,7 @@
           </button>
 
           
-    <button class="w-[150px] h-8 text-sm rounded-lg text-white  bg-[#0673c3]  "><p class="flex pl-2 pt-1"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6 pb-1">
+    <button class="w-[150px] h-8 text-sm rounded-lg text-white bg-[#000000]"><p class="flex pl-2 pt-1"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6 pb-1">
   <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
 </svg>Invite new user</p></button>
           </div>
