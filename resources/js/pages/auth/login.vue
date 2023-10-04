@@ -8,7 +8,7 @@
     :closeMethod="closeFeedback"
   />
   <div
-    class="w-[400px] bg-white p-8 rounded-3xl mt-[90px] md:ml-[500px] text-center shadow-lg"
+    class="w-[400px] bg-white p-8 rounded-3xl mt-[90px] md:ml-[38%] text-center shadow-lg"
   >
     <p class="text-lg font-bold">User Login</p>
 
@@ -49,7 +49,7 @@
 
       <p class="pt-4 pb-3 text-sm font-light text-left">
         Having trouble in sign in?
-        <router-link to="/resetPassword"
+        <router-link to="/auth/resetPassword"
           ><a href="#" class="text-sm font-bold hover:text-[#0673c3]"
             >Reset Password
           </a></router-link
@@ -168,29 +168,16 @@ const rules = ref({
     function checkAuth(){
       if(store.getUserData())
       {
-        if(store.getUserDetails.length > 0){
-          if(device_id != "null")
-          {
+        console.log(store.userDetails.length)
+        if(store.userDetails.length > 0){  
             router.push({ path:"/dashboard"});
-          }
-          else
-          {
-            router.push({ path:"/auth/verification_code"});
-          }
-      }
+        }
       }
     }
 
     const getUsers = computed(() => {
-      if(store.getUserDetails.length > 0){
-        if(store.device_id !='null')
-          {
-            router.push({ path:"/dashboard"});
-          }
-          else
-          {
-            router.push({ path:"/auth/verification_code"});
-          }
+      if(store.userDetails.length > 0){  
+        router.push({ path:"/dashboard"});
        }
        feedbackStatus.value = store.errorMessage != "" ? false : true
        const objectStates = Object.assign(store.errorMessage,store.loadingUI);

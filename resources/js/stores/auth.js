@@ -46,13 +46,16 @@ export const useUserStore = defineStore("auth", {
               }
             }
             this.userDetails = [];
+            this.errorMessage = "";
+            this.successMessage = "";
+            
             const response = (await axios.post("current_user",{},config)).data;
             if (response) {
-              this.userDetails.push(response.user_info);
+              this.userDetails= response.user_info;
             }
           },
 
-          async account_verification(verification_code) {
+          async account_verification(account_id,verification_code) {
             let token = localStorage.getItem("token")
             let config = { 
               headers: {
@@ -61,7 +64,7 @@ export const useUserStore = defineStore("auth", {
             }
             let self = this;
             self.errorMessage = "";
-            const account_id = self.userDetails.account_id;
+            console.log(config)
             await axios.get(`verification/${account_id}/${verification_code}`,{},config).then(function (response) {
               if(response.data.verified == 1)
               {
@@ -71,6 +74,34 @@ export const useUserStore = defineStore("auth", {
               }
             }).catch(function(err){
               self.userDetails = [];
+              self.errorMessage = err.response.data;
+            })
+          },
+
+          async forgot_password(email) {
+            let self = this;
+            self.errorMessage = "";
+            self.loadingUI.isLoading = true;
+            await axios.post('forgot_password',email).then(function (response) {
+              self.loadingUI.isLoading = false;
+              self.successMessage = response.data.status;
+            }).catch(function(err){
+              self.userDetails = [];
+              self.loadingUI.isLoading = false;
+              self.errorMessage = err.response.data.email[0];
+            })
+          },
+
+          async reset_password(records) {
+            let self = this;
+            self.errorMessage = "";
+            self.loadingUI.isLoading = true;
+            await axios.post('reset_password',records).then(function (response) {
+              self.loadingUI.isLoading = false;
+              self.successMessage = response.data.status;
+            }).catch(function(err){
+              self.userDetails = [];
+              self.loadingUI.isLoading = false;
               self.errorMessage = err.response.data;
             })
           },

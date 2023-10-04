@@ -78,7 +78,7 @@ import { useUserStore } from '../../stores/auth'
 import {validations} from "../../helpers/validations"
 import Alert from '../../components/alert.vue'
 import { ref,computed,onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter,useRoute } from 'vue-router';
 
 export default {
   name:"verification_code",
@@ -87,6 +87,7 @@ export default {
   },
   setup() {
     const router = useRouter();
+    const route =  useRoute();
     const store = useUserStore();
     const feedbackStatus = ref(false);
     const formData = ref({
@@ -107,48 +108,70 @@ export default {
   }
 
   function verifyBtn() {
-        alert(store.userDetails.account_id);
         const codes = formData.value.code1+formData.value.code2+formData.value.code3+formData.value.code4+formData.value.code5;
-        return store.account_verification(codes);
+        const verification_code = route.params.account_id;
+        return store.account_verification(verification_code,codes);
       
     }
 
     function checkAuth(){
       store.getUserData()
-      if(store.getUserData() )
-      {
-        if(store.getUserDetails.length > 0 && store.device_id !="null"){
-          router.push({ path:"/dashboard"});
-        }
-      }
+      // if(store.getUserData() )
+      // {
+      //   if(store.getUserDetails.length > 0 && store.device_id !="null"){
+      //     router.push({ path:"/dashboard"});
+      //   }
+      // }
     }
 
     function focusInput(num){
-      if(num == 0)
+      if(event.which == 8)
       {
-        document.getElementById('code1').focus();
+            if(num == 5)
+          {
+            document.getElementById('code4').focus();
+          }
+          else if(num == 4)
+          {
+            document.getElementById('code3').focus();
+          }
+          else if(num == 3)
+          {
+            document.getElementById('code2').focus();
+          }
+          else if(num == 2)
+          {
+            document.getElementById('code1').focus();
+          }
       }
-      else if(num == 1)
+      else 
       {
-        document.getElementById('code2').focus();
-      }
-      else if(num == 2)
-      {
-        document.getElementById('code3').focus();
-      }
-      else if(num == 3)
-      {
-        document.getElementById('code4').focus();
-      }
-      else {
-        document.getElementById('code5').focus();
-      }
+                if(num == 0)
+              {
+                document.getElementById('code1').focus();
+              }
+              else if(num == 1)
+              {
+                document.getElementById('code2').focus();
+              }
+              else if(num == 2)
+              {
+                document.getElementById('code3').focus();
+              }
+              else if(num == 3)
+              {
+                document.getElementById('code4').focus();
+              }
+              else {
+                document.getElementById('code5').focus();
+              }
+       }   
     }
 
     const getUsers = computed(() => {
-      // if(store.getUserDetails.length > 0 && store.device_id !="null"){
-      //   router.push({ path:"/dashboard"});
-      //  }
+      if(store.getUserDetails.length > 0 && store.device_id !="null"){
+        router.push({ path:"/dashboard"});
+       }
        feedbackStatus.value = store.errorMessage != "" ? false : true
        const objectStates = Object.assign(store.errorMessage,store.loadingUI);
       return objectStates
@@ -156,7 +179,6 @@ export default {
 
     onMounted(() => {
       checkAuth();
-      focusInput(0);
     });
 
     return {

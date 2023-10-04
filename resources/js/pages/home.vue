@@ -7,20 +7,20 @@
       Your school in the palm of your hand
     </h1>
     <p class="text-[18px] pt-5">The first fully online school management software in Rwanda with amazing features to more easily manage your school</p>
-    <div class="flex text-center pl-36 pt-3">   
+    <div class="flex text-center pl-[20%] pt-3">   
       
       
-  <router-link to="/registerSchool">
+  <router-link to="/auth/registerSchool">
     <button class="h-10 text-[16px] rounded-lg text-center pl-4 ml-24 w-auto bg-[#000000] text-white ml-4 mt-2 z-10 "><p class="flex"> Try it free for 1 month! 👌&nbsp;&nbsp;<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
 </svg>&nbsp;&nbsp;</p></button>
 </router-link>
 
-<router-link to="/login"  >
+<router-link to="/auth/login"  >
 <button class="h-10 text-[16px] rounded-lg text-center pl-4 ml-24 w-auto bg-[#000000] text-white ml-4 mt-2 z-10 "><p class="flex"> Already have an account? Login&nbsp;&nbsp;</p></button>
 </router-link>
 </div>
-            <img class="pl-24 z-0 -mt-5" src="../../../public/images/home.png" />
+            <img class="pl-[20%] -mt-5" src="../../../public/images/home.png" />
     </div>
     <div class="w-1/5 "></div>
 
@@ -159,7 +159,7 @@
           </div>
           <br><br>
 
-          <button class="w-full h-10 text-sm rounded-lg  font-semibold bg-[#000000] " @click="submitInquiry()"><p class="flex text-white  pl-24 md:pl-[200px]">
+          <button class="w-full h-10 text-sm rounded-lg  font-semibold bg-[#000000] " @click="submitInquiry()"><p class="flex text-white  pl-24 md:pl-[40%]">
             
 <svg v-if="isLoading" class="animate-spin -ml-1 mr-1 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>

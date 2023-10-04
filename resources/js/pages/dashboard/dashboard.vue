@@ -1,22 +1,27 @@
+
 <template >
-  <div class="w-full flex ">
+  <div class="w-full flex" >
     <sidebarVue />
     <div class="w-5/6">
       <Header2 />
+      <div class="pl-[20%] pt-[22%] md:pt-[8%]">
+        <h1 class="text-16px md:text-3xl font-semibold text-transparent bg-clip-text bg-gradient-to-l from-[#8fcc53] to-[#0171c0]">
+          👋 Welcome to {{ getUsers.school_name }}
+          </h1>
+      </div>
+      <div class="ml-[19%] mt-10 w-full h-[400px] shadow-lg bg-[#ffffff] rounded-2xl"></div>
+
     </div>
   </div>
-      
-    
-</template>
-  <script>
-import { useUserStore } from '../../stores/auth'
-import {validations} from "../../helpers/validations"
+  </template>
+
+<script>
 import Alert from '../../components/alert.vue'
 import Header2 from '../../components/header2.vue'
 import sidebarVue from '../../components/sidebar.vue'
-import { computed } from 'vue';
-import { useRouter } from 'vue-router';
-
+import { useUserStore } from '../../stores/auth'
+import { onMounted,ref,computed } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default {
     name:"dashboard",
@@ -27,24 +32,25 @@ export default {
    },
   setup() {
     const store = useUserStore();
-
-
-  function validate (messages,rules,formData){
-     return validations(messages,rules,formData)
-  }
-
-  function closeFeedback() {
-        feedbackStatus.value =! feedbackStatus.value
-  }
+    const currentUser = ref([]);
+    const urlPath = window.location.origin;
+    const router = useRouter();
 
     const getUsers = computed(() => {
-      return store.userDetails;
+      currentUser.value = store.userDetails
+     return currentUser.value;
     });
 
-    return {
-     closeFeedback,getUsers,validate
-    }
+    onMounted(() => {
+      if(store.getUserData())
+      {
+        currentUser.value = store.userDetails
+        currentUser.value.length == 0 && localStorage.getItem("token") == undefined  ? router.push({ path:"/auth/login"}):"";
+      }
+    });
 
-  },
+    return {currentUser,urlPath,getUsers}
+    
+  }
 }
   </script>

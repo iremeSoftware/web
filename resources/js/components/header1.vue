@@ -97,7 +97,7 @@
           <hr>
           <a href="#" class="text-sm">🇷🇼 Kinyarwanda</a>
         </div>
-      </div>
+</div>
 </button> -->
         </div>
         <div class="w-3/12 md:hidden"></div>

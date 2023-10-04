@@ -648,14 +648,13 @@ class AuthController extends Controller
         $user=auth()->user();
        $accessToken = auth()->user()->createToken('authToken')->accessToken;
        $authclass = new AuthController();
-          $device_id=$authclass->VerificationCodes($device_id,$user->account_id);
+      // $device_id=$authclass->VerificationCodes($device_id,$user->account_id);
 
 
         
       }
 
-
-        return response()->json(['user' => $user,'d_id'=>$device_id,'access_token' => $accessToken,'status'=>'SUCCESS'],200);
+        return response()->json(['user' => $user,'d_id'=>"",'access_token' => $accessToken,'status'=>'SUCCESS'],200);
 
     }
 

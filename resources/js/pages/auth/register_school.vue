@@ -5,7 +5,7 @@
 
 
 
-      <div class=" w-[400px] bg-white p-8  rounded-3xl mt-[90px] ml-14 md:ml-[500px] text-center shadow-lg">
+      <div class=" w-[400px] bg-white p-8  rounded-3xl mt-[90px] ml-14 md:ml-[38%] text-center shadow-lg">
         <p class=" text-lg font-bold"> Send school registration request</p>
         <p class=" pt-2 text-sm font-light"> Are you ready to try our system, please fill the form below we'll reach you as soon as possible.</p>
         <div class="pt-4 space-y-3">
