@@ -1,7 +1,15 @@
 <template>
-    <div class="w-[85%] h-16 shadow-md bg-white fixed ml-[15%]">
-        <div class="flex pl-10 pt-4">
-          <p class="text-[17px] font-semibold">Dashboard</p>
+    <div class="w-full md:w-[85%] h-16 shadow-md bg-white fixed md:ml-[15%] ">
+        <div class="flex pl-2 md:pl-10 pt-4">
+          <p class="hidden md:block text-[17px] font-semibold">Dashboard</p>
+          <div class="text-left">
+            <button class="block md:hidden" @click="showLeftMenu()">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          </button>
+          </div>
+
           <div class="w-full text-right space-x-4 pr-2">
             <button class=" h-8 w-8 text-center pl-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
@@ -26,8 +34,8 @@
           </div>
 
         </div>
-      <div class="z-10 absolute ml-[59%] mt-2  w-[40%] h-[300px] rounded-xl bg-[#0573c2] shadow-2xl" :class="notification==true?'block':'hidden'">
-          <div class="z-20 w-4 h-4 bg-[#0573c2] rotate-45 -mt-2 ml-[72%] border-t-[1px] border-l-[1px] border-[#0673c3] "></div>
+      <div class="z-10 absolute md:ml-[59%] mt-2  w-full md:w-[40%] h-[300px] rounded-xl bg-[#ffffff] border-[2px] border-[#0673c3]  shadow-2xl" :class="notification==true?'block':'hidden'">
+          <div class="hidden md:block z-20 w-4 h-4 bg-[#ffffff]  rotate-45 -mt-2 ml-[69%] border-t-[2px] border-l-[2px] border-[#0673c3] "></div>
         </div>
         
 
@@ -39,18 +47,31 @@
 <script>
 
 import { ref,computed,onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { useUserStore } from '../stores/auth'
+
+
 
 export default{
     name:"Header2",
     setup() {
 
       const notification = ref(false)
+      const store = useUserStore();
+      const isMenuClicked = ref(false);
+
+
+
+      function showLeftMenu(){
+        isMenuClicked.value =! isMenuClicked.value
+        return store.isLeftMenuSelected(isMenuClicked.value)         
+      }
 
       function toggleNotification(){
           notification.value =! notification.value
       }
 
-      return {toggleNotification,notification}
+      return {toggleNotification,notification,showLeftMenu,isMenuClicked}
         
     },
 }

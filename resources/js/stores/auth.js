@@ -9,6 +9,7 @@ export const useUserStore = defineStore("auth", {
         successMessage:"",
         errorMessage : "",
         device_id : "",
+        isMenuClicked : false,
         loadingUI :{
           isLoading:false
         },
@@ -20,6 +21,10 @@ export const useUserStore = defineStore("auth", {
       }
     },
     actions: {
+        isLeftMenuSelected (status)
+        {
+          this.isMenuClicked = status
+        },
         async login(credentials) {  
           let self = this;
             self.loadingUI.isLoading = true;
