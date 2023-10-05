@@ -1,165 +1,163 @@
 <template>
-    <div class="fixed w-[15%] h-full  shadow-md bg-white ">
+    <div class="md:block fixed w-[15%] h-full  shadow-md bg-white " :class="isMenuClicked ? 'block w-[40%]':'hidden'">
       <div class=" pl-2 pt-2 ">
 
         <router-link to="/" href="#home" v-smooth-scroll class="hidden pb-2 md:block shadow-sm -pr-2">
                 <img class=" w-[80px] h-[40px] " src="https://www.iremeapp.com/logo/logo.png" />
           </router-link>
-          <div class="overflow-y-auto">          
-          <div class="pt-4  text-[14px] group">
-            <a href="#">
-              <div class="h-10 flex space-x-3  group-hover:text-[#000000] group-hover:bg-[#f3f3f3] mr-2 pl-2 pt-2 rounded-lg">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                 <path fill-rule="evenodd" clip-rule="evenodd" d="M3.58579 10.4142C3.21071 10.7892 3 11.2979 3 11.8284V20C3 20.5522 3.44772 21 4 21H10C10.5523 21 11 20.5522 11 20V15H13V20C13 20.5522 13.4477 21 14 21H20C20.5523 21 21 20.5522 21 20V11.8284C21 11.2979 20.7893 10.7892 20.4142 10.4142L13.4142 3.41416C12.6332 2.63311 11.3668 2.63311 10.5858 3.41416L3.58579 10.4142ZM11 14C10.4477 14 10 14.4477 10 15V20H4V11.8284C4 11.5631 4.10536 11.3088 4.29289 11.1213L11.2929 4.12126C11.6834 3.73074 12.3166 3.73074 12.7071 4.12126L19.7071 11.1213C19.8946 11.3088 20 11.5632 20 11.8284V20H14V15C14 14.4477 13.5523 14 13 14H11Z" fill="black"/>
-                </svg>
-                <p class="pt-1">Dashboard</p>
-            </div>
-            </a>
-          </div>
+          <div class="overflow-y-auto">  
 
-          <div class="pt-4 text-[14px] group">
-            <a href="#">
-              <div class="h-10 flex space-x-3  group-hover:text-[#000000] group-hover:bg-[#f3f3f3]  mr-2 pl-2 pt-2 rounded-lg">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <LeftSideMenu>
+            <template v-slot:icon>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                 <path fill-rule="evenodd" clip-rule="evenodd" d="M3.58579 10.4142C3.21071 10.7892 3 11.2979 3 11.8284V20C3 20.5522 3.44772 21 4 21H10C10.5523 21 11 20.5522 11 20V15H13V20C13 20.5522 13.4477 21 14 21H20C20.5523 21 21 20.5522 21 20V11.8284C21 11.2979 20.7893 10.7892 20.4142 10.4142L13.4142 3.41416C12.6332 2.63311 11.3668 2.63311 10.5858 3.41416L3.58579 10.4142ZM11 14C10.4477 14 10 14.4477 10 15V20H4V11.8284C4 11.5631 4.10536 11.3088 4.29289 11.1213L11.2929 4.12126C11.6834 3.73074 12.3166 3.73074 12.7071 4.12126L19.7071 11.1213C19.8946 11.3088 20 11.5632 20 11.8284V20H14V15C14 14.4477 13.5523 14 13 14H11Z" fill="black"/>
+              </svg>
+            </template>
+            <template v-slot:menu>
+              <p class="pt-1 w-[20%]">Dashboard</p>
+            </template>
+          </LeftSideMenu>
+
+          <LeftSideMenu>
+            <template v-slot:icon>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M7 10.5C9.07107 10.5 10.75 8.82107 10.75 6.75C10.75 4.67893 9.07107 3 7 3C4.92893 3 3.25 4.67893 3.25 6.75C3.25 8.82107 4.92893 10.5 7 10.5ZM7 9.5C8.51878 9.5 9.75 8.26878 9.75 6.75C9.75 5.23122 8.51878 4 7 4C5.48122 4 4.25 5.23122 4.25 6.75C4.25 8.26878 5.48122 9.5 7 9.5Z" fill="black"/>
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M20.75 6.75C20.75 8.82107 19.0711 10.5 17 10.5C14.9289 10.5 13.25 8.82107 13.25 6.75C13.25 4.67893 14.9289 3 17 3C19.0711 3 20.75 4.67893 20.75 6.75ZM19.75 6.75C19.75 8.26878 18.5188 9.5 17 9.5C15.4812 9.5 14.25 8.26878 14.25 6.75C14.25 5.23122 15.4812 4 17 4C18.5188 4 19.75 5.23122 19.75 6.75Z" fill="black"/>
                   <path d="M17 13C15.8387 13 14.7372 13.2551 13.7484 13.7128C13.4871 13.4622 13.2118 13.226 12.9238 13.0054C13.076 12.9252 13.2308 12.8493 13.3881 12.7779C14.4892 12.2782 15.7121 12 17 12C17.1639 12 17.3267 12.0045 17.4884 12.0134C19.9136 12.1468 22.0756 13.2679 23.5791 14.9811C23.6148 15.0218 23.6482 15.0641 23.6792 15.1078C23.8966 15.4136 24 15.7876 24 16.1668V18C24 19.1046 23.1046 20 22 20H14.2361C14.2684 19.9639 14.2998 19.9271 14.3303 19.8895C14.5441 19.6262 14.7141 19.326 14.8293 19H22C22.0022 19 22.0043 19 22.0065 19C22.5558 18.9965 23 18.5501 23 18V16.1668C23 15.9347 22.9278 15.755 22.8275 15.6407C21.4056 14.0204 19.3226 13 17 13Z" fill="black"/>
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M14 16.1668C14 15.7334 13.8649 15.3068 13.5791 14.9811C11.9754 13.1536 9.62242 12 7 12C4.37758 12 2.02461 13.1536 0.420908 14.9811C0.135096 15.3068 0 15.7334 0 16.1668V18C0 19.1046 0.895431 20 2 20H12C13.1046 20 14 19.1046 14 18V16.1668ZM12 19C12.5523 19 13 18.5523 13 18V16.1668C13 15.9347 12.9278 15.755 12.8275 15.6407C11.4056 14.0204 9.32256 13 7 13C4.67745 13 2.59443 14.0204 1.17253 15.6407C1.07219 15.755 1 15.9347 1 16.1668V18C1 18.5523 1.44772 19 2 19H12Z" fill="black"/>
                   </svg>
-                <p class="pt-1 w-[20%]">Students</p>
-                <span class="pl-[45%]">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                   <path d="M10.0068 7.70683L14.2997 11.9997L10.0068 16.2926C9.81154 16.4879 9.81154 16.8045 10.0068 16.9997C10.2021 17.195 10.5186 17.195 10.7139 16.9997L15.3604 12.3533C15.4541 12.2595 15.5068 12.1323 15.5068 11.9997C15.5068 11.8671 15.4541 11.7399 15.3604 11.6462L10.7139 6.99972C10.6895 6.97531 10.6632 6.95395 10.6355 6.93565C10.4414 6.80751 10.1777 6.82886 10.0068 6.99972C9.81154 7.19498 9.81154 7.51156 10.0068 7.70683Z" fill="black"/>
-                 </svg>
-                </span>
+            </template>
+            <template v-slot:menu>
+              <p class="pt-1 w-[20%]"> Students</p>
+            </template>
+            <template v-slot:submenu>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> Add students</a></div>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> Student list</a></div>
+            </template>
+          </LeftSideMenu>
 
-            </div>
-            </a>
-          </div>
-
-          <div class="pt-4 text-[14px] group">
-            <a href="#">
-              <div class="h-10 flex space-x-3  group-hover:text-[#000000] group-hover:bg-[#f3f3f3] mr-2 pl-2 pt-2 rounded-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
+          <LeftSideMenu>
+            <template v-slot:icon>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z" />
                 </svg>
-                <p class="pt-1 w-[20%]">Classrooms</p>
-                <span class="pl-[45%]">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                   <path d="M10.0068 7.70683L14.2997 11.9997L10.0068 16.2926C9.81154 16.4879 9.81154 16.8045 10.0068 16.9997C10.2021 17.195 10.5186 17.195 10.7139 16.9997L15.3604 12.3533C15.4541 12.2595 15.5068 12.1323 15.5068 11.9997C15.5068 11.8671 15.4541 11.7399 15.3604 11.6462L10.7139 6.99972C10.6895 6.97531 10.6632 6.95395 10.6355 6.93565C10.4414 6.80751 10.1777 6.82886 10.0068 6.99972C9.81154 7.19498 9.81154 7.51156 10.0068 7.70683Z" fill="black"/>
-                 </svg>
-                </span>
-            </div>
-            </a>
-          </div>
-          <div class="pt-4 text-[14px] group">
-            <a href="#">
-              <div class="h-10 flex space-x-3  group-hover:text-[#000000] group-hover:bg-[#f3f3f3] mr-2 pl-2 pt-2 rounded-lg">
+            </template>
+            <template v-slot:menu>
+              <p class="pt-1 w-[20%]">Classrooms</p>
+            </template>
+            <template v-slot:submenu>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> Add classroom</a></div>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> Classrooms list</a></div>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> Classrooms settings</a></div>
+            </template>
+          </LeftSideMenu>
+
+
+          <LeftSideMenu>
+            <template v-slot:icon>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
                 </svg>
+            </template>
+            <template v-slot:menu>
+              <p class="pt-1 w-[20%]">Courses</p>
+            </template>
+            <template v-slot:submenu>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> Add new course</a></div>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> List of courses</a></div>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> Modify courses</a></div>
+            </template>
+          </LeftSideMenu>
 
-                <p class="pt-1 w-[20%]">Courses</p>
-                <span class="pl-[45%]">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                   <path d="M10.0068 7.70683L14.2997 11.9997L10.0068 16.2926C9.81154 16.4879 9.81154 16.8045 10.0068 16.9997C10.2021 17.195 10.5186 17.195 10.7139 16.9997L15.3604 12.3533C15.4541 12.2595 15.5068 12.1323 15.5068 11.9997C15.5068 11.8671 15.4541 11.7399 15.3604 11.6462L10.7139 6.99972C10.6895 6.97531 10.6632 6.95395 10.6355 6.93565C10.4414 6.80751 10.1777 6.82886 10.0068 6.99972C9.81154 7.19498 9.81154 7.51156 10.0068 7.70683Z" fill="black"/>
-                 </svg>
-                </span>
-            </div>
-            </a>
-          </div>
-          <div class="pt-4 text-[14px] group">
-            <a href="#">
-              <div class="h-10 flex space-x-3  group-hover:text-[#000000] group-hover:bg-[#f3f3f3] mr-2 pl-2 pt-2 rounded-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
+          <LeftSideMenu>
+            <template v-slot:icon>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z" />
                 </svg>
+            </template>
+            <template v-slot:menu>
+              <p class="pt-1 w-[20%]">Users</p>
+            </template>
+            <template v-slot:submenu>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> Invite new user</a></div>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> Assign role</a></div>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> List of users</a></div>
+            </template>
+          </LeftSideMenu>
 
-                <p class="pt-1 w-[20%]">Staff</p>
-                <span class="pl-[45%]">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                   <path d="M10.0068 7.70683L14.2997 11.9997L10.0068 16.2926C9.81154 16.4879 9.81154 16.8045 10.0068 16.9997C10.2021 17.195 10.5186 17.195 10.7139 16.9997L15.3604 12.3533C15.4541 12.2595 15.5068 12.1323 15.5068 11.9997C15.5068 11.8671 15.4541 11.7399 15.3604 11.6462L10.7139 6.99972C10.6895 6.97531 10.6632 6.95395 10.6355 6.93565C10.4414 6.80751 10.1777 6.82886 10.0068 6.99972C9.81154 7.19498 9.81154 7.51156 10.0068 7.70683Z" fill="black"/>
-                 </svg>
-                </span>
-            </div>
-            </a>
-          </div>
-          <div class="pt-4 text-[14px] group">
-            <a href="#">
-              <div class="h-10 flex space-x-3  group-hover:text-[#000000] group-hover:bg-[#f3f3f3] mr-2 pl-2 pt-2 rounded-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
+          <LeftSideMenu>
+            <template v-slot:icon>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
                 </svg>
-                <p class="pt-1  ">Reports</p>
-                <i class="las la-bell"></i>
-            </div>
-            </a>
-          </div>
-          <div class="pt-4 text-[14px] group">
-            <a href="#">
-              <div class="h-10 flex space-x-3  group-hover:text-[#000000] group-hover:bg-[#f3f3f3] mr-2 pl-2 pt-2 rounded-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
+            </template>
+            <template v-slot:menu>
+              <p class="pt-1 w-[20%]">Reports</p>
+            </template>
+          </LeftSideMenu>
+
+          <LeftSideMenu>
+            <template v-slot:icon>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
-                </svg>
-                <p class="pt-1  ">Cloud Storage</p>
-                <i class="las la-bell"></i>
-            </div>
-            </a>
-          </div>
-          <div class="pt-4 text-[14px] group">
-            <a href="#">
-              <div class="h-10 flex space-x-3  group-hover:text-[#000000] group-hover:bg-[#f3f3f3] mr-2 pl-2 pt-2 rounded-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
+              </svg>
+            </template>
+            <template v-slot:menu>
+              <p class="pt-1 w-[30%]">CloudStorage </p>
+            </template>
+          </LeftSideMenu>
+
+          <LeftSideMenu>
+            <template v-slot:icon>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M9.348 14.651a3.75 3.75 0 010-5.303m5.304 0a3.75 3.75 0 010 5.303m-7.425 2.122a6.75 6.75 0 010-9.546m9.546 0a6.75 6.75 0 010 9.546M5.106 18.894c-3.808-3.808-3.808-9.98 0-13.789m13.788 0c3.808 3.808 3.808 9.981 0 13.79M12 12h.008v.007H12V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                 </svg>
-                <p class="pt-1  ">Send SMS</p>
-                <i class="las la-bell"></i>
-            </div>
-            </a>
-          </div>
+            </template>
+            <template v-slot:menu>
+              <p class="pt-1 w-[30%]">Send SMS</p>
+            </template>
+          </LeftSideMenu>
+
           <div class="h-5"></div>
           <hr>
           <div class="h-2"></div>
-          <div class="pt-4 text-[14px] group">
-                <a href="#">
-                  <div class="h-10 flex space-x-3  group-hover:text-[#000000] group-hover:bg-[#f3f3f3] mr-2 pl-2 pt-2 rounded-lg">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <LeftSideMenu>
+            <template v-slot:icon>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0002 16C14.2094 16 16.0002 14.2091 16.0002 12C16.0002 9.79086 14.2094 8 12.0002 8C9.79109 8 8.00023 9.79086 8.00023 12C8.00023 14.2091 9.79109 16 12.0002 16ZM12.0002 15C13.6571 15 15.0002 13.6569 15.0002 12C15.0002 10.3431 13.6571 9 12.0002 9C10.3434 9 9.00023 10.3431 9.00023 12C9.00023 13.6569 10.3434 15 12.0002 15Z" fill="black"/>
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M15.1182 1.86489L15.5203 4.81406C15.8475 4.97464 16.1621 5.1569 16.4623 5.35898L19.2185 4.23223C19.6814 4.043 20.2129 4.2248 20.463 4.65787L22.5901 8.34213C22.8401 8.77521 22.7318 9.3264 22.3365 9.63266L19.9821 11.4566C19.9941 11.6362 20.0002 11.8174 20.0002 12C20.0002 12.1826 19.9941 12.3638 19.9821 12.5434L22.3365 14.3673C22.7318 14.6736 22.8401 15.2248 22.5901 15.6579L20.463 19.3421C20.2129 19.7752 19.6814 19.957 19.2185 19.7678L16.4623 18.641C16.1621 18.8431 15.8475 19.0254 15.5203 19.1859L15.1182 22.1351C15.0506 22.6306 14.6274 23 14.1273 23H9.87313C9.37306 23 8.94987 22.6306 8.8823 22.1351L8.48014 19.1859C8.15296 19.0254 7.83835 18.8431 7.53818 18.641L4.78195 19.7678C4.31907 19.957 3.78756 19.7752 3.53752 19.3421L1.41042 15.6579C1.16038 15.2248 1.26869 14.6736 1.66401 14.3673L4.01841 12.5434C4.00636 12.3638 4.00025 12.1826 4.00025 12C4.00025 11.8174 4.00636 11.6362 4.01841 11.4566L1.66401 9.63266C1.26869 9.3264 1.16038 8.77521 1.41041 8.34213L3.53752 4.65787C3.78755 4.2248 4.31906 4.043 4.78195 4.23223L7.53818 5.35898C7.83835 5.1569 8.15296 4.97464 8.48014 4.81406L8.8823 1.86489C8.94987 1.3694 9.37306 1 9.87313 1H14.1273C14.6274 1 15.0506 1.3694 15.1182 1.86489ZM14.6015 5.47705L15.0798 5.71177C15.3659 5.8522 15.6411 6.01165 15.9038 6.18852L16.3466 6.48661L19.5969 5.15787L21.7241 8.84213L18.9487 10.9922L18.9843 11.5236C18.9949 11.6809 19.0002 11.8397 19.0002 12C19.0002 12.1603 18.9949 12.3191 18.9843 12.4765L18.9487 13.0078L21.7241 15.1579L19.5969 18.8421L16.3466 17.5134L15.9038 17.8115C15.6411 17.9884 15.3659 18.1478 15.0798 18.2882L14.6015 18.523L14.1273 22H9.87313L9.39899 18.5229L8.92072 18.2882C8.63461 18.1478 8.35936 17.9884 8.09664 17.8115L7.65386 17.5134L4.40355 18.8421L2.27644 15.1579L5.0518 13.0078L5.01617 12.4765C5.00561 12.3191 5.00024 12.1603 5.00024 12C5.00024 11.8397 5.00561 11.6809 5.01617 11.5235L5.0518 10.9922L2.27644 8.84213L4.40355 5.15787L7.65386 6.4866L8.09664 6.18851C8.35936 6.01165 8.63461 5.8522 8.92072 5.71178L9.39899 5.47705L9.87313 2L14.1273 2L14.6015 5.47705Z" fill="black"/>
                     </svg>
+            </template>
+            <template v-slot:menu>
+              <p class="pt-1 w-[30%]">Send SMS</p>
+            </template>
+          </LeftSideMenu>
 
-                    <p class="pt-1  ">Settings</p>
-                    <i class="las la-bell"></i>
-                </div>
-                </a>
-            </div>
-
-        <div class="pt-2 text-[14px] group">
-            <a href="#">
-              <div class="h-10 flex space-x-3  group-hover:text-[#000000] group-hover:bg-[#f3f3f3] mr-2 pl-2 pt-2 rounded-lg">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <LeftSideMenu>
+            <template v-slot:icon>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M11.6919 14.1359C11.4498 14.1359 11.2532 13.9387 11.2671 13.697C11.2903 13.2923 11.3415 12.8752 11.4205 12.645C11.5292 12.3286 11.689 12.0617 11.8999 11.8444C12.1141 11.6238 12.3793 11.4129 12.6957 11.2115C12.9322 11.0581 13.1304 10.8967 13.2902 10.7273C13.4532 10.5548 13.5762 10.3662 13.6593 10.1616C13.7456 9.95391 13.7888 9.72859 13.7888 9.48569C13.7888 9.14052 13.7073 8.83849 13.5443 8.57962C13.3845 8.32074 13.1672 8.12099 12.8923 7.98036C12.6174 7.83654 12.3122 7.76463 11.9766 7.76463C11.657 7.76463 11.3582 7.83494 11.0802 7.97557C10.8053 8.113 10.58 8.31754 10.4042 8.58921C10.2987 8.75332 10.2224 8.94133 10.1755 9.15322C10.1226 9.39161 9.92847 9.58636 9.6843 9.58636C9.42759 9.58636 9.21735 9.37282 9.2626 9.12013C9.32265 8.78477 9.43791 8.48315 9.60838 8.21527C9.85448 7.82855 10.1837 7.52972 10.596 7.31879C11.0082 7.10465 11.4685 6.99759 11.9766 6.99759C12.5072 6.99759 12.9738 7.10785 13.3765 7.32837C13.7792 7.5457 14.094 7.84453 14.3209 8.22486C14.5478 8.60199 14.6613 9.03505 14.6613 9.52404C14.6613 9.84684 14.6102 10.1409 14.5079 10.4061C14.4056 10.6714 14.2522 10.9159 14.0477 11.1396C13.8463 11.3634 13.5938 11.5743 13.2902 11.7724C13.0026 11.9642 12.774 12.1544 12.6047 12.3429C12.4353 12.5315 12.3138 12.7472 12.2403 12.9901C12.1929 13.1447 12.1594 13.4303 12.14 13.7079C12.1233 13.9452 11.9298 14.1359 11.6919 14.1359Z" fill="black"/>
                 <path d="M11.713 17.0219C11.5244 17.0219 11.3614 16.9548 11.224 16.8206C11.0897 16.6831 11.0226 16.5201 11.0226 16.3316C11.0226 16.1398 11.0897 15.9768 11.224 15.8426C11.3614 15.7083 11.5244 15.6412 11.713 15.6412C11.9015 15.6412 12.0629 15.7083 12.1972 15.8426C12.3346 15.9768 12.4033 16.1398 12.4033 16.3316C12.4033 16.4562 12.3713 16.5713 12.3074 16.6767C12.2467 16.7822 12.1636 16.8669 12.0581 16.9308C11.9559 16.9916 11.8408 17.0219 11.713 17.0219Z" fill="black"/>
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" fill="black"/>
                 </svg>
+            </template>
+            <template v-slot:menu>
+              <p class="pt-1 w-[30%]">Support</p>
+            </template>
+          </LeftSideMenu>
 
-                <p class="pt-1  ">Support</p>
-                <i class="las la-bell"></i>
-            </div>
-            </a>
-        </div>
-
-        <div class="pt-2 text-[14px] group">
-            <a href="javascript:;" @click="logout()">
-              <div class="h-10 flex space-x-3  group-hover:text-[#000000] group-hover:bg-[#f3f3f3] mr-2 pl-2 pt-2 rounded-lg">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <LeftSideMenu @click="logout()">
+            <template v-slot:icon>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 3.99998C12 4.27613 11.7761 4.49998 11.5 4.49998H5C4.72386 4.49998 4.5 4.72384 4.5 4.99998V19C4.5 19.2761 4.72386 19.5 5 19.5H11.5C11.7761 19.5 12 19.7238 12 20C12 20.2761 11.7761 20.5 11.5 20.5H5C4.17157 20.5 3.5 19.8284 3.5 19V4.99998C3.5 4.17156 4.17157 3.49998 5 3.49998H11.5C11.7761 3.49998 12 3.72384 12 3.99998Z" fill="black"/>
                 <path d="M15.0001 16.2929L18.7929 12.5001H8.50005C8.22391 12.5001 8.00005 12.2762 8.00005 12.0001C8.00005 11.7239 8.22391 11.5001 8.50005 11.5001H18.7929L15 7.70715C14.8048 7.51189 14.8048 7.19531 15 7.00005C15.1953 6.80478 15.5119 6.80478 15.7071 7.00005L20.3536 11.6465C20.4474 11.7403 20.5 11.8675 20.5 12.0001C20.5 12.1327 20.4474 12.2599 20.3536 12.3536L15.7072 17C15.5119 17.1953 15.1953 17.1953 15.0001 17C14.8048 16.8048 14.8048 16.4882 15.0001 16.2929Z" fill="black"/>
                 </svg>
-                <p class="pt-1  ">Logout  </p>
-            </div>
-            </a>
-        </div>
+            </template>
+            <template v-slot:menu>
+              <p class="pt-1 w-[30%]">Logout</p>
+            </template>
+          </LeftSideMenu>
+
 
         <div class="h-4"></div>
         <div class="h-10 mt-2 mr-1 text-[14px] bg-transparent ring-2 ring-[#f3f3f3] rounded-lg  flex cursor-pointer">
@@ -183,9 +181,11 @@
 import { useUserStore } from '../stores/auth'
 import { onMounted,ref,computed } from 'vue';
 import { useRouter } from 'vue-router';
+import LeftSideMenu from './left_side_menu.vue';
 export default {
     name:"Sidebar",
     components:{
+      LeftSideMenu
    },
   setup() {
     const store = useUserStore();
@@ -206,6 +206,8 @@ export default {
      return currentUser.value;
     });
 
+    const isMenuClicked = computed(() => store.isMenuClicked);
+
     onMounted(() => {
       if(store.getUserData())
       {
@@ -214,7 +216,7 @@ export default {
       }
     });
 
-    return {currentUser,urlPath,logout,getUsers}
+    return {currentUser,urlPath,logout,getUsers,isMenuClicked}
 
   },
 }
