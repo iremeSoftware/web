@@ -1,15 +1,11 @@
-export const validations = function(messages,rules,formData){
+export const validations = function(messages,rules,formData,event = ""){
         let isValidated = []
-        
           for(const prop in rules)
           {
             rules[prop]['validationClass'] = rules[prop]['validationClass'] ?? "ring-2 ring-red-500"
             var getId = document.getElementById('formData.'+prop);
             let originalClass= getId.getAttribute('class') ;
             originalClass = [...new Set(originalClass.split(' '))].join(' ').replaceAll(rules[prop]['validationClass'],"");
-            console.log(originalClass)
-
-
             if(rules[prop]['required'])
             {
               if(formData[prop] == "" )
@@ -64,7 +60,6 @@ export const validations = function(messages,rules,formData){
 
               }
             }
-
             if(rules[prop]['maxlength'] != undefined)
             {
               let validationClass= getId.getAttribute('class');
@@ -72,7 +67,6 @@ export const validations = function(messages,rules,formData){
               validationClass = [...new Set(className.split(' '))].join(' ');
               getId.setAttribute("class",validationClass);
               getId.setAttribute("maxlength",parseInt(rules[prop]['maxlength']));
-
               if(formData[prop].length > parseInt(rules[prop]['maxlength']))
               {
                 messages[prop]['slot'] =   messages[prop]['maxlength'].replace("$maxlength",rules[prop]['maxlength']);
@@ -107,11 +101,11 @@ export const validations = function(messages,rules,formData){
         return input.match(validRegex) ? true : false;
       }
 
-    export function onlyNumberKey(evt) {
-             
-        // Only ASCII character in that range allowed
-        var ASCIICode = (evt.which) ? evt.which : evt.keyCode
-        if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
-            return false;
-        return true;
-    }
+        function onlyNumberKey(evt) {
+                
+            // Only ASCII character in that range allowed
+            var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+            if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+                return false;
+            return true;
+        }

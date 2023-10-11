@@ -1,5 +1,5 @@
 <template>
-    <div class="pt-4 text-[14px] group">
+    <div class="pt-4 text-[15px] group">
             <a href="#">
               <div class="h-10  group-hover:text-[#000000] group-hover:bg-[#f3f3f3]  mr-2 pl-2 pt-2 rounded-lg" :class="slotData.submenu ? 'group-hover:h-auto' : ''">
                 <div class="flex space-x-3">

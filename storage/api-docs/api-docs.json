@@ -55,6 +55,7 @@
                                     "name",
                                     "email",
                                     "password",
+                                    "password_confirm",
                                     "phone_number",
                                     "school_name"
                                 ],
@@ -66,6 +67,9 @@
                                         "type": "text"
                                     },
                                     "password": {
+                                        "type": "password"
+                                    },
+                                    "password_confirm": {
                                         "type": "password"
                                     },
                                     "phone_number": {
@@ -7168,9 +7172,9 @@
                 "scheme": "https",
                 "flows": {
                     "password": {
-                        "authorizationUrl": "http://localhost:8000//oauth/authorize",
-                        "tokenUrl": "http://localhost:8000//oauth/token",
-                        "refreshUrl": "http://localhost:8000//token/refresh",
+                        "authorizationUrl": "http://iremeapp.com/oauth/authorize",
+                        "tokenUrl": "http://iremeapp.com/oauth/token",
+                        "refreshUrl": "http://iremeapp.com/token/refresh",
                         "scopes": []
                     }
                 }

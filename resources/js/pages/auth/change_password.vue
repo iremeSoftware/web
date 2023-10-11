@@ -12,7 +12,7 @@
        )" 
        
        type="danger" :closeMethod="closeFeedback"/>
-      <Alert v-if="successStatus !=''" :message="successStatus == 'success' ? 'Password is successfully updated':''"  type="success" :closeMethod="closeFeedback"/>
+      <Alert v-if="successStatus !='' && successFeedbackStatus == false" :message="successStatus == 'success' ? 'Password is successfully updated':''"  type="success" :closeMethod="closeFeedback"/>
 
       <div class=" w-[400px] bg-white pl-8 pt-4 pr-8 pb-4  rounded-3xl mt-[90px] ml-14 md:ml-[38%] text-center shadow-lg">
         <p class=" text-lg font-bold"> Change Password
@@ -64,12 +64,14 @@ export default {
     const route =  useRoute();
     const store = useUserStore();
     const feedbackStatus = ref(false);
+    const successFeedbackStatus = ref(false);
+
     const formData = ref({
       password: "",
       confirm_password: "",
       access_token: route.params.token
       });
-const rules = ref({
+    const rules = ref({
     password: {
       required:true,
       validationClass:"ring-1 ring-red-500",
@@ -98,6 +100,7 @@ const rules = ref({
 
   function closeFeedback() {
         feedbackStatus.value =! feedbackStatus.value
+        successFeedbackStatus.value =! successFeedbackStatus.value
   }
 
   function changePasswordBtn() {
@@ -111,7 +114,11 @@ const rules = ref({
        return store.errorMessage
     });
 
-    const successStatus = computed(() => store.successMessage);
+    const successStatus = computed(() => {
+      formData.value.password = ""
+      formData.value.confirm_password = ""
+      return store.successMessage
+    });
 
     const loadingStatus = computed(() => {
        feedbackStatus.value = store.errorMessage != "" ? false : true
@@ -119,7 +126,7 @@ const rules = ref({
     });
 
     return {
-      messages,formData,feedbackStatus,closeFeedback,changePasswordBtn,errorStatus,successStatus,loadingStatus,validate
+      messages,rules,formData,feedbackStatus,closeFeedback,changePasswordBtn,errorStatus,successStatus,loadingStatus,validate,successFeedbackStatus
     }
   },
 }
