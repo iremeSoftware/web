@@ -53,10 +53,11 @@ class AuthController extends Controller
         *            mediaType="multipart/form-data",
         *            @OA\Schema(
         *               type="object",
-        *               required={"name","email", "password", "phone_number","school_name"},
+        *               required={"name","email", "password","password_confirmation", "phone_number","school_name"},
         *               @OA\Property(property="name", type="text"),
         *               @OA\Property(property="email", type="text"),
         *               @OA\Property(property="password", type="password"),
+        *               @OA\Property(property="password_confirmation", type="password"),
         *               @OA\Property(property="phone_number", type="text"),
         *               @OA\Property(property="school_name", type="text")
         *            ),
@@ -142,12 +143,12 @@ class AuthController extends Controller
         'body' => "
         <h2>Welcome to Iremeapp.com</h2>
 
-        <p>Hello ". $request->name .", Thank you for registering your school to Iremeapp.com, Schoolmodify system is online system where we have all  solutions you need to easily manage your school</p>
+        <p>Hello ". $request->name .", Thank you for registering your school to Iremeapp.com, Iremeapp is online system where we have all  solutions you need to easily manage your school</p>
 
         <p>Click on the link below to complete registration</p>
 
 
-        <a style='background-color:#6a4bce;border-radius:3px;color:#ffffff;display:inline-block;font-family:verdana;font-size:16px;font-weight:normal;line-height:40px;text-align:center;text-decoration:none;width:200px' target='_blank' href='".URL::to('/')."/auth/confirm_account/" . $tokens . "'>Confirm your account</a>
+        <a style='background-color:#6a4bce;border-radius:3px;color:#ffffff;display:inline-block;font-family:verdana;font-size:16px;font-weight:normal;line-height:40px;text-align:center;text-decoration:none;width:200px' target='_blank' href='".URL::to('/')."/auth/login?token=" . $tokens . "'>Confirm your account</a>
         <br><br><br><hr>
        Note: You will receive a 30 days free trial package, the next time you select a plan that matches your institution, we hope you will enjoy our services.<br>",
         'from'=>'Iremeapp.com',
@@ -515,8 +516,9 @@ class AuthController extends Controller
         *            mediaType="multipart/form-data",
         *            @OA\Schema(
         *               type="object",
-        *               required={"email"},
+        *               required={"email","uid"},
         *               @OA\Property(property="email", type="email"),
+        *               @OA\Property(property="uid", type="text"),
         *            ),
         *        ),
         *    ),
@@ -541,8 +543,22 @@ class AuthController extends Controller
             ['email', '=', $request->email]
         ])
         ->first();
-        $user->uid = $request->uid;
-        $user->save();
+        if($user)
+        {
+            if(strlen($request->accessToken) > 1000 )
+            {
+                $split_accessToken = explode('.',$request->accessToken);
+                if(count($split_accessToken)==3)
+                {
+                    $user->uid = $request->uid;
+                    $user->access_token = $request->accessToken;
+                    $user->profile_pic = $request->photoURL;
+                    $user->save();
+                }
+            }
+            
+        }
+
         return response()->json(['status'=>'UPDATED'],200);
     }
 
@@ -595,7 +611,8 @@ class AuthController extends Controller
         {
          $loginData = $request->validate([
             'email' => 'email|required', 
-            'uid' => 'required'          
+            'uid' => 'required',
+            'accessToken' => 'required'          
         ]); 
 
 
@@ -629,12 +646,13 @@ class AuthController extends Controller
           $user=User::where([
             ['email', '=', $request->email],
             ['uid', '=', $request->uid],
-        ])
-        ->first();
+            ['access_token', '=', $request->accessToken],
+        ])->first();
+
           $accessToken  = $user->createToken('UserToken', ['*'])->accessToken;
 
-          $authclass = new AuthController();
-          $device_id=$authclass->VerificationCodes($device_id,$user->account_id);
+        //   $authclass = new AuthController();
+        //   $device_id=$authclass->VerificationCodes($device_id,$user->account_id);
 
         }
         else if($request->loginWith=='normal_login')

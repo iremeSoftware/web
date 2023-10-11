@@ -129,7 +129,7 @@
                     </svg>
             </template>
             <template v-slot:menu>
-              <p class="pt-1 w-[30%]">Send SMS</p>
+              <p class="pt-1 w-[30%]">Settings</p>
             </template>
           </LeftSideMenu>
 
@@ -158,14 +158,20 @@
             </template>
           </LeftSideMenu>
 
+          
+
 
         <div class="h-4"></div>
         <div class="h-10 mt-2 mr-1 text-[14px] bg-transparent ring-2 ring-[#f3f3f3] rounded-lg  flex cursor-pointer">
           <!-- src="https://img.icons8.com/?size=512&id=108652&format=png" -->
-          <img  :src="currentUser[0] != undefined ? urlPath+'/avatar/' +currentUser[0].profile_pic : 'https://img.icons8.com/?size=512&id=108652&format=png'" class="h-[40px] w-[40px] rounded-full">
+          <img  :src="
+          getUsers.profile_pic != undefined ? 
+          (getUsers.profile_pic.includes('https://lh3.googleusercontent.com') == false
+           ? urlPath+'/avatar/' +getUsers.profile_pic : getUsers.profile_pic)
+           : 'https://img.icons8.com/?size=512&id=108652&format=png'" class="h-[40px] w-[40px] rounded-full">
           <span class="flex-none -space-y-2">
-            <p class="font-bold  pt-1 flex-none">{{ getUsers.name }}</p>
-            <p class="w-32 text-xs pt-2 overflow-hidden text-ellipsis">({{ getUsers.user_type }})</p>
+            <p class="font-bold pl-3 pt-1 flex-none">{{ getUsers.name }}</p>
+            <p class="w-32 text-xs pl-3 pt-2 overflow-hidden text-ellipsis">({{ getUsers.user_type }})</p>
           </span>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mt-3 ml-20 w-4 h-4 text-grey">
             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />

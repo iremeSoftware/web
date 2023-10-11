@@ -1,18 +1,24 @@
 import { defineStore } from 'pinia'
 // Import axios to make HTTP requests
 import axios from "../plugins/axios"
+import {getAuth,GoogleAuthProvider,signInWithPopup} from 'firebase/auth'
+
 
 
 export const useUserStore = defineStore("auth", {
     state: () => ({
         userDetails: [],
+        demoSchoolInfo:[],
         successMessage:"",
         errorMessage : "",
+        confirmAccountErrorMessage : "",
         device_id : "",
         isMenuClicked : false,
         loadingUI :{
           isLoading:false
         },
+        isGoogleUIDUpdated : false,
+        isLoggingWithGoogle : false
 
     }),
     getters: {
@@ -27,6 +33,7 @@ export const useUserStore = defineStore("auth", {
         },
         async login(credentials) {  
           let self = this;
+          
             self.loadingUI.isLoading = true;
             self.errorMessage = "";
             await axios.post("login", credentials).then(function (response) {
@@ -36,6 +43,7 @@ export const useUserStore = defineStore("auth", {
                 localStorage.setItem("d_id", credentials.d_id);
                 self.device_id = credentials.d_id;
                 self.userDetails.push(response.data.user);
+                console.log(self.userDetails)
                 axios.defaults.headers.common["Authorization"] = token;
             }).catch (function (err) {
               self.loadingUI.isLoading = false;
@@ -43,22 +51,35 @@ export const useUserStore = defineStore("auth", {
               self.errorMessage = err.response.data;
             })
           },
-          async getUserData() {
-            let token = localStorage.getItem("token")
-            let config = { 
-              headers: {
-                "Authorization": token,
+
+            async getUserData() {
+              let token = localStorage.getItem("token")
+              let config = { 
+                headers: {
+                  "Authorization": token,
+                }
               }
-            }
-            this.userDetails = [];
-            this.errorMessage = "";
-            this.successMessage = "";
-            
-            const response = (await axios.post("current_user",{},config)).data;
-            if (response) {
-              this.userDetails= response.user_info;
-            }
-          },
+              this.userDetails = [];
+              this.errorMessage = "";
+              this.successMessage = "";
+              
+              const response = (await axios.post("current_user",{},config)).data;
+              if (response) {
+                this.userDetails= response.user_info;
+              }
+            },
+
+            async updateGoogleUid(data) {
+              let self = this;
+              self.errorMessage = "";
+              await axios.post('login/updateUid',data).then(function (response) {
+                self.isGoogleUIDUpdated = response.data.status == 'UPDATED' ? true : false;
+                console.log(response)
+              }).catch(function(err){
+                self.isGoogleUIDUpdated = false;
+                console.log(err)
+              })
+            },
 
           async account_verification(account_id,verification_code) {
             let token = localStorage.getItem("token")
@@ -102,6 +123,63 @@ export const useUserStore = defineStore("auth", {
             self.errorMessage = "";
             self.loadingUI.isLoading = true;
             await axios.post('reset_password',records).then(function (response) {
+              self.loadingUI.isLoading = false;
+              self.successMessage = response.data.status;
+            }).catch(function(err){
+              self.userDetails = [];
+              self.loadingUI.isLoading = false;
+              self.errorMessage = err.response.data;
+            })
+          },
+
+          async registration_request(data) {
+            let self = this;
+            self.errorMessage = "";
+            self.loadingUI.isLoading = true;
+            await axios.post('registration/request/send',data).then(function (response) {
+              self.loadingUI.isLoading = false;
+              self.successMessage = response.data.message;
+            }).catch(function(err){
+              self.userDetails = [];
+              self.loadingUI.isLoading = false;
+              self.errorMessage = err.response.data;
+            })
+          },
+
+          async get_registration_request_info(token) {
+            let self = this;
+            self.errorMessage = "";
+            self.loadingUI.isLoading = true;
+            await axios.get(`registration/request/${token}`,{}).then(function (response) {
+              self.loadingUI.isLoading = false;
+              self.demoSchoolInfo = response.data;
+            }).catch(function(err){
+              self.demoSchoolInfo = [];
+              self.loadingUI.isLoading = false;
+              self.errorMessage = err.response.data;
+            })
+          },
+
+
+          async confirm_account(token) {
+            let self = this;
+            self.confirmAccountErrorMessage = "";
+            //self.loadingUI.isLoading = true;
+            await axios.get(`confirm_account/${token}`,{}).then(function (response) {
+              //self.loadingUI.isLoading = false;
+              self.successMessage  = response.data.status;
+            }).catch(function(err){
+              //self.loadingUI.isLoading = false;
+              self.confirmAccountErrorMessage = err.response.data.status;
+            })
+          },
+      
+      
+          async complete_registration(data) {
+            let self = this;
+            self.errorMessage = "";
+            self.loadingUI.isLoading = true;
+            await axios.post('register',data).then(function (response) {
               self.loadingUI.isLoading = false;
               self.successMessage = response.data.status;
             }).catch(function(err){

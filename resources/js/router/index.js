@@ -2,10 +2,11 @@ import login from '../pages/auth/login.vue'
 import resetPassword from '../pages/auth/reset_password.vue'
 import changePassword from '../pages/auth/change_password.vue'
 import home from '../pages/home.vue'
-import registerSchool from '../pages/auth/register_school.vue'
+import registrationRequest from '../pages/auth/register_request.vue'
 import pay from '../pages/pay.vue'
 import verification_code from '../pages/auth/verification_code.vue'
 import dashboard from '../pages/dashboard/dashboard.vue'
+import registerSchool from '../pages/auth/register_school.vue'
 
 
 const routes = [
@@ -33,9 +34,9 @@ const routes = [
         component: changePassword
       },
       {
-        path: 'registerSchool',
-        name:'register_school',
-        component:registerSchool
+        path: 'registration_request',
+        name:'registrationRequest',
+        component:registrationRequest
       },
 
       {
@@ -43,6 +44,11 @@ const routes = [
         name:'verification_code',
         component:verification_code
       },
+      {
+        path: 'register_school/:token',
+        name:'registerSchool',
+        component:registerSchool
+      }
     ],
 
   },

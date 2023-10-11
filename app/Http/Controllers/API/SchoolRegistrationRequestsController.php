@@ -132,7 +132,7 @@ class SchoolRegistrationRequestsController extends Controller
             'email' => 'email|required',
             'phone_number'=>'required|min:10|max:10',
             'school_name'=>'required',
-            'school_scale'=>'required'
+            //'school_scale'=>'required'
         ]);
          if ($validate->fails()) {
             return response()->json($validate->errors(), 422);

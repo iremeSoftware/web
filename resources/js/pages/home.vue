@@ -1,28 +1,28 @@
 <template >
   <section id="home" class="flex p-10 text-center pt-24">
     <div class=" w-full flex md:text-center">
-      <div class="w-1/5"></div>
-      <div class="w-3/5">
-    <h1 class="text-6xl font-semibold text-transparent bg-clip-text bg-gradient-to-l from-[#8fcc53] to-[#0171c0]">
+      <div class="md:w-1/5"></div>
+      <div class="w-full md:w-3/5">
+    <h1 class="text-2xl md:text-6xl font-semibold text-transparent bg-clip-text bg-gradient-to-l from-[#8fcc53] to-[#0171c0]">
       Your school in the palm of your hand
     </h1>
-    <p class="text-[18px] pt-5">The first fully online school management software in Rwanda with amazing features to more easily manage your school</p>
-    <div class="flex text-center pl-[20%] pt-3">   
+    <p class="md:text-[18px] pt-5">The first fully online school management software in Rwanda with amazing features to more easily manage your school</p>
+    <div class="flex text-center md:pl-[10%] pt-3">   
       
       
-  <router-link to="/auth/registerSchool">
-    <button class="h-10 text-[16px] rounded-lg text-center pl-4 ml-24 w-auto bg-[#000000] text-white ml-4 mt-2 z-10 "><p class="flex"> Try it free for 1 month! 👌&nbsp;&nbsp;<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <router-link to="/auth/registration_request">
+    <button class="h-10 text-[14px] md:text-[16px] rounded-lg text-center md:pl-4 md:ml-24 w-auto bg-[#000000] text-white ml-2 mt-2 z-10 "><p class="flex"> Try it free for 1 month! 👌&nbsp;&nbsp;<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
 </svg>&nbsp;&nbsp;</p></button>
 </router-link>
 
 <router-link to="/auth/login"  >
-<button class="h-10 text-[16px] rounded-lg text-center pl-4 ml-24 w-auto bg-[#000000] text-white ml-4 mt-2 z-10 "><p class="flex"> Already have an account? Login&nbsp;&nbsp;</p></button>
+<button class="h-10 text-[14px] md:text-[16px] rounded-lg text-center pl-3 ml-14 w-auto bg-[#000000] text-white ml-2 mt-2 z-10 "><p class="flex"> Already have an account? Login&nbsp;&nbsp;</p></button>
 </router-link>
 </div>
-            <img class="pl-[20%] -mt-5" src="../../../public/images/home.png" />
+            <img class="md:pl-[20%] md:-mt-5" src="../../../public/images/home.png" />
     </div>
-    <div class="w-1/5 "></div>
+    <div class="md:w-1/5 "></div>
 
   </div>
   </section>
@@ -40,7 +40,7 @@
                   <p class="h-10 text-black text-[20px] font-bold "> Report form generator </p>
                   <p class="h-[150px] text-[15px] mt-3 "> This system helps the school to automatically generate the student report form without requiring teachers to provide student grades, just click the print 'button'.</p>
                     <router-link to="/registerSchool">
-                        <button class="h-8 text-[16px] rounded-lg text-center pl-4 ml-24 w-auto bg-[#000000] text-white ml-4 mt-2 z-10 "><p class="flex"> Learn more <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <button class="h-8 text-[16px] rounded-lg text-center pl-4 ml-6 w-auto bg-[#000000] text-white ml-4 mt-2 z-10 "><p class="flex"> Learn more <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
                     </svg>&nbsp;&nbsp;</p></button>
                     </router-link>
@@ -55,7 +55,7 @@
                   <p class="h-10 text-black text-[20px] font-bold "> Grade management system </p>
                   <p class="h-[150px] text-[15px] mt-3 "> This system allows teachers to store and edit assessment and exam scores, which helps in automatically generating the student's progressive report form.</p>
                     <router-link to="/registerSchool">
-                        <button class="h-8 text-[16px] rounded-lg text-center pl-4 ml-24 w-auto bg-[#000000] text-white ml-4 mt-2 z-10 "><p class="flex"> Learn more <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <button class="h-8 text-[16px] rounded-lg text-center pl-4 ml-6 w-auto bg-[#000000] text-white ml-4 mt-2 z-10 "><p class="flex"> Learn more <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
                     </svg>&nbsp;&nbsp;</p></button>
                     </router-link>
@@ -70,7 +70,7 @@
                   <p class="h-14 text-black text-[20px] font-bold "> Student attendance system </p>
                   <p class="h-[140px] text-[15px] mt-3 "> This system enables the schools to record student attendance on a daily basis and generate a monthly report.</p>
                     <router-link to="/registerSchool">
-                        <button class="h-8 text-[16px] rounded-lg text-center pl-4 ml-24 w-auto bg-[#000000] text-white ml-4 mt-2 z-10 "><p class="flex"> Learn more <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <button class="h-8 text-[16px] rounded-lg text-center pl-4 ml-6 w-auto bg-[#000000] text-white ml-4 mt-2 z-10 "><p class="flex"> Learn more <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
                     </svg>&nbsp;&nbsp;</p></button>
                     </router-link>
@@ -85,7 +85,7 @@
                   <p class="h-10 text-black text-[20px] font-bold ">School Cloud Storage</p>
                   <p class="h-[150px] text-[15px] mt-3 "> This system enables the school to upload and access their files in the cloud at any time and from any location.</p>
                     <router-link to="/registerSchool">
-                        <button class="h-8 text-[16px] rounded-lg text-center pl-4 ml-24 w-auto bg-[#000000] text-white ml-4 mt-2 z-10 "><p class="flex"> Learn more <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <button class="h-8 text-[16px] rounded-lg text-center pl-4 ml-6 w-auto bg-[#000000] text-white ml-4 mt-2 z-10 "><p class="flex"> Learn more <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
                     </svg>&nbsp;&nbsp;</p></button>
                     </router-link>
