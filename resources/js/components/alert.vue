@@ -1,5 +1,5 @@
 <template>
-    <div  class="fixed md:left-[35%] top-20 w-full md:w-[500px] h-auto bg-white rounded-2xl shadow-2xl pb-4 m-2">
+    <div  class="fixed md:left-[35%] ring-2 ring-black top-20 w-full md:w-[500px] h-auto bg-white rounded-2xl shadow-2xl pb-4 m-2">
         <span class="">
           <button class="md:ml-[480px] -mt-2 bg-white rounded-full" @click="closeFeedback"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />

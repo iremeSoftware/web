@@ -101,11 +101,7 @@ export const validations = function(messages,rules,formData,event = ""){
         return input.match(validRegex) ? true : false;
       }
 
-        function onlyNumberKey(evt) {
-                
-            // Only ASCII character in that range allowed
-            var ASCIICode = (evt.which) ? evt.which : evt.keyCode
-            if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
-                return false;
-            return true;
-        }
+      export const onlyNumberKey = function (evt) {
+        alert(evt.value)
+          evt.value = evt.target.value.replace(/[^0-9\.]/g,'');
+      }

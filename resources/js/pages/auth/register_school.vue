@@ -20,7 +20,7 @@
 
 
 
-      <div class=" w-[400px] bg-white p-8  rounded-3xl mt-[90px] ml-14 ml-[2%] md:ml-[38%] text-center shadow-lg">
+      <div class=" w-[400px] bg-white p-8  rounded-3xl mt-[90px] ml-[2%] md:ml-[38%] text-center shadow-lg">
         <p class=" text-lg font-bold"> Complete school registration</p>
         <p class=" pt-2 text-sm font-light">Hi <b>{{getSchoolDemoInfo != undefined ? getSchoolDemoInfo.name : ''}}</b>, Once registration is completed you'll receive 1 month free trial </p>
         <div class="pt-4 space-y-3">

@@ -1,6 +1,6 @@
 <template>
     <div class="md:block fixed w-[15%] h-full  shadow-md bg-white " :class="isMenuClicked ? 'block w-[40%]':'hidden'">
-      <div class=" pl-2 pt-2 ">
+      <div class=" pl-2 pt-12 md:pt-2">
         <router-link to="/" href="#home" v-smooth-scroll class="hidden pb-2 md:block shadow-sm -pr-2">
                 <img class=" w-[80px] h-[40px] " src="https://www.iremeapp.com/logo/logo.png" />
           </router-link>
@@ -106,7 +106,7 @@
               </svg>
             </template>
             <template v-slot:menu>
-              <p class="pt-1 w-[30%]">CloudStorage </p>
+              <p class="pt-1 w-full">Cloud Storage </p>
             </template>
           </LeftSideMenu>
 
@@ -117,7 +117,7 @@
                 </svg>
             </template>
             <template v-slot:menu>
-              <p class="pt-1 w-[30%]">Send SMS</p>
+              <p class="pt-1 w-[40%]">Send SMS</p>
             </template>
           </LeftSideMenu>
 

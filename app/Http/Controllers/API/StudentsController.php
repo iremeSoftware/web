@@ -270,6 +270,7 @@ class StudentsController extends Controller
 
         $token = new Tokens;
         $token->token = $tokens;
+        $token->token_expiry=Helper::generate_token_expiry(60*24*7);//token expiring after 7 days
         $token->account_id = $account_id;
         $token->save();
 
@@ -314,7 +315,7 @@ class StudentsController extends Controller
         <p>Click on the link below to complete registration</p>
 
 
-        <a style='background-color:#6a4bce;border-radius:3px;color:#ffffff;display:inline-block;font-family:verdana;font-size:16px;font-weight:normal;line-height:40px;text-align:center;text-decoration:none;width:200px' target='_blank' href='".URL::to('/')."/auth/complete/registration/" . $tokens . "'>Complete registration</a>
+        <a style='background-color:#6a4bce;border-radius:3px;color:#ffffff;display:inline-block;font-family:verdana;font-size:16px;font-weight:normal;line-height:40px;text-align:center;text-decoration:none;width:200px' target='_blank' href='".URL::to('/')."auth/password/reset/" . $tokens . "'>Complete registration</a>
         <br><br><br><hr>
         Iremeapp is the online school management system that links school administration and parents to improve the quality of Rwandan education<br>",
         'receiver'=>$request->parent_email

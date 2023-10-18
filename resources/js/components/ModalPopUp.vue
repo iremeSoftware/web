@@ -3,7 +3,7 @@
 <!-- Main modal -->
 <div class="fixed bg-black bg-opacity-75 h-full w-full" :class="isPopUpOpened ? 'block':'hidden'">
 <div id="defaultModal" tabindex="-1" aria-hidden="true" class=" top-0 left-0 right-0 z-50 block w-full p-4  ">
-    <div class="relative mt-[3%] mx-[30%] w-full max-w-2xl max-h-full">
+    <div class="relative mt-[3%] md:mx-[30%] w-full max-w-2xl max-h-full">
         <!-- Modal content -->
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <!-- Modal header -->

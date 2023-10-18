@@ -1,0 +1,20 @@
+DB CHANGES:
+
+1. Added new column 'access_token' in users table
+2. Columns 'license_key_activated', 'school_motto','sms_amount in schools table are null
+3. The following cols are now nullable
+
+mothers_phone	varchar(255) NULL	
+parent_email	varchar(255) NULL	
+fathers_ID	varchar(16) NULL	
+mothers_ID	varchar(16) NULL	
+location_district	varchar(50) NULL	
+location_sector	varchar(50) NULL	
+location_cell	varchar(50) NULL	
+location_village	varchar(50) NULL
+
+and 
+
+sms_credit column removed
+deleted default value = 0
+
