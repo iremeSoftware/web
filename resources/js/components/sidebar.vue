@@ -1,7 +1,6 @@
 <template>
     <div class="md:block fixed w-[15%] h-full  shadow-md bg-white " :class="isMenuClicked ? 'block w-[40%]':'hidden'">
-      <div class=" pl-2 pt-2 ">
-
+      <div class=" pl-2 pt-12 md:pt-2">
         <router-link to="/" href="#home" v-smooth-scroll class="hidden pb-2 md:block shadow-sm -pr-2">
                 <img class=" w-[80px] h-[40px] " src="https://www.iremeapp.com/logo/logo.png" />
           </router-link>
@@ -31,8 +30,12 @@
               <p class="pt-1 w-[20%]"> Students</p>
             </template>
             <template v-slot:submenu>
-              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> Add students</a></div>
+              <div class="flex py-2" @click="showPopUp('add_student')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> Add students</a></div>
+
               <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> Student list</a></div>
+
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> Student progressive reports</a></div>
+
             </template>
           </LeftSideMenu>
 
@@ -103,7 +106,7 @@
               </svg>
             </template>
             <template v-slot:menu>
-              <p class="pt-1 w-[30%]">CloudStorage </p>
+              <p class="pt-1 w-full">Cloud Storage </p>
             </template>
           </LeftSideMenu>
 
@@ -114,7 +117,7 @@
                 </svg>
             </template>
             <template v-slot:menu>
-              <p class="pt-1 w-[30%]">Send SMS</p>
+              <p class="pt-1 w-[40%]">Send SMS</p>
             </template>
           </LeftSideMenu>
 
@@ -162,7 +165,7 @@
 
 
         <div class="h-4"></div>
-        <div class="h-10 mt-2 mr-1 text-[14px] bg-transparent ring-2 ring-[#f3f3f3] rounded-lg  flex cursor-pointer">
+        <div class="h-10 mt-2 mr-1 text-[14px] bg-transparent ring-4 ring-[#f3f3f3] rounded-lg  flex cursor-pointer">
           <!-- src="https://img.icons8.com/?size=512&id=108652&format=png" -->
           <img  :src="
           getUsers.profile_pic != undefined ? 
@@ -171,30 +174,34 @@
            : 'https://img.icons8.com/?size=512&id=108652&format=png'" class="h-[40px] w-[40px] rounded-full">
           <span class="flex-none -space-y-2">
             <p class="font-bold pl-3 pt-1 flex-none">{{ getUsers.name }}</p>
-            <p class="w-32 text-xs pl-3 pt-2 overflow-hidden text-ellipsis">({{ getUsers.user_type }})</p>
+            <p class="w-32 text-xs pl-3 pt-2 ">({{ getUsers.user_type }})</p>
           </span>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mt-3 ml-20 w-4 h-4 text-grey">
             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
           </svg>
         </div>
         <div class="h-10"></div>
+        
         </div>
       </div>
-
     </div>
 </template>
 <script>
 import { useUserStore } from '../stores/auth'
+import { uiChangesStore } from '../stores/ui_changes'
+
 import { onMounted,ref,computed } from 'vue';
 import { useRouter } from 'vue-router';
 import LeftSideMenu from './left_side_menu.vue';
+
 export default {
     name:"Sidebar",
     components:{
-      LeftSideMenu
+      LeftSideMenu,
    },
   setup() {
     const store = useUserStore();
+    const uiStore = uiChangesStore();
     const currentUser = ref([]);
     const urlPath = window.location.origin;
     const router = useRouter();
@@ -209,10 +216,15 @@ export default {
 
     const getUsers = computed(() => {
       currentUser.value = store.userDetails
-     return currentUser.value;
+      return currentUser.value;
     });
 
-    const isMenuClicked = computed(() => store.isMenuClicked);
+    const isMenuClicked = computed(() => uiStore.isMenuClicked);
+
+    function showPopUp(popup_type){
+      return uiStore.openPopUpFunc(popup_type);
+    }
+    
 
     onMounted(() => {
       if(store.getUserData())
@@ -222,7 +234,7 @@ export default {
       }
     });
 
-    return {currentUser,urlPath,logout,getUsers,isMenuClicked}
+    return {currentUser,urlPath,logout,getUsers,isMenuClicked,showPopUp}
 
   },
 }

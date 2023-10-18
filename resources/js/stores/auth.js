@@ -1,9 +1,5 @@
 import { defineStore } from 'pinia'
-// Import axios to make HTTP requests
 import axios from "../plugins/axios"
-import {getAuth,GoogleAuthProvider,signInWithPopup} from 'firebase/auth'
-
-
 
 export const useUserStore = defineStore("auth", {
     state: () => ({
@@ -13,7 +9,6 @@ export const useUserStore = defineStore("auth", {
         errorMessage : "",
         confirmAccountErrorMessage : "",
         device_id : "",
-        isMenuClicked : false,
         loadingUI :{
           isLoading:false
         },
@@ -27,10 +22,6 @@ export const useUserStore = defineStore("auth", {
       }
     },
     actions: {
-        isLeftMenuSelected (status)
-        {
-          this.isMenuClicked = status
-        },
         async login(credentials) {  
           let self = this;
           
@@ -53,17 +44,11 @@ export const useUserStore = defineStore("auth", {
           },
 
             async getUserData() {
-              let token = localStorage.getItem("token")
-              let config = { 
-                headers: {
-                  "Authorization": token,
-                }
-              }
               this.userDetails = [];
               this.errorMessage = "";
               this.successMessage = "";
               
-              const response = (await axios.post("current_user",{},config)).data;
+              const response = (await axios.post("current_user",{})).data;
               if (response) {
                 this.userDetails= response.user_info;
               }
@@ -82,16 +67,10 @@ export const useUserStore = defineStore("auth", {
             },
 
           async account_verification(account_id,verification_code) {
-            let token = localStorage.getItem("token")
-            let config = { 
-              headers: {
-                "Authorization": token,
-              }
-            }
             let self = this;
             self.errorMessage = "";
             console.log(config)
-            await axios.get(`verification/${account_id}/${verification_code}`,{},config).then(function (response) {
+            await axios.get(`verification/${account_id}/${verification_code}`,{}).then(function (response) {
               if(response.data.verified == 1)
               {
                 localStorage.setItem("d_id",verification_code);
@@ -190,15 +169,9 @@ export const useUserStore = defineStore("auth", {
           },
       
           async logout() {
-            let token = localStorage.getItem("token")
-            let config = { 
-              headers: {
-                "Authorization": token,
-              }
-            }
             let self = this;
             self.errorMessage = "";
-            await axios.post("logout",{},config).then(function (response) {
+            await axios.post("logout",{}).then(function (response) {
               self.userDetails = [];
               localStorage.removeItem("token");
             }).catch(function(err){
