@@ -14,7 +14,6 @@ export const useUserStore = defineStore("auth", {
         },
         isGoogleUIDUpdated : false,
         isLoggingWithGoogle : false
-
     }),
     getters: {
       getUserDetails(state){

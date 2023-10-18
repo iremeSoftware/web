@@ -178,7 +178,7 @@
           </header>
           <header v-else>
 
-            <p>{{ files[0].name }}</p>
+            <p>{{ files.name }}</p>
              <div class="w-full ">
                 <button  class="w-44 mt-10 pl-10    h-10 text-sm rounded-lg  font-semibold bg-[#000000]" @click="clearUpload()" ><p class="flex text-center text-white pl-[10%]">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -479,8 +479,7 @@ import {validations,onlyNumberKey} from "../../helpers/validations"
             }
             else {
                 console.log(e.target.files[0])
-                e.preventDefault();
-                files.value.push(e.target.files[0]);
+                files.value = e.target.files[0]
             }
          } 
 
@@ -499,10 +498,9 @@ import {validations,onlyNumberKey} from "../../helpers/validations"
                 alert('Only CSV file allowed')
             }
             else {
-                e.preventDefault();
-                files.value.push(e.dataTransfer.files[0]);
+                files.value = e.dataTransfer.files[0]
                 console.log(files.value);
-                isDragging.value = false;
+                isDragging.value = false
             }
         }
 
@@ -511,9 +509,6 @@ import {validations,onlyNumberKey} from "../../helpers/validations"
         }
 
         function importStudent(){
-                const config = {
-                    headers: { "content-type": "multipart/form-data" }
-                };
                 let frmData= new FormData()
                 frmData.append('file',files.value)
                 const datas = {
@@ -521,7 +516,7 @@ import {validations,onlyNumberKey} from "../../helpers/validations"
                     'class_id':formData.value.classroom
                 }
                 return studentsStores.importStudents(datas,frmData)
-        }
+           }
 
 
         onMounted(() => {

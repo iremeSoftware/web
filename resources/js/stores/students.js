@@ -59,10 +59,15 @@ export const studentsStore = defineStore("students", {
             let self = this
             self.errorMessage = ""
             self.loadingUI.isLoading = true
-            const config={
-              headers: {'content-type':'multipart/form-data'}
-            }
-            await axios.post(`students/${data.school_id}/${data.class_id}/importcsv`,frmData,config).then(function (response) {
+            
+            await axios({
+              method: "POST",
+              url: `students/${data.school_id}/${data.class_id}/importcsv`,
+              data: frmData,
+              headers: {
+                  "Content-Type": "multipart/form-data",
+              },
+          }).then(function (response) {
               self.successMessageArr = response.data
               self.loadingUI.isLoading = false
             }).catch(function(err){
