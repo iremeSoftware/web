@@ -9,7 +9,7 @@ class classrooms extends Model
     //
     protected $table="classrooms";
     
-    protected $fillable=['school_id','class_id','classroom_representative','classroom_name'];
+    protected $fillable=['school_id','class_id','classroom_representative','classroom_name','classroom_alias'];
 
 
 

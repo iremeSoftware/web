@@ -120,7 +120,7 @@ class StudentsController extends Controller
 
          $user=User::findOrFail(32)->first();
 
-          $accessToken  = $user->createToken('UserToken', ['*'])->accessToken;
+         $accessToken  = $user->createToken('UserToken', ['*'])->accessToken;
 
          $number_of_students=$students->count();
          $offset=0;
@@ -161,10 +161,9 @@ class StudentsController extends Controller
         {
         
             
-                   $limit=$request->limit;
-                   $page=$request->page-1;
-
-           $offset=ceil($limit*$page);
+        $limit=$request->limit;
+        $page=$request->page-1;
+        $offset=ceil($limit*$page);
 
         $all_students = Students::select('*')
          ->where([
@@ -509,7 +508,8 @@ class StudentsController extends Controller
                 $i++;
                 continue; 
              }
-            $alpha='0123456789';
+
+              $alpha='0123456789';
               $i++;
               $student_id=substr(str_shuffle($alpha),0,10);              
               $student_name=$data[0];
@@ -526,7 +526,7 @@ class StudentsController extends Controller
               $location_sector=$data[10];
               $location_cell=$data[11];
               $location_village=$data[12];
-              $priority_phone='mp';
+              $priority_phone=$data[13];
 
 
        $students = Students::select('*')->where([
@@ -535,8 +535,7 @@ class StudentsController extends Controller
             ['fathers_name','=',$fathers_name],
             ['mothers_name','=',$mothers_name],
             ['name', '=', $student_name]
-        ])
-       ->count();
+        ])->count();
 
           
           if($students==0)
@@ -544,7 +543,29 @@ class StudentsController extends Controller
 
           $rows++;
           $now=date('Y-m-d H:i:s');
-           $insert_user=DB::insert('INSERT INTO students(school_id,student_id,name,student_sex,classroom,fathers_name,mothers_name,mothers_phone,fathers_phone,priority_phone,parent_email,fathers_id,mothers_id,location_district,location_sector,location_cell,location_village,sms_credits,deleted,registered_by,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',[$school_id,$student_id,$student_name,$student_sex,$classroom,$fathers_name,$mothers_name,$mothers_phone,$fathers_phone,$priority_phone,$parent_email,$fathers_id,$mothers_id,$location_district,$location_sector,$location_cell,$location_village,'0','0','',$now,$now]);
+          $student = new Students();
+          $student->school_id = $school_id;
+          $student->student_id = $student_id;
+          $student->classroom = $classroom;
+          $student->name = $student_name;
+          $student->student_sex = $student_sex;
+          $student->fathers_name = $fathers_name;
+          $student->mothers_name = $mothers_name;
+          $student->mothers_phone = $mothers_phone;
+          $student->fathers_phone = $fathers_phone;
+          $student->priority_phone = $priority_phone;
+          $student->fathers_id = $fathers_id;
+          $student->mothers_id = $mothers_id;
+          $student->parent_email  = $parent_email ;
+          $student->location_district = $location_district;
+          $student->location_sector = $location_sector;
+          $student->location_cell = $location_cell;
+          $student->location_village = $location_village;
+          $student->deleted = '0';
+          $student->registered_by = Auth::user()->account_id;
+          $student->created_at = $now;
+          $student->updated_at = $now;
+          $student->save();
 
           $token = new Tokens;
           $tokens = Str::random(100);
@@ -565,10 +586,6 @@ class StudentsController extends Controller
             $message="<br><br>";
 
           }
-
-
-           
-
 
         $designated_parents = new designated_parents;
         $designated_parents->school_id = $school_id;
@@ -592,6 +609,7 @@ class StudentsController extends Controller
 
           $token->token = $tokens;
           $token->account_id = $account_id;
+          $token->token_expiry=Helper::generate_token_expiry(60*24*7);//token expiring after 7 days
           $token->save();
 
           $message="<p>Click on the link below to complete registration</p><a style='background-color:#6a4bce;border-radius:3px;color:#ffffff;display:inline-block;font-family:verdana;font-size:16px;font-weight:normal;line-height:40px;text-align:center;text-decoration:none;width:200px' target='_blank' href='".URL::to('/')."/auth/complete/registration/" . $tokens . "'>Complete registration</a><br><br><br><hr>";

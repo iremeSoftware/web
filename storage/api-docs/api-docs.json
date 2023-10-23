@@ -55,7 +55,7 @@
                                     "name",
                                     "email",
                                     "password",
-                                    "password_confirm",
+                                    "password_confirmation",
                                     "phone_number",
                                     "school_name"
                                 ],
@@ -69,7 +69,7 @@
                                     "password": {
                                         "type": "password"
                                     },
-                                    "password_confirm": {
+                                    "password_confirmation": {
                                         "type": "password"
                                     },
                                     "phone_number": {
@@ -326,11 +326,15 @@
                         "multipart/form-data": {
                             "schema": {
                                 "required": [
-                                    "email"
+                                    "email",
+                                    "uid"
                                 ],
                                 "properties": {
                                     "email": {
                                         "type": "email"
+                                    },
+                                    "uid": {
+                                        "type": "text"
                                     }
                                 },
                                 "type": "object"
@@ -1266,6 +1270,9 @@
                                         "type": "text"
                                     },
                                     "classroom_name": {
+                                        "type": "text"
+                                    },
+                                    "classroom_alias": {
                                         "type": "text"
                                     }
                                 },
@@ -7003,6 +7010,16 @@
                         "name": "school_id",
                         "in": "path",
                         "description": "School ID"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page"
                     }
                 ],
                 "responses": {

@@ -14,7 +14,6 @@ export const useUserStore = defineStore("auth", {
         },
         isGoogleUIDUpdated : false,
         isLoggingWithGoogle : false
-
     }),
     getters: {
       getUserDetails(state){
@@ -26,20 +25,20 @@ export const useUserStore = defineStore("auth", {
           let self = this;
           
             self.loadingUI.isLoading = true;
-            self.errorMessage = "";
+            self.errorMessage = ""
             await axios.post("login", credentials).then(function (response) {
-                self.loadingUI.isLoading = false;
-                const token = `Bearer ${response.data.access_token}`;
+                self.loadingUI.isLoading = false
+                const token = `Bearer ${response.data.access_token}`
                 localStorage.setItem("token", token);
-                localStorage.setItem("d_id", credentials.d_id);
-                self.device_id = credentials.d_id;
-                self.userDetails.push(response.data.user);
-                console.log(self.userDetails)
-                axios.defaults.headers.common["Authorization"] = token;
+                localStorage.setItem("d_id", credentials.d_id)
+                self.device_id = credentials.d_id
+                axios.defaults.headers.common['Authorization'] = token
+                self.userDetails = response.data.user;
             }).catch (function (err) {
               self.loadingUI.isLoading = false;
               self.userDetails = [];
-              self.errorMessage = err.response.data;
+              console.log(err)
+              self.errorMessage = err;
             })
           },
 

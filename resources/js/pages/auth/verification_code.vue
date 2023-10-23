@@ -170,7 +170,7 @@ export default {
 
     const getUsers = computed(() => {
       if(store.getUserDetails.length > 0 && store.device_id !="null"){
-        router.push({ path:"/dashboard"});
+        router.push({ path:"/dashboard/home"});
        }
        feedbackStatus.value = store.errorMessage != "" ? false : true
        const objectStates = Object.assign(store.errorMessage,store.loadingUI);

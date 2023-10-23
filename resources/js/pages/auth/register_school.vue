@@ -299,6 +299,13 @@
       }
     }
 
+    function setPageTitle(newTitle){
+      if (document.title != newTitle) {
+          document.title = ""
+          document.title = import.meta.env.VITE_APP_NAME +' - '+ newTitle
+      }
+    }
+
     const successStatus = computed(() => {
       formData.value.school_name=""
       formData.value.name=""
@@ -335,6 +342,7 @@
 
     onMounted(() => {
       store.get_registration_request_info(route.params.token)
+      setPageTitle('Register school')
       districts.value = districtsList
     });
 

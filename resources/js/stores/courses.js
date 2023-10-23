@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
 import axios from "../plugins/axios"
 
-export const classroomStore = defineStore("classroom", {
+export const coursesStore = defineStore("courses", {
     state: () => ({
-        classroomList: [],
+        coursesList: [],
         successMessage:"",
         errorMessage : "",
         loadingUI :{
@@ -11,76 +11,76 @@ export const classroomStore = defineStore("classroom", {
         },
     }),
     getters: {
-      getClassrooms(state){
-        return state.classroomList
+      getCourses(state){
+        return state.coursesList
       }
     },
     actions: {
-        async getClassroomList(school_id) {  
+        async getcoursesList(school_id,class_id = "") {  
             let self = this;
             self.errorMessage = ""
             self.loadingUI.isLoading = true
-            await axios.get(`classroom/${school_id}`,{}).then(function (response) {
-              self.classroomList = response.data
+            await axios.get(`course/${school_id}?class_id=${class_id}`,{}).then(function (response) {
+              self.coursesList = response.data
               self.loadingUI.isLoading = false
             }).catch(function(err){
-              self.classroomList = []
+              self.coursesList = []
               self.errorMessage = err.response.data
               self.loadingUI.isLoading = false
             })
           },
 
-          async createNewClassroom(data) {  
+          async createNewCourse(data) {  
             let self = this;
             self.errorMessage = ""
             self.loadingUI.isLoading = true
-            await axios.post('classroom',data).then(function (response) {
+            await axios.post('course',data).then(function (response) {
               self.successMessage = response.data.message
               self.loadingUI.isLoading = false
             }).catch(function(err){
-              self.classroomList = []
+              self.coursesList = []
               self.errorMessage = err.response.data
               self.loadingUI.isLoading = false
             })
           },
 
-          async updateClassroom(school_id,data) {  
+          async updateCourse(school_id,data) {  
             let self = this;
             self.errorMessage = ""
             self.loadingUI.isLoading = true
-            await axios.post(`classroom/update/${school_id}`,data).then(function (response) {
+            await axios.post(`course/update/${school_id}`,data).then(function (response) {
               self.successMessage = response.data.message
               self.loadingUI.isLoading = false
             }).catch(function(err){
-              self.classroomList = []
+              self.coursesList = []
               self.errorMessage = err.response.data
               self.loadingUI.isLoading = false
             })
           },
 
-          async designateClassroom(data) {  
+          async deleteCourse(school_id,data) {  
             let self = this;
             self.errorMessage = ""
             self.loadingUI.isLoading = false
-            await axios.post('classroom/designate_class_teacher',data).then(function (response) {
+            await axios.post(`course/destroy/${school_id}`,data).then(function (response) {
               self.successMessage = response.data.status
               self.loadingUI.isLoading = false
             }).catch(function(err){
-              self.classroomList = []
+              self.coursesList = []
               self.errorMessage = err.response.data
               self.loadingUI.isLoading = false
             })
           },
 
-          async deleteClassroom(school_id,class_id) {  
+          async changeTeachersCourse(data) {  
             let self = this;
             self.errorMessage = ""
             self.loadingUI.isLoading = false
-            await axios.post(`classroom/destroy/${school_id}?class_id=${class_id}`,{}).then(function (response) {
+            await axios.post(`change_teacher/${data.school_id}/${data.class_id}`,data).then(function (response) {
               self.successMessage = response.data.message
               self.loadingUI.isLoading = false
             }).catch(function(err){
-              self.classroomList = []
+              self.coursesList = []
               self.errorMessage = err.response.data
               self.loadingUI.isLoading = false
             })

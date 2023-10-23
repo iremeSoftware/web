@@ -112,11 +112,11 @@ Get IP Address
         *      @OA\Response(response=404, description="Resource Not Found"),
         * )
         */
-    public function store($account_id)
+    public function store(Request $request)
     {
         //
         $user = User::where([
-            ['account_id', '=', $account_id],
+            ['account_id', '=', $request->account_id],
             ['account_enabled','=',1]
         ])
         ->first();
@@ -201,7 +201,7 @@ Get IP Address
             ]);
         }
 
-        return response()->json(['inactive'=>$active,'message'=>'Retrived successfully'],200);
+        return response()->json(['inactive'=>$active[0]->inactive,'message'=>'Retrived successfully'],200);
         
 
     }

@@ -5,7 +5,7 @@
       errorStatus.status ?? 
       (
       errorStatus.errors 
-      ? errorStatus.errors.confirm_password 
+      ? errorStatus.errors.confirm_password == 'message.password_not_match' ? 'Password confirmation is not matching':errorStatus.errors.confirm_password
       :
        (errorStatus.password !=undefined ? errorStatus.password[0] : '') +'<br>'+ 
        (errorStatus.confirm_password !=undefined ? errorStatus.confirm_password[0] : '')
@@ -115,8 +115,13 @@ export default {
     });
 
     const successStatus = computed(() => {
-      formData.value.password = ""
-      formData.value.confirm_password = ""
+      if(store.successMessage !="")
+      {
+        console.log(store.successMessage)
+        formData.value.password = ""
+        formData.value.confirm_password = ""
+        router.push({ path:"/auth/login"});
+      }
       return store.successMessage
     });
 
