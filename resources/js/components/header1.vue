@@ -1,13 +1,16 @@
 <template>
-    <div class=" w-full  pt-3 md:pl-14 flex fixed top-0  bg-[#ffffff] shadow-lg z-10 ">
+  <div class="w-full fixed block md:hidden text-center h-10  mt-0 pl-[33%] bg-[#ffffff]">
+    <img class="w-[80px] h-[40px]" src="https://www.iremeapp.com/logo/logo.png" />
+  </div>
+    <div class=" w-full  pt-3 md:pl-14 flex fixed top-10 md:top-0  bg-[#ffffff] shadow-lg z-10 ">
         <div class=" w-1/12 ">
             <router-link to="/" href="#home" v-smooth-scroll class="hidden pb-2 md:block">
                 <img class=" w-[80px] h-[40px] " src="https://www.iremeapp.com/logo/logo.png" />
             </router-link>
-            <button class="block p-2 md:hidden " @click="showMenu()"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6" :class="isShow ? 'hidden':'block'">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
+            <button class="block p-2 md:hidden " @click="showMenu()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6" :class="isShow ? 'hidden':'block'">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
                 </svg>
-
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6" :class="isShow ? 'block':'hidden'">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -121,9 +124,9 @@
 
       <!-- MOBILE SIDEBAR-->
       
-      <div class="fixed flex w-full h-full bg-black bg-opacity-40   left-0 top-12 z-0   text-lg text-white" :class="isShow ? 'block': 'hidden'">
+      <div class="fixed flex w-full h-full bg-black bg-opacity-40   left-0 top-14 z-0   text-lg text-white" :class="isShow ? 'block': 'hidden'">
 
-        <div class=" w-1/2 h-full p-8 bg-[#0673c3]  rounded-r-xl shadow-xl text-lg text-white " :class="isShow ? 'block': 'hidden'">
+        <div class=" w-1/2 h-full pl-8 pt-16  bg-[#0673c3]  rounded-r-xl shadow-xl text-lg text-white " :class="isShow ? 'block': 'hidden'">
 
           <router-link to="/"  href="#home" v-smooth-scroll>
             <button  class="w-full text-sm pb-4 " :class="fullUrl.split('#')[1] == 'home'?'text-[#ffffff]':''"><p class="flex"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-5 h-5">

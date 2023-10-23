@@ -275,6 +275,7 @@ class ClassroomController extends Controller
         *               @OA\Property(property="class_id", type="text"),
         *               @OA\Property(property="classroom_representative", type="text"),
         *               @OA\Property(property="classroom_name", type="text"),
+        *              @OA\Property(property="classroom_alias", type="text"),
         *            ),
         *        ),
         *    ),

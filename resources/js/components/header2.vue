@@ -4,8 +4,11 @@
           <p class="hidden md:block text-[17px] font-semibold">Dashboard</p>
           <div class="text-left">
             <button class="block md:hidden" @click="showLeftMenu()">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <svg :class="isMenuClicked ? 'hidden':'block'" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+            <svg :class="isMenuClicked ? 'block':'hidden'" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
           </div>
@@ -18,9 +21,9 @@
           </button>
 
           
-    <button class="w-[150px] h-8 text-sm rounded-lg text-white bg-[#000000]"><p class="flex pl-2 pt-1"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6 pb-1">
+    <button @click="showPopUp('newUsers')" class="w-[150px] h-8 text-sm rounded-lg text-white bg-[#000000]"><p class="flex pl-2 pt-1"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6 pb-1">
   <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-</svg>Invite new user</p></button>
+</svg>Invite new user </p></button>
 
 <div class="border-l-[2px]"></div>
 
@@ -32,14 +35,25 @@
           <div class="hidden md:block z-20 w-4 h-4 bg-[#ffffff]  rotate-45 -mt-2 ml-[69%] border-t-[2px] border-l-[2px] border-[#0673c3] "></div>
         </div>
       </div>
-      
+     
       <template v-if="popup_type == 'add_student'">
         <newStudentForm />
       </template>
-
-
-
-
+      <template v-else-if="popup_type =='classroomList'">
+        <classroomListPopup />
+      </template>
+      <template v-else-if="popup_type == 'createClassroom'">
+        <createClassroomModal />
+      </template>
+      <template v-else-if="popup_type == 'createCourses'">
+        <createCoursesModal />
+      </template>
+      <template v-else-if="popup_type == 'newUsers'">
+        <newUserModal />
+      </template>
+      <template v-else-if="popup_type == 'logout'">
+        <LogoutPopUp />
+      </template>
 </template>
 
 <script>
@@ -49,13 +63,23 @@ import { useUserStore } from '../stores/auth'
 import { uiChangesStore } from '../stores/ui_changes'
 import ModalPopUp from './ModalPopUp.vue';
 import newStudentForm from './popup_forms/new_student.vue'
+import classroomListPopup from './popup_forms/classroom_list.vue'
+import createClassroomModal from './popup_forms/new_classroom.vue'
+import createCoursesModal from './popup_forms/new_courses.vue'
+import newUserModal from './popup_forms/new_user.vue'
+import LogoutPopUp from './popup_forms/logout_prompt.vue'
 
 
 export default{
     name:"Header2",
     components:{
       ModalPopUp,
-      newStudentForm
+      newStudentForm,
+      classroomListPopup,
+      createClassroomModal,
+      createCoursesModal,
+      newUserModal,
+      LogoutPopUp
    },
     setup() {
 
@@ -76,7 +100,11 @@ export default{
           notification.value =! notification.value
       }
 
-      return {toggleNotification,notification,showLeftMenu,isMenuClicked,popup_type}
+      function showPopUp(popup_type){
+      return uiStore.openPopUpFunc(popup_type);
+      }
+
+      return {toggleNotification,notification,showLeftMenu,isMenuClicked,popup_type,showPopUp}
         
     },
 }

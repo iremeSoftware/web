@@ -47,53 +47,64 @@ export default {
     const formData = ref({
       email: "",
       });
-const rules = ref({
-    email: {
-      email:true,
-      validationClass:"ring-1 ring-red-500",
-    },
-  });
-  const messages = ref({
-    email: {
-      email:"Please enter valid email",
-      slot:"",
-      className:""
-    },
-  });
+      const rules = ref({
+          email: {
+            email:true,
+            validationClass:"ring-1 ring-red-500",
+          },
+        });
+        const messages = ref({
+          email: {
+            email:"Please enter valid email",
+            slot:"",
+            className:""
+          },
+        });
 
-  function validate (messages,rules,formData){
-     return validations(messages,rules,formData)
-  }
+        function setPageTitle(newTitle){
+          if (document.title != newTitle) {
+              document.title = ""
+              document.title = import.meta.env.VITE_APP_NAME +' - '+ newTitle
+          }
+        }
 
-  function closeFeedback() {
-        feedbackStatus.value =! feedbackStatus.value
-  }
+        function validate (messages,rules,formData){
+          return validations(messages,rules,formData)
+        }
 
-  function resetBtn() {
-      if(validate(messages.value,rules.value,formData.value))
-      {
-        return store.forgot_password(formData.value);
-      }
-    }
+        function closeFeedback() {
+              feedbackStatus.value =! feedbackStatus.value
+        }
 
-    const errorStatus = computed(() => {
-       formData.value.email = ""
-       return store.errorMessage
-    });
+        function resetBtn() {
+            if(validate(messages.value,rules.value,formData.value))
+            {
+              return store.forgot_password(formData.value);
+            }
+          }
 
-    const successStatus = computed(() => {
-       formData.value.email = ""
-       return store.successMessage
-    });
+          const errorStatus = computed(() => {
+            formData.value.email = ""
+            return store.errorMessage
+          });
 
-    const loadingStatus = computed(() => {
-      feedbackStatus.value = store.errorMessage != "" ? false : true
-       return store.loadingUI
-    });
+          const successStatus = computed(() => {
+            formData.value.email = ""
+            return store.successMessage
+          });
 
-    return {
-      messages,rules,formData,feedbackStatus,closeFeedback,resetBtn,errorStatus,successStatus,loadingStatus,validate
-    }
+          const loadingStatus = computed(() => {
+            feedbackStatus.value = store.errorMessage != "" ? false : true
+            return store.loadingUI
+          });
+
+          onMounted(() =>{
+            setPageTitle('Reset Password')
+          });
+
+          return {
+            messages,rules,formData,feedbackStatus,closeFeedback,resetBtn,errorStatus,successStatus,loadingStatus,validate
+          }
   },
 }
   </script>

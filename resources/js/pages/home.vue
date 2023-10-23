@@ -271,7 +271,10 @@ export default {
           },
         reason:"",
       }),
+
+      
       mounted () {
+        this.setPageTitle('Welcome page')
         },
     created() {
       },
@@ -292,6 +295,12 @@ export default {
           this.feedbackType="success"
         }
        },
+      setPageTitle(newTitle){
+      if (document.title != newTitle) {
+          document.title = ""
+          document.title = import.meta.env.VITE_APP_NAME +' - '+ newTitle
+      }
+    }
     },
 }
 </script>

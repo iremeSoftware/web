@@ -1,7 +1,6 @@
 <template>
 
-
-<ModalPopUp>
+<ModalPopUp >
     
 <template v-slot:title>
 
@@ -11,10 +10,12 @@
 
     <Alert v-if="successStatus !='' && successFeedbackStatus == false" :message="successStatus"  type="success" :closeMethod="closeFeedback"/>
 
+    <Alert v-if="successMessageMap !='' && successFeedbackStatus == false" :message="successMessageMap.inserted == 0 ?'No records imported':`(${successMessageMap.inserted}) Records are successfully imported`"  type="success" :closeMethod="closeFeedback"/>
 
+    
     <Alert  v-if="errorStatus !='' && feedbackStatus == false" 
       :message="
-      errorStatus ?? 
+      errorStatus.message ?? 
       (
       errorStatus.errors 
       ? errorStatus.errors.password_confirmation 
@@ -166,62 +167,57 @@
         <div class="flex-1 flex flex-col items-center p-3 border-2 border-dotted border-gray-300 rounded-lg drag-area" :class="files.length >0 ? 'border-[#000000] border-4':'border-2'">
         <i class="fa-sharp fa-solid fa-cloud-arrow-up text-6xl text-violet-400"></i>
           <header class="mt-6" v-if="files.length ==0">
-            <span class="drag-file">Drag files here to upload </span> or
+            <span class="drag-file">Drag file here to upload </span> or
             
             <input type="file" multiple name="file" id="fileInput" class="" @change="onChange" ref="file" accept=".csv" />
         
             from your device
 
-            <p class="mt-12 text-gray-400 text-sm">
-            CSV files only allowed
+            <p class="mt-12 text-red-400 text-sm">
+            Only CSV files allowed
           </p>
           </header>
           <header v-else>
-
             <p>{{ files.name }}</p>
              <div class="w-full ">
                 <button  class="w-44 mt-10 pl-10    h-10 text-sm rounded-lg  font-semibold bg-[#000000]" @click="clearUpload()" ><p class="flex text-center text-white pl-[10%]">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                 </svg>&nbsp;&nbsp;Clear</p></button>
              </div>
-            
-
           </header>
-          
           <input type="file" class="file-input" hidden />
         </div>
       </section>
+
+      <p class="flex text-xs pl-3 pt-4"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+        </svg>&nbsp;&nbsp;Please download this&nbsp;<a href="/documents/import_students.csv" class="text-blue-500">CSV template </a>&nbsp;for a reference, also ensure that all the records are valid</p>
+
     </div>
   </div>
 </section>
-  <section class="text-center hidden">
-    <p>Files uploaded successfully</p>
-  </section>
 </main>
-
-            </div>
-           
-
-
+</div>
+        
 </template>
 
 
     <template v-slot:buttons>
     <div v-if="isCSVTabSelected==false">
-    <button  class="w-full pl-[20%] md:pl-0 md:w-[30%] h-10 text-sm rounded-lg  font-semibold bg-[#000000]" @click="createStudent()" ><p class="flex text-center text-white pl-[10%]">
+    <button  :disabled="loadingStatus.isLoading" class="w-full pl-[20%] md:pl-0 md:w-[30%] h-10 text-sm rounded-lg  font-semibold bg-[#000000]" @click="createStudent()" ><p class="flex text-center text-white pl-[10%]">
     <svg v-if="loadingStatus.isLoading" class="animate-spin -ml-1 mr-1 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" ></circle><path class="opacity-75" fill="currentColor"
               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
-            <svg  v-if="loadingStatus.isLoading == false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ml-1 mr-1 h-5 w-5">
+            <svg  v-if="loadingStatus.isLoading == false"  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ml-1 mr-1 h-5 w-5">
     <path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z" />
-    </svg>Register student</p></button>
+    </svg> &nbsp;&nbsp;<font class='pt-1'>Register student</font></p></button>
     </div>
     <div v-else>
-    <button  class="w-full pl-[30%] md:pl-0 md:w-[20%] h-10 text-sm rounded-lg  font-semibold bg-[#000000]" @click="importStudent()" ><p class="flex text-center text-white pl-[10%]">
+    <button :disabled="loadingStatus.isLoading"  class="w-full pl-[30%] md:pl-0 md:w-[20%] h-10 text-sm rounded-lg  font-semibold bg-[#000000]" @click="importStudent()" ><p class="flex text-center text-white pl-[10%]">
     <svg v-if="loadingStatus.isLoading" class="animate-spin -ml-1 mr-1 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" ></circle><path class="opacity-75" fill="currentColor"
               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
+    </svg>
           <svg v-if="loadingStatus.isLoading == false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
             </svg>&nbsp;&nbsp;
@@ -248,15 +244,15 @@ import sectors from '../../data/sectors.json'
 import Alert from '../../components/alert.vue'
 import ModalPopUp from './../ModalPopUp.vue'
 import {validations,onlyNumberKey} from "../../helpers/validations"
+import {generateKey} from '../../helpers/generate_key'
 
 
-    
-    export default {
+export default {
       name:"newStudentForm",
-     components:{
+      components:{
       ModalPopUp,
       Alert
-   },
+      },
       setup() {
         const slots = useSlots()
         const slotData = ref(slots)
@@ -286,7 +282,7 @@ import {validations,onlyNumberKey} from "../../helpers/validations"
             location_sector:"",
             location_cell:"",
             school_id:"",
-            student_id:generateStudentId(10),
+            student_id:generateKey(10),
             registered_by:""
         });
 
@@ -397,7 +393,6 @@ import {validations,onlyNumberKey} from "../../helpers/validations"
         const isCSVTabSelected = ref(false)
         const isDragging = ref(false)
         const files = ref([])
-        const file = ref(null)
 
         function display_sectors(){
           sector.value=sectors[event.target.value];
@@ -420,18 +415,10 @@ import {validations,onlyNumberKey} from "../../helpers/validations"
         errorFeedbackStatus.value =! errorFeedbackStatus.value
         }
 
-        function generateStudentId(len){
-            let text = " "
-            let chars = "0123456789"
-            
-            for( let i=0; i < len; i++ ) {
-                text += chars.charAt(Math.floor(Math.random() * chars.length))
-            }
-           return text
-        }
 
         const loadingStatus = computed(() => {
             errorFeedbackStatus.value = studentsStores.errorMessage != "" ? false : true
+            successFeedbackStatus.value = studentsStores.successMessageArr != "" ? false : true
             return studentsStores.loadingUI
         });
 
@@ -444,8 +431,14 @@ import {validations,onlyNumberKey} from "../../helpers/validations"
         });
 
         const errorStatus = computed(() => {
+            clearUpload()
             return studentsStores.errorMessage
-            });
+        });
+
+        const successMessageMap = computed(() => {
+            clearUpload()
+            return studentsStores.successMessageArr
+        })
 
         const successStatus = computed(() => {
             formData.value.name=""
@@ -509,13 +502,18 @@ import {validations,onlyNumberKey} from "../../helpers/validations"
         }
 
         function importStudent(){
-                let frmData= new FormData()
-                frmData.append('file',files.value)
-                const datas = {
-                    'school_id':userStore.userDetails.school_id,
-                    'class_id':formData.value.classroom
-                }
-                return studentsStores.importStudents(datas,frmData)
+            if(formData.value.classroom=="" || files.value=="")
+            {
+                alert('Classroom & CSV file are required')
+                return false
+            }
+            let frmData= new FormData()
+            frmData.append('file',files.value)
+            const datas = {
+                'school_id':userStore.userDetails.school_id,
+                'class_id':formData.value.classroom
+            }
+            return studentsStores.importStudents(datas,frmData)
            }
 
 
@@ -530,10 +528,7 @@ import {validations,onlyNumberKey} from "../../helpers/validations"
                 },2000);
             }
         });
-
-        
-
-        return {messages,formData,rules,slotData,isPopUpOpened,showPopUp,createStudent,validate,loadingStatus,getClassroomList,districts,sector,display_sectors,closeFeedback,feedbackStatus,successFeedbackStatus,errorFeedbackStatus,successStatus,onlyNumberKey,errorStatus,selectTab,isCSVTabSelected,files,dragover,dragleave,drop,onChange,clearUpload,importStudent}
+        return {messages,formData,rules,slotData,isPopUpOpened,showPopUp,createStudent,validate,loadingStatus,getClassroomList,districts,sector,display_sectors,closeFeedback,feedbackStatus,successFeedbackStatus,errorFeedbackStatus,successStatus,onlyNumberKey,errorStatus,selectTab,isCSVTabSelected,files,dragover,dragleave,drop,onChange,clearUpload,importStudent,successMessageMap}
        },
     }
     </script>

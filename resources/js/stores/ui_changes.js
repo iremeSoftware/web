@@ -5,6 +5,7 @@ export const uiChangesStore = defineStore("ui_changes", {
         isMenuClicked : false,
         isPopUpOpened : false,
         popup_type:'',
+        to:''
     }),
     getters: {
     },
@@ -13,9 +14,10 @@ export const uiChangesStore = defineStore("ui_changes", {
         {
           this.isMenuClicked = status
         },
-        openPopUpFunc(popup_type = ""){
-           this.isPopUpOpened =! this.isPopUpOpened;
-           this.popup_type = popup_type;
+        openPopUpFunc(popup_type = "",to = ""){
+           this.isPopUpOpened =! this.isPopUpOpened
+           this.popup_type = popup_type
+           this.to = to
         },
     },
 })

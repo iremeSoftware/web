@@ -192,7 +192,7 @@ class UsersController extends Controller
         <p>Click on the link below to complete registration</p>
 
 
-        <a style='background-color:#6a4bce;border-radius:3px;color:#ffffff;display:inline-block;font-family:verdana;font-size:16px;font-weight:normal;line-height:40px;text-align:center;text-decoration:none;width:200px' target='_blank' href='".URL::to('/')."/auth/complete/registration/" . $tokens . "'>Complete registration</a>
+        <a style='background-color:#6a4bce;border-radius:3px;color:#ffffff;display:inline-block;font-family:verdana;font-size:16px;font-weight:normal;line-height:40px;text-align:center;text-decoration:none;width:200px' target='_blank' href='".URL::to('/')."/auth/password/reset/" . $tokens . "'>Complete registration</a>
         <br><br><br><hr>
         Iremeapp is the online school management system that connects school administration and parents to improve the quality of education<br>",
         'receiver'=>$request->email
@@ -283,14 +283,14 @@ class UsersController extends Controller
         }
         else
         {
-         
+
         $update_authentication = DB::table('user_authentications')
         ->where([
             ['school_id', '=', $request->school_id],
             ['account_id', '=', $account_id]
         ])
         ->update([
-        'authentications'=>$user_role.$my_auth->authentications[0],
+        'authentications'=>$user_role.$my_auth[0]->authentications,
         'updated_at'=>$now
         ]);    
        }
@@ -390,64 +390,75 @@ class UsersController extends Controller
 
           while (($data = fgetcsv($file, 1000, ",")) !== FALSE) {
              
-             // Skip first row (Remove below comment if you want to skip the first row)
              if($i == 0){
                 $i++;
                 continue; 
              }
             
              $i++;
+
+              $names = $data[0];
+              $email = $data[1];
+              $phone_number = $data[2];
+              $user_roles = $data[3];
+
               $account_id=Str::random(30);
               $user = new User;
               $user_role = new user_role;
               $token = new Tokens;
 
 
-       $user = User::select('*')->where([
-            ['email', '=', $data[1]]
-        ])
-       ->count();
+          $user = User::select('*')->where([
+                ['email', '=', $email]
+            ])
+          ->count();
 
           
           if($user==0)
           {
+            if(!filter_var($email, FILTER_VALIDATE_EMAIL))
+            {
+              return response()->json(['message' => 'message.email_is_not_valid'],422);
+            }
 
           $rows++;
           $now=date('Y-m-d H:i:s');
-           $insert_user=DB::insert('INSERT INTO users(name,email,password,phone_number,school_id,account_id,account_enabled,profile_pic,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?)',[$data[0],$data[1],'',$data[2],$school_id,$account_id,0,'',$now,$now]);
+           $insert_user=DB::insert('INSERT INTO users(name,email,password,phone_number,school_id,account_id,account_enabled,profile_pic,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?)',[$names,$email,'',$phone_number,$school_id,$account_id,0,'',$now,$now]);
+
           $tokens = Str::random(255);  
           $user_role->school_id = $school_id;
           $user_role->account_id = $account_id;
-          $user_role->user_role = $data[3];
+          $user_role->user_role = $user_roles;
           $user_role->save();
 
           $token->token = $tokens;
           $token->account_id = $account_id;
+          $token->token_expiry=Helper::generate_token_expiry(60*24*7);//token expiring after 7 days
           $token->save(); 
   ###################################DEFINE USER'S AUTHORISATION#################################
-        if($data[3]=='Teacher')
+        if($user_roles=='Teacher')
         {
           $user_role='teacher';
         }
-        else if($data[3]=='Bursar')
+        else if($user_roles=='Bursar')
         {
           $user_role='student_payment';
         }
-        else if($data[3]=='DOS')
+        else if($user_roles=='DOS')
         {
           $user_role='add_course,add_classroom,generate_report';
         }
-        else if($data[3]=='Patron')
+        else if($user_roles=='Patron')
         {
           $user_role='edit_conduct_marks';
         }
-        else if($data[3]=='Matron')
+        else if($user_roles=='Matron')
         {
           $user_role='edit_conduct_marks';
         }
 ###################################//DEFINE USER'S AUTHORISATION#################################
 
-           $authentications = new User_authentications;
+        $authentications = new User_authentications;
         $authentications->account_id =$account_id;
         $authentications->school_id =$school_id;
         $authentications->authentications =$user_role;
@@ -459,32 +470,32 @@ class UsersController extends Controller
         'body' => "
         <h2>Welcome to Iremeapp</h2>
 
-        <p>Hello ". $data[0] .", You are successfully registered to  ".$school->school_name." as ". $data[3] .",</p>
+        <p>Hello ". $names .", You are successfully registered to  ".$school->school_name." as ". $user_roles .",</p>
 
         <p>Click on the link below to complete registration</p>
 
 
-        <a style='background-color:#6a4bce;border-radius:3px;color:#ffffff;display:inline-block;font-family:verdana;font-size:16px;font-weight:normal;line-height:40px;text-align:center;text-decoration:none;width:200px' target='_blank' href='".URL::to('/')."/auth/complete/registration/" . $tokens . "'>Complete registration</a>
+        <a style='background-color:#6a4bce;border-radius:3px;color:#ffffff;display:inline-block;font-family:verdana;font-size:16px;font-weight:normal;line-height:40px;text-align:center;text-decoration:none;width:200px' target='_blank' href='".URL::to('/')."/auth/password/reset/" . $tokens . "'>Complete registration</a>
         <br><br><br><hr>
         Schoolmodify is the online school management system that links school administration and parents to improve the quality of Rwandan education<br>",
-        'receiver'=>$data[1]
+        'receiver'=>$email
        ];
    
-        Mail::to($data[1])->send(new \App\Mail\Sendmail($details,$subject));
+        Mail::to($email)->send(new \App\Mail\Sendmail($details,$subject));
         
       }
        else
       {
         $user=User::select('*')
         ->where([
-          ['email','=',$data[1]]
+          ['email','=',$email]
         ])
         ->first();
         $account_id=$user->account_id;
         $user_role = new user_role;
         $user_role->school_id = $request->school_id;
         $user_role->account_id = $account_id;
-        $user_role->user_role = $data[3];
+        $user_role->user_role = $user_roles;
         $user_role->save();
 
         $now=date("Y-m-d H:i:s");
@@ -496,23 +507,23 @@ class UsersController extends Controller
         ->get();
            $check_exist=$my_auth->count();
  ###################################DEFINE USER'S AUTHORISATION#################################
-        if($data[3]=='Teacher')
+        if($user_roles=='Teacher')
         {
           $user_role='teacher';
         }
-        else if($data[3]=='Bursar')
+        else if($user_roles=='Bursar')
         {
           $user_role='student_payment';
         }
-        else if($data[3]=='DOS')
+        else if($user_roles=='DOS')
         {
           $user_role='add_course,add_classroom,generate_report';
         }
-        else if($data[3]=='Patron')
+        else if($user_roles=='Patron')
         {
           $user_role='edit_conduct_marks';
         }
-        else if($data[3]=='Matron')
+        else if($user_roles=='Matron')
         {
           $user_role='edit_conduct_marks';
         }
@@ -538,8 +549,6 @@ class UsersController extends Controller
         'updated_at'=>$now
         ]);    
        }
-
-
       }
 
 

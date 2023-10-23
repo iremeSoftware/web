@@ -33,6 +33,16 @@ class user_roles_controller extends Controller
         *         in="path",
         *         description="School ID",
         *      ),
+        *      @OA\Parameter(
+        *         name="limit",
+        *         in="query",
+        *         description="Limit",
+        *      ),
+        *      @OA\Parameter(
+        *         name="page",
+        *         in="query",
+        *         description="Page",
+        *      ),
         *      @OA\Response(
         *          response=200,
         *          description="User roles are successfully retrieved",
@@ -50,14 +60,17 @@ class user_roles_controller extends Controller
     public function index(Request $request)
     {
         //
-
+        $page = $request->page ?? 1;
+        $limit=$request->limit ?? 10;
+        $page=$page-1;
+        $offset=ceil($limit*$page);
         $user_roles = user_role::select('*')
         ->where('school_id', '=', $request->school_id)
+        ->offset($offset)
+        ->limit($limit)
         ->get();
     
-        
-
-        return response()->json([ 'user_roles' => $user_roles, 'message' => 'Retrieved successfully'], 200);
+        return response()->json([ 'user_roles' => $user_roles,'offset'=>$offset, 'message' => 'Retrieved successfully'], 200);
     }
 
     /**
@@ -205,8 +218,6 @@ class user_roles_controller extends Controller
         ->get();
 
         }
-    
-        
 
         return response()->json([ 'user_roles' => $user_roles, 'message' => 'Retrieved successfully'], 200);
     }

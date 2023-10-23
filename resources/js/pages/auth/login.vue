@@ -2,7 +2,7 @@
   <div class="w-[100px]">&nbsp;</div>
 
   <Alert
-    v-if="getUsers !='' && feedbackStatus == false" :message="getUsers.message ?? getUsers.password[0]" type="danger" :closeMethod="closeFeedback"/>
+    v-if="getUsers !='' && feedbackStatus == false" :message="getUsers.response.data.password[0]" type="danger" :closeMethod="closeFeedback"/>
 
 
   <Alert  v-if="errorStatus !='' && errorFeedbackStatus == false && tokenQuery !=undefined" 
@@ -178,16 +178,15 @@ const rules = ref({
     function checkAuth(){
       if(store.getUserData())
       {
-        console.log(store.userDetails.length)
         if(store.userDetails.length > 0){  
-            router.push({ path:"/dashboard"});
+            router.push({ path:"/dashboard/home"});
         }
       }
     }
 
     const getUsers = computed(() => {
-      if(store.userDetails.length > 0){  
-         router.push({ path:"/dashboard"});
+      if(store.userDetails.account_id !=null){  
+         router.push({ path:"/dashboard/home"});
        }
        feedbackStatus.value = store.errorMessage != "" ? false : true
        const objectStates = Object.assign(store.errorMessage,store.loadingUI);
@@ -203,7 +202,6 @@ const rules = ref({
     });
 
     const isGoogleUIDUpdated = computed(() => {
-
       if(store.isGoogleUIDUpdated)
       {
 
@@ -221,9 +219,17 @@ const rules = ref({
        return store.isGoogleUIDUpdated
     });
 
+    function setPageTitle(newTitle){
+      if (document.title != newTitle) {
+          document.title = ""
+          document.title = import.meta.env.VITE_APP_NAME +' - '+ newTitle
+      }
+    }
+
 
     onMounted(() => {
       checkAuth()
+      setPageTitle('Login')
       store.confirm_account(route.query.token)
     });
 

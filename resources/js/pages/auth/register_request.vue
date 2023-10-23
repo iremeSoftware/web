@@ -6,7 +6,7 @@
 
 
 
-      <div class=" w-[400px] bg-white p-8  rounded-3xl mt-[90px] ml-14 ml-[2%] md:ml-[38%] text-center shadow-lg">
+      <div class=" w-[400px] bg-white p-8  rounded-3xl mt-[90px]  ml-[2%] md:ml-[38%] text-center shadow-lg">
         <p class=" text-lg font-bold"> Send school registration request</p>
         <p class=" pt-2 text-sm font-light"> Are you ready to try our system, please fill the form below we'll reach you as soon as possible.</p>
         <div class="pt-4 space-y-3">
@@ -223,6 +223,13 @@
       }
     }
 
+    function setPageTitle(newTitle){
+      if (document.title != newTitle) {
+          document.title = ""
+          document.title = import.meta.env.VITE_APP_NAME +' - '+ newTitle
+      }
+    }
+
     const errorStatus = computed(() => {
        return store.errorMessage
     });
@@ -244,9 +251,9 @@
        return store.loadingUI
     });
 
-
     onMounted(() => {
       districts.value = districtsList
+      setPageTitle("Registration Request")
     });
 
     return {

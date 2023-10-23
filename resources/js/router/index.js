@@ -7,6 +7,7 @@ import pay from '../pages/pay.vue'
 import verification_code from '../pages/auth/verification_code.vue'
 import dashboard from '../pages/dashboard/dashboard.vue'
 import registerSchool from '../pages/auth/register_school.vue'
+import studentsPage from '../pages/dashboard/students_list.vue'
 
 
 const routes = [
@@ -50,20 +51,17 @@ const routes = [
         component:registerSchool
       }
     ],
-
-  },
-  {
-    path: '/pay',
-    name:'pay',
-    component:pay
   },
   {
     path: '/dashboard',
-    component:dashboard,
     children: [
       {
-        path: '/',
+        path: 'home',
         component: dashboard,
+      },
+      {
+        path: 'students/:class_id',
+        component: studentsPage,
       },
     ],
 

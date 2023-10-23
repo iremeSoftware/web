@@ -1,13 +1,13 @@
 <template>
 
 <!-- Main modal -->
-<div class="fixed bg-black bg-opacity-75 h-full w-full" :class="isPopUpOpened ? 'block':'hidden'">
+<div class="fixed bg-black bg-opacity-75 h-full w-full z-40" :class="isPopUpOpened ? 'block':'hidden'">
 <div id="defaultModal" tabindex="-1" aria-hidden="true" class=" top-0 left-0 right-0 z-50 block w-full p-4  ">
     <div class="relative mt-[3%] md:mx-[30%] w-full max-w-2xl max-h-full">
         <!-- Modal content -->
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <!-- Modal header -->
-            <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+            <div v-if="slotData.title" class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                     <slot name="title"></slot>
                 </h3>
@@ -19,11 +19,11 @@
                 </button>
             </div>
             <!-- Modal body -->
-            <div class="p-6 space-y-6 h-[600px] overflow-y-auto">
-                <slot name="contents"></slot>
+            <div class="p-6 space-y-6 h-[600px] overflow-y-auto" id="modal-height">
+               <slot name="contents"></slot>
             </div>
             <!-- Modal footer -->
-            <div class="text-end items-center p-6 border-t border-gray-200 rounded-b dark:border-gray-600">
+            <div v-if="slotData.buttons" class="text-end items-center p-6 border-t border-gray-200 rounded-b dark:border-gray-600">
                 <slot name="buttons"></slot>
             </div>
 
@@ -34,20 +34,36 @@
 </template>
 
 <script>
-    import { ref, useSlots,computed } from 'vue';
+    import { ref, useSlots,computed,onMounted } from 'vue';
     import { uiChangesStore } from '../stores/ui_changes'
     
     export default {
       name:"ModalPopUp",
-      setup() {
+      props: {
+            height:String,
+        },
+      setup(props) {
         const slots = useSlots()
         const slotData = ref(slots)
         const uiStore = uiChangesStore()
         const isPopUpOpened = computed(() => uiStore.isPopUpOpened)
+        
 
         function showPopUp(){
             return uiStore.openPopUpFunc();
         }
+
+        function changeModalHeight(){
+            if(props.height)
+            {
+                var attr = document.getElementById("modal-height").getAttribute('class').replace('h-[600px]','h-['+props.height+'px]')
+                document.getElementById("modal-height").setAttribute('class',attr)
+            }
+        }
+
+        onMounted(()=>{
+            changeModalHeight()
+        })
         return {slotData,isPopUpOpened,showPopUp}
        },
     }

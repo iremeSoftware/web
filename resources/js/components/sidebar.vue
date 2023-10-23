@@ -1,7 +1,7 @@
 <template>
-    <div class="md:block fixed w-[15%] h-full  shadow-md bg-white " :class="isMenuClicked ? 'block w-[40%]':'hidden'">
+    <div class="md:block fixed w-[20%] md:w-[15%] h-full  shadow-md bg-white " :class="isMenuClicked ? 'block w-[40%]':'hidden'">
       <div class=" pl-2 pt-12 md:pt-2">
-        <router-link to="/" href="#home" v-smooth-scroll class="hidden pb-2 md:block shadow-sm -pr-2">
+        <router-link to="/dashboard/home" class="hidden pb-2 md:block shadow-sm -pr-2">
                 <img class=" w-[80px] h-[40px] " src="https://www.iremeapp.com/logo/logo.png" />
           </router-link>
           <div class="overflow-y-auto">  
@@ -13,18 +13,18 @@
               </svg>
             </template>
             <template v-slot:menu>
-              <p class="pt-1 w-[20%]">Dashboard</p>
+              <routerLink to="/dashboard/home">
+                <p class="pt-1 w-[20%]">Dashboard</p>
+              </routerLink>
             </template>
           </LeftSideMenu>
 
           <LeftSideMenu>
             <template v-slot:icon>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M7 10.5C9.07107 10.5 10.75 8.82107 10.75 6.75C10.75 4.67893 9.07107 3 7 3C4.92893 3 3.25 4.67893 3.25 6.75C3.25 8.82107 4.92893 10.5 7 10.5ZM7 9.5C8.51878 9.5 9.75 8.26878 9.75 6.75C9.75 5.23122 8.51878 4 7 4C5.48122 4 4.25 5.23122 4.25 6.75C4.25 8.26878 5.48122 9.5 7 9.5Z" fill="black"/>
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M20.75 6.75C20.75 8.82107 19.0711 10.5 17 10.5C14.9289 10.5 13.25 8.82107 13.25 6.75C13.25 4.67893 14.9289 3 17 3C19.0711 3 20.75 4.67893 20.75 6.75ZM19.75 6.75C19.75 8.26878 18.5188 9.5 17 9.5C15.4812 9.5 14.25 8.26878 14.25 6.75C14.25 5.23122 15.4812 4 17 4C18.5188 4 19.75 5.23122 19.75 6.75Z" fill="black"/>
-                  <path d="M17 13C15.8387 13 14.7372 13.2551 13.7484 13.7128C13.4871 13.4622 13.2118 13.226 12.9238 13.0054C13.076 12.9252 13.2308 12.8493 13.3881 12.7779C14.4892 12.2782 15.7121 12 17 12C17.1639 12 17.3267 12.0045 17.4884 12.0134C19.9136 12.1468 22.0756 13.2679 23.5791 14.9811C23.6148 15.0218 23.6482 15.0641 23.6792 15.1078C23.8966 15.4136 24 15.7876 24 16.1668V18C24 19.1046 23.1046 20 22 20H14.2361C14.2684 19.9639 14.2998 19.9271 14.3303 19.8895C14.5441 19.6262 14.7141 19.326 14.8293 19H22C22.0022 19 22.0043 19 22.0065 19C22.5558 18.9965 23 18.5501 23 18V16.1668C23 15.9347 22.9278 15.755 22.8275 15.6407C21.4056 14.0204 19.3226 13 17 13Z" fill="black"/>
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M14 16.1668C14 15.7334 13.8649 15.3068 13.5791 14.9811C11.9754 13.1536 9.62242 12 7 12C4.37758 12 2.02461 13.1536 0.420908 14.9811C0.135096 15.3068 0 15.7334 0 16.1668V18C0 19.1046 0.895431 20 2 20H12C13.1046 20 14 19.1046 14 18V16.1668ZM12 19C12.5523 19 13 18.5523 13 18V16.1668C13 15.9347 12.9278 15.755 12.8275 15.6407C11.4056 14.0204 9.32256 13 7 13C4.67745 13 2.59443 14.0204 1.17253 15.6407C1.07219 15.755 1 15.9347 1 16.1668V18C1 18.5523 1.44772 19 2 19H12Z" fill="black"/>
-                  </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+              </svg>
+
             </template>
             <template v-slot:menu>
               <p class="pt-1 w-[20%]"> Students</p>
@@ -32,9 +32,11 @@
             <template v-slot:submenu>
               <div class="flex py-2" @click="showPopUp('add_student')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> Add students</a></div>
 
-              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> Student list</a></div>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#" @click="showPopUp('classroomList','/dashboard/students')"> Students list</a></div>
 
-              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> Student progressive reports</a></div>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#" @click="showPopUp('classroomList','/dashboard/attendance')"> Student Attendance</a></div>
+
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#" @click="showPopUp('classroomList','/dashboard/report_form')"> Student report forms</a></div>
 
             </template>
           </LeftSideMenu>
@@ -49,8 +51,8 @@
               <p class="pt-1 w-[20%]">Classrooms</p>
             </template>
             <template v-slot:submenu>
-              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> Add classroom</a></div>
-              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> Classrooms list</a></div>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#" @click="showPopUp('createClassroom')"> Add classroom</a></div>
+              
               <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> Classrooms settings</a></div>
             </template>
           </LeftSideMenu>
@@ -66,7 +68,7 @@
               <p class="pt-1 w-[20%]">Courses</p>
             </template>
             <template v-slot:submenu>
-              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> Add new course</a></div>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#" @click="showPopUp('createCourses')"> Add new course</a></div>
               <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> List of courses</a></div>
               <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> Modify courses</a></div>
             </template>
@@ -75,14 +77,15 @@
           <LeftSideMenu>
             <template v-slot:icon>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z" />
-                </svg>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+              </svg>
+
             </template>
             <template v-slot:menu>
               <p class="pt-1 w-[20%]">Users</p>
             </template>
             <template v-slot:submenu>
-              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> Invite new user</a></div>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#" @click="showPopUp('newUsers')"> Invite new user</a></div>
               <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> Assign role</a></div>
               <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> List of users</a></div>
             </template>
@@ -149,7 +152,7 @@
             </template>
           </LeftSideMenu>
 
-          <LeftSideMenu @click="logout()">
+          <LeftSideMenu @click="showPopUp('logout')">
             <template v-slot:icon>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 3.99998C12 4.27613 11.7761 4.49998 11.5 4.49998H5C4.72386 4.49998 4.5 4.72384 4.5 4.99998V19C4.5 19.2761 4.72386 19.5 5 19.5H11.5C11.7761 19.5 12 19.7238 12 20C12 20.2761 11.7761 20.5 11.5 20.5H5C4.17157 20.5 3.5 19.8284 3.5 19V4.99998C3.5 4.17156 4.17157 3.49998 5 3.49998H11.5C11.7761 3.49998 12 3.72384 12 3.99998Z" fill="black"/>
@@ -210,6 +213,7 @@ export default {
     function logout(){
       if(store.logout())
       {
+         localStorage.removeItem('token')
          window.location.href="/auth/login";
       }
     }
@@ -221,8 +225,8 @@ export default {
 
     const isMenuClicked = computed(() => uiStore.isMenuClicked);
 
-    function showPopUp(popup_type){
-      return uiStore.openPopUpFunc(popup_type);
+    function showPopUp(popup_type,to=''){
+      return uiStore.openPopUpFunc(popup_type,to);
     }
     
 
