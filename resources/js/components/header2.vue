@@ -86,14 +86,14 @@ export default{
       const notification = ref(false)
       const store = useUserStore();
       const uiStore = uiChangesStore();
-      const isMenuClicked = ref(false);
 
       const popup_type = computed(() => uiStore.popup_type);
 
+      let isMenuClicked = computed(() => uiStore.isMenuClicked);
 
       function showLeftMenu(){
-        isMenuClicked.value =! isMenuClicked.value
-        return uiStore.isLeftMenuSelected(isMenuClicked.value)         
+        isMenuClicked =! isMenuClicked
+        return uiStore.isLeftMenuSelected(isMenuClicked)         
       }
 
       function toggleNotification(){

@@ -115,7 +115,7 @@ export default {
             {
                 setTimeout(function (){
                     formData.value.school_id = userStore.userDetails.school_id
-                },2000);
+                },1000);
             }
          })
         
