@@ -59,7 +59,7 @@
 
 
     <p class="pt-2 text-sm font-semibold text-left">Select student sex: <span class=" text-red-600" title="Required field">(*)</span></p>
-         <select @change='validate(messages,rules,formData,$event)'  name='student_sex' class="w-full h-9 ring-2 ring-[#f6f6f6] rounded-lg   enabled:p-2 enabled:font-light" id="formData.student_sex"  v-model="formData.student_sex"  >
+         <select @change='validate(messages,rules,formData,$event)'  name='student_sex' class="w-full h-9 bg-transparent ring-2 ring-[#f6f6f6] rounded-lg   enabled:p-2 enabled:font-light" id="formData.student_sex"  v-model="formData.student_sex"  >
                       <option value=''>Select student sex</option>
                       <option value="M">Male</option>
                       <option value="F">Female</option>
@@ -70,7 +70,7 @@
 
 
     <p class="pt-2 text-sm font-semibold text-left">Select classroom: <span class=" text-red-600" title="Required field">(*)</span></p>
-         <select @change='validate(messages,rules,formData,$event)'  name='classroom' class="w-full h-9 ring-2 ring-[#f6f6f6] rounded-lg   enabled:p-2 enabled:font-light" id="formData.classroom"  v-model="formData.classroom"  >
+         <select @change='validate(messages,rules,formData,$event)'  name='classroom' class="w-full h-9 bg-transparent ring-2 ring-[#f6f6f6] rounded-lg   enabled:p-2 enabled:font-light" id="formData.classroom"  v-model="formData.classroom"  >
                       <option value=''>Select classroom</option>
                       <option v-for="a in getClassroomList" :value="a.class_id" :key="a.class_id">{{a.classroom_name}}</option>
         </select>
@@ -100,7 +100,7 @@
           <span class="  text-red-600 text-xs" >{{messages.mothers_phone.slot}}</span>
         </div>   
     <p class="pt-2 text-sm font-semibold text-left">Select priority phone: <span class=" text-red-600" title="Required field">(*)</span></p>
-         <select @change='validate(messages,rules,formData,$event)'  name='priority_phone' class="w-full h-9 ring-2 ring-[#f6f6f6] rounded-lg   enabled:p-2 enabled:font-light" id="formData.priority_phone"  v-model="formData.priority_phone"  >
+         <select @change='validate(messages,rules,formData,$event)'  name='priority_phone' class="w-full h-9 bg-transparent ring-2 ring-[#f6f6f6] rounded-lg   enabled:p-2 enabled:font-light" id="formData.priority_phone"  v-model="formData.priority_phone"  >
                       <option value=''>Select priority phone</option>
                       <option value="fp">Father's phone</option>
                       <option value="mp">Mother's phone</option>
@@ -126,13 +126,13 @@
 
 
     <p class="pt-2 text-sm font-semibold text-left">Select location district:</p>
-         <select @change='display_sectors($event)'  name='location_district' class="w-full h-9 ring-2 ring-[#f6f6f6] rounded-lg   enabled:p-2 enabled:font-light" id="formData.location_district"  v-model="formData.location_district"  >
+         <select @change='display_sectors($event)'  name='location_district' class="w-full h-9 bg-transparent ring-2 ring-[#f6f6f6] rounded-lg   enabled:p-2 enabled:font-light" id="formData.location_district"  v-model="formData.location_district"  >
                       <option value=''>Select district</option>
                       <option v-for="a in districts" :value="a.name" :key="a.name">{{a.name}} </option>
                       </select>
 
     <p class="pt-2 text-sm font-semibold text-left">Select location sector:</p>
-          <select name='location_sector' class="w-full h-9 ring-2 ring-[#f6f6f6] rounded-lg enabled:p-2 enabled:font-light" v-model="formData.location_sector" id="formData.location_sector">
+          <select name='location_sector' class="w-full h-9 bg-transparent ring-2 ring-[#f6f6f6] rounded-lg enabled:p-2 enabled:font-light" v-model="formData.location_sector" id="formData.location_sector">
                       <option value=''>Select location sector:</option>
                       <option  v-for="a in sector" v-bind:value="a.sector" :key="a.sector">{{a.sector}} </option>
                       </select>
@@ -153,7 +153,7 @@
     <div class="mt-6 py-3 bg-white rounded-lg w-full">
 
         <p class="pt-2 text-sm font-semibold text-left">Select classroom: <span class=" text-red-600" title="Required field">(*)</span></p>
-         <select @change='validate(messages,rules,formData,$event)'  name='classroom' class="w-full h-9 ring-2 ring-[#f6f6f6] rounded-lg   enabled:p-2 enabled:font-light" id="formData.classroom"  v-model="formData.classroom"  >
+         <select @change='validate(messages,rules,formData,$event)'  name='classroom' class="mt-4 w-full h-9 bg-transparent ring-2 ring-[#f6f6f6] rounded-lg   enabled:p-2 enabled:font-light" id="formData.classroom"  v-model="formData.classroom"  >
                       <option value=''>Select classroom</option>
                       <option v-for="a in getClassroomList" :value="a.class_id" :key="a.class_id">{{a.classroom_name}}</option>
         </select>
@@ -525,7 +525,7 @@ export default {
                     classroomstore.getClassroomList(userStore.userDetails.school_id)
                     formData.value.school_id = userStore.userDetails.school_id
                     formData.value.registered_by = userStore.userDetails.account_id
-                },2000);
+                },1000);
             }
         });
         return {messages,formData,rules,slotData,isPopUpOpened,showPopUp,createStudent,validate,loadingStatus,getClassroomList,districts,sector,display_sectors,closeFeedback,feedbackStatus,successFeedbackStatus,errorFeedbackStatus,successStatus,onlyNumberKey,errorStatus,selectTab,isCSVTabSelected,files,dragover,dragleave,drop,onChange,clearUpload,importStudent,successMessageMap}

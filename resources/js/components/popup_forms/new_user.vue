@@ -57,7 +57,7 @@
         </div>
 
     <p class="pt-2 text-sm font-semibold text-left">Select user role:  <span class=" text-red-600" title="Required field">(*)</span></p>
-        <select @change='validate(messages,rules,formData,$event)'  name='select_user_role' class="w-full h-9 ring-2 ring-[#f6f6f6] rounded-lg   enabled:p-2 enabled:font-light" id="formData.select_user_role"  v-model="formData.select_user_role"  >
+        <select @change='validate(messages,rules,formData,$event)'  name='select_user_role' class="w-full h-9 bg-transparent ring-2 ring-[#f6f6f6] rounded-lg   enabled:p-2 enabled:font-light" id="formData.select_user_role"  v-model="formData.select_user_role"  >
             <option value="">Select user role</option>
             <option>Teacher</option>
             <option>Director</option>
@@ -349,7 +349,7 @@ export default {
                 setTimeout(function (){
                     formData.value.school_id = userStore.userDetails.school_id
                     formData.value.registered_by = userStore.userDetails.account_id
-                },2000);
+                },1000);
             }
         });
         return {messages,formData,rules,slotData,isPopUpOpened,showPopUp,createNewUser,validate,loadingStatus,closeFeedback,feedbackStatus,successFeedbackStatus,errorFeedbackStatus,successStatus,onlyNumberKey,errorStatus,selectTab,isCSVTabSelected,files,dragover,dragleave,drop,onChange,clearUpload,importUsers,successMessageMap,usersList}

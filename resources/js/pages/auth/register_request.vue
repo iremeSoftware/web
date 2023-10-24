@@ -38,7 +38,7 @@
           </div>
 
           <p class="pt-2 text-sm font-semibold text-left">Select school size: <span class=" text-red-600" title="Required field">(*)</span></p>
-         <select @change='validate(messages,rules,formData,$event)'  name='school_scale' class="w-[330px] h-9 ring-2 ring-[#f6f6f6] rounded-lg   enabled:p-2 enabled:font-light" id="formData.school_scale"  v-model="formData.school_scale"  >
+         <select @change='validate(messages,rules,formData,$event)'  name='school_scale' class="w-[330px] h-9 bg-transparent ring-2 ring-[#f6f6f6] rounded-lg   enabled:p-2 enabled:font-light" id="formData.school_scale"  v-model="formData.school_scale"  >
            <option value="">Select the size of the school:</option>
            <option value="0-200 Students">0-200 Students </option>
            <option value="200-600 Students">200-600 Students </option><option value="More than 600 Students">More than 600 Students </option>

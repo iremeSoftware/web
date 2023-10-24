@@ -13,7 +13,7 @@
               </svg>
             </template>
             <template v-slot:menu>
-              <routerLink to="/dashboard/home">
+              <routerLink to="/dashboard/home" @click="toggleSideBar()">
                 <p class="pt-1 w-[20%]">Dashboard</p>
               </routerLink>
             </template>
@@ -210,6 +210,7 @@ export default {
     const router = useRouter();
 
 
+
     function logout(){
       if(store.logout())
       {
@@ -223,11 +224,17 @@ export default {
       return currentUser.value;
     });
 
-    const isMenuClicked = computed(() => uiStore.isMenuClicked);
+    let isMenuClicked = computed(() => uiStore.isMenuClicked);
 
     function showPopUp(popup_type,to=''){
+      toggleSideBar()
       return uiStore.openPopUpFunc(popup_type,to);
     }
+
+    function toggleSideBar(){
+        isMenuClicked =! isMenuClicked
+        return uiStore.isLeftMenuSelected(isMenuClicked)         
+      }
     
 
     onMounted(() => {
@@ -238,7 +245,7 @@ export default {
       }
     });
 
-    return {currentUser,urlPath,logout,getUsers,isMenuClicked,showPopUp}
+    return {currentUser,urlPath,logout,getUsers,isMenuClicked,showPopUp,toggleSideBar}
 
   },
 }

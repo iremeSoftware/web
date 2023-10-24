@@ -4,6 +4,7 @@ import axios from "../plugins/axios"
 export const classroomStore = defineStore("classroom", {
     state: () => ({
         classroomList: [],
+        classroomDetails:{},
         successMessage:"",
         errorMessage : "",
         loadingUI :{
@@ -29,6 +30,21 @@ export const classroomStore = defineStore("classroom", {
               self.loadingUI.isLoading = false
             })
           },
+
+          async getClassTeacherByClass(school_id,class_id) {  
+            let self = this;
+            self.errorMessage = ""
+            self.loadingUI.isLoading = true
+            await axios.get(`classteacher/${school_id}/${class_id}`,{}).then(function (response) {
+              self.classroomDetails = response.data.classrooms
+              self.loadingUI.isLoading = false
+            }).catch(function(err){
+              self.classroomDetails = {}
+              self.errorMessage = err.response.data
+              self.loadingUI.isLoading = false
+            })
+          },
+
 
           async createNewClassroom(data) {  
             let self = this;

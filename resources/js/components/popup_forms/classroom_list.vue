@@ -64,7 +64,7 @@ export default {
             {
                 setTimeout(function (){
                     classroomstore.getClassroomList(userStore.userDetails.school_id)
-                },2000);
+                },1000);
             }
          })
         return {slotData,getClassroomList,loadingStatus,toPage,showPopUp}
