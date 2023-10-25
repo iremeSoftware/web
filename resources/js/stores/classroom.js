@@ -22,6 +22,7 @@ export const classroomStore = defineStore("classroom", {
             self.errorMessage = ""
             self.loadingUI.isLoading = true
             await axios.get(`classroom/${school_id}`,{}).then(function (response) {
+              self.classroomList = []
               self.classroomList = response.data
               self.loadingUI.isLoading = false
             }).catch(function(err){
