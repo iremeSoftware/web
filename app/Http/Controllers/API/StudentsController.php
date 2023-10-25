@@ -97,7 +97,7 @@ class StudentsController extends Controller
     public function index(Request $request)
     {
       //**************Get student by id FOR SPECIFIED SCHOOL***************
-        if(!empty($request->school_id) && !empty($request->class_id) && !empty($request->student_id) )
+        if(!empty($request->school_id) && !empty($request->class_id) && $request->student_id !='null' )
         {
 
         $students = Students::select('*')
@@ -126,14 +126,14 @@ class StudentsController extends Controller
          $offset=0;
         }
     //**************FETCH STUDENTS FROM CLASSROOM FOR SPECIFIED SCHOOL***************
-        if(!empty($request->school_id) && !empty($request->class_id) && empty($request->student_id))
+        if(!empty($request->school_id) && !empty($request->class_id) && $request->student_id =='null')
         {
           
-            
-                   $limit=$request->limit;
-                   $page=$request->page-1;
-
-           $offset=ceil($limit*$page);
+        $page = $request->page ?? 1;    
+        $limit=$request->limit ?? 10;
+        $sort_by = $request->sort_by ?? 'ASC';
+        $page=$page-1;
+        $offset=ceil($limit*$page);
 
         $all_students = Students::select('*')
          ->where([
@@ -149,7 +149,7 @@ class StudentsController extends Controller
         ])
          ->offset($offset)
          ->limit($limit)
-         ->orderBy('name')
+         ->orderBy('name',$sort_by)
          ->get();
 
 
@@ -164,6 +164,7 @@ class StudentsController extends Controller
         $limit=$request->limit;
         $page=$request->page-1;
         $offset=ceil($limit*$page);
+        $sort_by = $request->sort_by ?? 'ASC';
 
         $all_students = Students::select('*')
          ->where([
@@ -178,7 +179,7 @@ class StudentsController extends Controller
         ])
          ->offset($offset)
          ->limit($limit)
-         ->orderBy('name')
+         ->orderBy('name',$sort_by)
          ->get();
 
 
@@ -388,16 +389,22 @@ class StudentsController extends Controller
     public function search(Students $students,Request $request)
     {
         //
+      $page = $request->page ?? 1;    
+      $limit=$request->limit ?? 10;
+      $page=$page-1;
+      $offset=ceil($limit*$page);
       $students = Students::select('*')
          ->where([
         ['name', 'like', '%'. $request->student_name.'%'],
         ['school_id', '=', $request->school_id],
         ['classroom','=',$request->class_id]
-
         ])
-         ->get();
+        ->offset($offset)
+        ->limit($limit)
+        ->get();
+
          $number_of_students=$students->count();
-         return response()->json([ 'Students' => $students,'no_of_students'=>$number_of_students, 'message' => 'Retrieved successfully'], 200);
+         return response()->json([ 'Students' => $students,'no_of_students'=>$number_of_students,'offset'=>$offset,'message' => 'Retrieved successfully'], 200);
     }
 
 
