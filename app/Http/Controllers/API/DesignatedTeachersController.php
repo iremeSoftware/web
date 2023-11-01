@@ -175,6 +175,7 @@ class DesignatedTeachersController extends Controller
     public function get_teachers(Request $request)
     {
         //
+        if($request->class_id!='empty')
          $teachers = Designated_teachers::select('designated_teachers.class_id','classrooms.classroom_name','users.name','courses.course_name','users.phone_number','users.email','users.profile_pic')
          ->join('classrooms', 'designated_teachers.class_id', '=', 'classrooms.class_id')
          ->join('users', 'designated_teachers.teacher_id', '=', 'users.account_id')
@@ -183,11 +184,20 @@ class DesignatedTeachersController extends Controller
             ['designated_teachers.school_id', '=', $request->school_id],
             ['designated_teachers.class_id', '=', $request->class_id]
 
-        ])
+         ])
          ->distinct()
          ->get();
-        
+        else 
+            $teachers = Designated_teachers::select('designated_teachers.class_id','classrooms.classroom_name','users.name','courses.course_name','users.phone_number','users.email','users.profile_pic')
+            ->join('classrooms', 'designated_teachers.class_id', '=', 'classrooms.class_id')
+            ->join('users', 'designated_teachers.teacher_id', '=', 'users.account_id')
+            ->join('courses', 'courses.course_id', '=', 'designated_teachers.course_id')
+            ->where([
+            ['designated_teachers.school_id', '=', $request->school_id],
 
+            ])
+            ->distinct()
+            ->get();
         return response()->json([ 'teachers' => $teachers, 'message' => 'Retrieved successfully'], 200);
     }
     /**
@@ -216,7 +226,6 @@ class DesignatedTeachersController extends Controller
         *         name="class_id",
         *         in="path",
         *         description="Class ID",
-        *         required=true,
         *      ),
         *      @OA\Response(
         *          response=200,

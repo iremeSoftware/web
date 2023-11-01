@@ -8,6 +8,7 @@ import verification_code from '../pages/auth/verification_code.vue'
 import dashboard from '../pages/dashboard/dashboard.vue'
 import registerSchool from '../pages/auth/register_school.vue'
 import studentsPage from '../pages/dashboard/students_list.vue'
+import AssignCourses from '../pages/dashboard/assign_courses.vue'
 
 
 const routes = [
@@ -62,6 +63,10 @@ const routes = [
       {
         path: 'students/:class_id',
         component: studentsPage,
+      },
+      {
+        path: 'assign/courses',
+        component: AssignCourses,
       },
     ],
 

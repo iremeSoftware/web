@@ -83,6 +83,9 @@ export const studentsStore = defineStore("students", {
             await axios.post('students/update',data).then(function (response) {
               self.successMessage = response.data.message
               self.loadingUI.isLoading = false
+              data.student_id = 'null'
+              data.class_id = data.classroom 
+              self.getStudentList(data)
             }).catch(function(err){
               self.studentsList = []
               self.errorMessage = err.response.data
@@ -96,19 +99,23 @@ export const studentsStore = defineStore("students", {
             await axios.post('student/move',data).then(function (response) {
                 self.successMessageArr = response.data
                 self.loadingUI.isLoading = false
+                data.student_id = 'null'
+                self.getStudentList(data)
             }).catch(function(err){
               self.studentsList = []
               self.errorMessage = err.response.data
               self.loadingUI.isLoading = false
             })
           },
-          async deleteStudent(student_id) {  
+          async deleteStudent(data) {  
             let self = this
             self.errorMessage = ""
             self.loadingUI.isLoading = true
-            await axios.post(`students/delete/${student_id}`,data).then(function (response) {
+            await axios.post(`students/delete/${data.student_id}`,data).then(function (response) {
                 self.successMessage = response.data.message
                 self.loadingUI.isLoading = false
+                data.student_id = 'null'
+                self.getStudentList(data)
             }).catch(function(err){
               self.studentsList = []
               self.errorMessage = err.response.data

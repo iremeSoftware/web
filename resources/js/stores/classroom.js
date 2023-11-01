@@ -5,6 +5,7 @@ export const classroomStore = defineStore("classroom", {
     state: () => ({
         classroomList: [],
         classroomDetails:{},
+        designatedTeachersList:[],
         successMessage:"",
         errorMessage : "",
         loadingUI :{
@@ -88,6 +89,20 @@ export const classroomStore = defineStore("classroom", {
               self.loadingUI.isLoading = false
             })
           },
+          async designatedTeachers(data) {  
+            let self = this;
+            self.errorMessage = ""
+            self.loadingUI.isLoading = false
+            data.school_id = data.school_id == undefined ? localStorage.getItem("school_id") : data.school_id
+            await axios.get(`designated_teachers/get/teachers/${data.school_id}/${data.class_id}`,{}).then(function (response) {
+              self.designatedTeachersList = response.data.teachers
+              self.loadingUI.isLoading = false
+            }).catch(function(err){
+              self.errorMessage = err.response.data
+              self.loadingUI.isLoading = false
+            })
+          },
+
 
           async deleteClassroom(school_id,class_id) {  
             let self = this;

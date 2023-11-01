@@ -900,7 +900,7 @@ class StudentsController extends Controller
         'to_class' => 'required',
         ]);
 
-        $student_id_arr=explode(' ',$request->student_id);
+        $student_id_arr=explode(',',$request->student_id);
         foreach ($student_id_arr as $key => $student_id) {
           $updateStudent = Students::where('student_id', '=', $student_id)
           ->where('school_id', '=', $request->school_id)
