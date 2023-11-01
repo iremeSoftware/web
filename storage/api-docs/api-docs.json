@@ -2094,8 +2094,7 @@
                     {
                         "name": "class_id",
                         "in": "path",
-                        "description": "Class ID",
-                        "required": true
+                        "description": "Class ID"
                     }
                 ],
                 "responses": {

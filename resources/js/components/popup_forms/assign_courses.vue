@@ -1,7 +1,7 @@
 <template>
-    <ModalPopUp height="200">
+    <ModalPopUp height="100">
         <template v-slot:title>
-            Create new course
+            Assign new course
             </template>
             <template v-slot:contents>
 
@@ -9,12 +9,13 @@
 
                 <Alert  v-if="errorStatus !='' && errorFeedbackStatus == false" :message="errorStatus.error.course_name  == 'add_new_course_Modal.course_exist' ? 'Course name you entered is already exists' : '' ?? errorStatus.error " type="danger" :closeMethod="closeFeedback"/>
 
+                <p class="pt-2 text-sm font-semibold text-left">Select course: <span class=" text-red-600" title="Required field">(*)</span></p>
+                <select @change='validate(messages,rules,formData,$event)'  name='course_name' class="w-full h-9 bg-transparent ring-2 ring-[#f6f6f6] rounded-lg   enabled:p-2 enabled:font-light" id="formData.course_name"  v-model="formData.course_name"  >
+                            <option value=''>Select priority phone</option>
+                            <option value="fp">Father's phone</option>
+                            <option value="mp">Mother's phone</option>
+                </select>    
 
-                <p class="text-sm font-semibold text-left">Course name: <span class=" text-red-600" title="Required field">(*)</span></p>
-                <input type='text' class='w-full h-9 ring-2 ring-[#f6f6f6] rounded-lg placeholder:p-1 placeholder:font-light  enabled:p-2' @keyup="validate(messages,rules,formData,$event)" placeholder='Enter course name' v-model="formData.course_name" id="formData.course_name" />
-                <div class="text-end">
-                <span class="text-red-600 text-xs" >{{messages.course_name.slot}}</span>
-                </div>
 
             </template>
             <template v-slot:buttons>
@@ -24,7 +25,7 @@
           </svg>
           <svg v-if="loadingStatus.isLoading == false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-         </svg>&nbsp;&nbsp;<font class='pt-1'>Create course</font> </p></button>
+         </svg>&nbsp;&nbsp;<font class='pt-1'>Assign course</font> </p></button>
     
  </template>
     </ModalPopUp>
@@ -39,8 +40,9 @@ import ModalPopUp from './../ModalPopUp.vue'
 import {validations,onlyNumberKey} from "../../helpers/validations"
 import {generateKey} from '../../helpers/generate_key'
 
+
 export default {
-      name:"createCoursesModal",
+      name:"assignNewCourse",
       components:{
       ModalPopUp,
       Alert

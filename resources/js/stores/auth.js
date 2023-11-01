@@ -31,6 +31,7 @@ export const useUserStore = defineStore("auth", {
                 const token = `Bearer ${response.data.access_token}`
                 localStorage.setItem("token", token);
                 localStorage.setItem("d_id", credentials.d_id)
+                localStorage.setItem("school_id",response.data.user.school_id)
                 self.device_id = credentials.d_id
                 axios.defaults.headers.common['Authorization'] = token
                 self.userDetails = response.data.user;

@@ -178,7 +178,7 @@ class ClassroomController extends Controller
         $class_id=$request->class_id;
 
         $classrooms = classrooms::select('classrooms.*','name')
-        ->join('users','users.account_id','=','classrooms.classroom_representative')
+        ->leftjoin('users','users.account_id','=','classrooms.classroom_representative')
         ->where('classrooms.school_id', '=', $request->school_id)
         ->where('classrooms.class_id',$class_id)
         ->orderBy('classroom_name','ASC')

@@ -20,7 +20,7 @@
 
                 </div>
                 <div v-if="slotData.submenu" class="mt-2 pl-4 hidden group-hover:block">
-                        <slot name="submenu"></slot>
+                  <slot name="submenu"></slot>
                 </div>
 
             </div>

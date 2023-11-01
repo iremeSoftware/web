@@ -54,6 +54,15 @@
       <template v-else-if="popup_type == 'logout'">
         <LogoutPopUp />
       </template>
+      <template v-else-if="popup_type == 'update_student'">
+        <updateStudentPopup />
+      </template>
+      <template v-else-if="popup_type == 'assign_courses'">
+        <assignNewCourse />
+      </template>
+
+      
+
 </template>
 
 <script>
@@ -68,7 +77,8 @@ import createClassroomModal from './popup_forms/new_classroom.vue'
 import createCoursesModal from './popup_forms/new_courses.vue'
 import newUserModal from './popup_forms/new_user.vue'
 import LogoutPopUp from './popup_forms/logout_prompt.vue'
-
+import updateStudentPopup from './popup_forms/update_student.vue'
+import assignNewCourse from './popup_forms/assign_courses.vue'
 
 export default{
     name:"Header2",
@@ -79,7 +89,9 @@ export default{
       createClassroomModal,
       createCoursesModal,
       newUserModal,
-      LogoutPopUp
+      LogoutPopUp,
+      updateStudentPopup,
+      assignNewCourse
    },
     setup() {
 
@@ -90,6 +102,8 @@ export default{
       const popup_type = computed(() => uiStore.popup_type);
 
       let isMenuClicked = computed(() => uiStore.isMenuClicked);
+
+      const popupDetails = computed(() => uiStore.popupDetails)
 
       function showLeftMenu(){
         isMenuClicked =! isMenuClicked
@@ -104,7 +118,7 @@ export default{
       return uiStore.openPopUpFunc(popup_type);
       }
 
-      return {toggleNotification,notification,showLeftMenu,isMenuClicked,popup_type,showPopUp}
+      return {toggleNotification,notification,showLeftMenu,isMenuClicked,popup_type,showPopUp,popupDetails}
         
     },
 }
