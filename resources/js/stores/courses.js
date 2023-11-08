@@ -16,11 +16,12 @@ export const coursesStore = defineStore("courses", {
       }
     },
     actions: {
-        async getcoursesList(school_id,class_id = "") {  
+        async getcoursesList(school_id,class_id = "",page="",limit="") {  
             let self = this;
             self.errorMessage = ""
             self.loadingUI.isLoading = true
-            await axios.get(`course/${school_id}?class_id=${class_id}`,{}).then(function (response) {
+            school_id = school_id == undefined ? localStorage.getItem("school_id") : school_id
+            await axios.get(`course/${school_id}?class_id=${class_id}&page=${page}&limit=${limit}`,{}).then(function (response) {
               self.coursesList = response.data
               self.loadingUI.isLoading = false
             }).catch(function(err){
@@ -37,6 +38,7 @@ export const coursesStore = defineStore("courses", {
             await axios.post('course',data).then(function (response) {
               self.successMessage = response.data.message
               self.loadingUI.isLoading = false
+              self.getcoursesList(data.school_id)
             }).catch(function(err){
               self.coursesList = []
               self.errorMessage = err.response.data
@@ -58,13 +60,29 @@ export const coursesStore = defineStore("courses", {
             })
           },
 
+          async searchCourse(school_id,search_query) {  
+            let self = this;
+            self.errorMessage = ""
+            self.loadingUI.isLoading = true
+            await axios.post(`course/search/${school_id}?search_query=${search_query}`).then(function (response) {
+              self.coursesList = response.data
+              self.loadingUI.isLoading = false
+            }).catch(function(err){
+              self.coursesList = []
+              self.errorMessage = err.response.data
+              self.loadingUI.isLoading = false
+            })
+          },
+
           async deleteCourse(school_id,data) {  
             let self = this;
             self.errorMessage = ""
             self.loadingUI.isLoading = false
+            data.school_id = data.school_id == "" ? localStorage.getItem("school_id") : data.school_id
             await axios.post(`course/destroy/${school_id}`,data).then(function (response) {
               self.successMessage = response.data.status
               self.loadingUI.isLoading = false
+              self.getcoursesList(school_id)
             }).catch(function(err){
               self.coursesList = []
               self.errorMessage = err.response.data

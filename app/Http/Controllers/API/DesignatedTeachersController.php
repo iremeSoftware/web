@@ -176,7 +176,7 @@ class DesignatedTeachersController extends Controller
     {
         //
         if($request->class_id!='empty')
-         $teachers = Designated_teachers::select('designated_teachers.class_id','classrooms.classroom_name','users.name','courses.course_name','users.phone_number','users.email','users.profile_pic')
+         $teachers = Designated_teachers::select('designated_teachers.*','classrooms.*','users.name','courses.course_name','users.phone_number','users.email','users.profile_pic')
          ->join('classrooms', 'designated_teachers.class_id', '=', 'classrooms.class_id')
          ->join('users', 'designated_teachers.teacher_id', '=', 'users.account_id')
          ->join('courses', 'courses.course_id', '=', 'designated_teachers.course_id')
@@ -188,7 +188,7 @@ class DesignatedTeachersController extends Controller
          ->distinct()
          ->get();
         else 
-            $teachers = Designated_teachers::select('designated_teachers.class_id','classrooms.classroom_name','users.name','courses.course_name','users.phone_number','users.email','users.profile_pic')
+            $teachers = Designated_teachers::select('designated_teachers.*','classrooms.*','users.name','courses.course_name','users.phone_number','users.account_id','users.email','users.profile_pic')
             ->join('classrooms', 'designated_teachers.class_id', '=', 'classrooms.class_id')
             ->join('users', 'designated_teachers.teacher_id', '=', 'users.account_id')
             ->join('courses', 'courses.course_id', '=', 'designated_teachers.course_id')
@@ -244,8 +244,8 @@ class DesignatedTeachersController extends Controller
     public function courses(Request $request)
     {
         //
-         $courses = Designated_teachers::select('courses.course_name','courses.course_id')
-        ->leftjoin('courses', 'courses.course_id', '=', 'designated_teachers.course_id')
+         $courses = Designated_teachers::select('courses.*','designated_teachers.*')
+         ->leftjoin('courses', 'courses.course_id', '=', 'designated_teachers.course_id')
          ->where([
             ['designated_teachers.school_id', '=', $request->school_id],
             ['designated_teachers.teacher_id', '=', $request->teacher_id],
@@ -283,11 +283,11 @@ class DesignatedTeachersController extends Controller
         *            mediaType="multipart/form-data",
         *            @OA\Schema(
         *               type="object",
-        *               required={"teacher_id", "course_id","school_id","class_id"},
+        *               required={"teacher_id", "course_id","school_id","classroom_id"},
         *               @OA\Property(property="teacher_id", type="text"),
         *               @OA\Property(property="course_id", type="number"),
         *               @OA\Property(property="school_id", type="text"),
-        *               @OA\Property(property="class_id", type="number"),
+        *               @OA\Property(property="classroom_id", type="number"),
         *            ),
         *        ),
         *    ),

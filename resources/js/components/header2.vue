@@ -19,11 +19,9 @@
             </svg>
           <span class="absolute bg-red-500 -mt-6 ml-[1px] h-3 w-3 rounded-full text-[8px] text-white">2</span>
           </button>
-
-          
-    <button @click="showPopUp('newUsers')" class="w-[150px] h-8 text-sm rounded-lg text-white bg-[#000000]"><p class="flex pl-2 pt-1"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6 pb-1">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-</svg>Invite new user </p></button>
+          <button @click="showPopUp('newUsers')" class="w-[150px] h-8 text-sm rounded-lg text-white bg-[#000000]"><p class="flex pl-2 pt-1"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6 pb-1">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>Invite new user </p></button>
 
 <div class="border-l-[2px]"></div>
 
@@ -60,6 +58,15 @@
       <template v-else-if="popup_type == 'assign_courses'">
         <assignNewCourse />
       </template>
+      <template v-else-if="popup_type == 'assign_courses'">
+        <assignNewCourse />
+      </template>
+      <template v-else-if="popup_type == 'update_course'">
+        <updateCoursePopup />
+      </template>
+      <template v-else-if="popup_type == 'update_classroom'">
+        <updateClassroomPopup/>
+      </template>
 
       
 
@@ -79,6 +86,8 @@ import newUserModal from './popup_forms/new_user.vue'
 import LogoutPopUp from './popup_forms/logout_prompt.vue'
 import updateStudentPopup from './popup_forms/update_student.vue'
 import assignNewCourse from './popup_forms/assign_courses.vue'
+import updateCoursePopup from './popup_forms/update_course.vue';
+import updateClassroomPopup from './popup_forms/update_classroom.vue'
 
 export default{
     name:"Header2",
@@ -91,7 +100,9 @@ export default{
       newUserModal,
       LogoutPopUp,
       updateStudentPopup,
-      assignNewCourse
+      assignNewCourse,
+      updateCoursePopup,
+      updateClassroomPopup
    },
     setup() {
 

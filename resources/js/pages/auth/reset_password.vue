@@ -33,7 +33,6 @@ import { useUserStore } from '../../stores/auth'
 import {validations} from "../../helpers/validations"
 import Alert from '../../components/alert.vue'
 import { ref,computed,onMounted } from 'vue';
-import { useRouter } from 'vue-router';
 
 export default {
   name:"ResetPassword",
@@ -41,7 +40,6 @@ export default {
     Alert
   },
   setup() {
-    const router = useRouter();
     const store = useUserStore();
     const feedbackStatus = ref(false);
     const formData = ref({
@@ -84,12 +82,10 @@ export default {
           }
 
           const errorStatus = computed(() => {
-            formData.value.email = ""
             return store.errorMessage
           });
 
           const successStatus = computed(() => {
-            formData.value.email = ""
             return store.successMessage
           });
 
@@ -100,6 +96,8 @@ export default {
 
           onMounted(() =>{
             setPageTitle('Reset Password')
+            successStatus.value = true
+            feedbackStatus.value = true
           });
 
           return {

@@ -112,6 +112,8 @@ export default {
         onMounted(() => {
             if(userStore.getUserData())
             {
+                successFeedbackStatus.value = true
+                errorFeedbackStatus.value = true
                 setTimeout(function (){
                     formData.value.school_id = userStore.userDetails.school_id
                 },1000);

@@ -4,9 +4,7 @@
             {{ popupDetails.popup_title }}
             </template>
             <template v-slot:contents>
-                 <p class="text-lg">
-                    {{ popupDetails.popup_message }}
-                 </p>
+                 <p class="text-lg" v-html="popupDetails.popup_message"></p>
             </template>
             <template v-slot:buttons>
     <button  class="w-full pl-[18%] md:pl-0 md:w-[30%] h-10 text-sm rounded-lg  font-semibold bg-[#000000]" @click="popupAction" ><p class="flex text-center text-white pl-[20%]">
@@ -31,17 +29,7 @@ export default {
         popupAction:Function
     },
     setup() {
-    const store = useUserStore();
 
-    function logout(){
-      if(store.logout())
-      {
-         localStorage.removeItem('token')
-         window.location.href="/auth/login";
-      }
-    }
-    return {logout}
-
-  },
+    },
 }
 </script>
