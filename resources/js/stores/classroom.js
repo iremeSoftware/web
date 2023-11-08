@@ -18,11 +18,11 @@ export const classroomStore = defineStore("classroom", {
       }
     },
     actions: {
-        async getClassroomList(school_id) {  
+        async getClassroomList(school_id,page="",limit="") {  
             let self = this;
             self.errorMessage = ""
             self.loadingUI.isLoading = true
-            await axios.get(`classroom/${school_id}`,{}).then(function (response) {
+            await axios.get(`classroom/${school_id}?page=${page}&limit=${limit}`).then(function (response) {
               self.classroomList = []
               self.classroomList = response.data
               self.loadingUI.isLoading = false
@@ -69,6 +69,7 @@ export const classroomStore = defineStore("classroom", {
             await axios.post(`classroom/update/${school_id}`,data).then(function (response) {
               self.successMessage = response.data.message
               self.loadingUI.isLoading = false
+              self.getClassroomList(school_id)
             }).catch(function(err){
               self.classroomList = []
               self.errorMessage = err.response.data
@@ -102,8 +103,21 @@ export const classroomStore = defineStore("classroom", {
               self.loadingUI.isLoading = false
             })
           },
-
-
+          async designateTeacher(data) {  
+            let self = this;
+            self.errorMessage = ""
+            self.loadingUI.isLoading = false
+            data.school_id = data.school_id == undefined ? localStorage.getItem("school_id") : data.school_id
+            await axios.post(`designated_teachers`,data).then(function (response) {
+              self.successMessage = response.data.status
+              self.loadingUI.isLoading = false
+              data.class_id = 'empty'
+              self.designatedTeachers(data);
+            }).catch(function(err){
+              self.errorMessage = err.response.data.exist
+              self.loadingUI.isLoading = false
+            })
+          },
           async deleteClassroom(school_id,class_id) {  
             let self = this;
             self.errorMessage = ""
@@ -111,12 +125,27 @@ export const classroomStore = defineStore("classroom", {
             await axios.post(`classroom/destroy/${school_id}?class_id=${class_id}`,{}).then(function (response) {
               self.successMessage = response.data.message
               self.loadingUI.isLoading = false
+              self.getClassroomList(school_id)
             }).catch(function(err){
               self.classroomList = []
               self.errorMessage = err.response.data
               self.loadingUI.isLoading = false
             })
           },
-
+          async changeTeacherCourses(data) {  
+            let self = this;
+            self.errorMessage = ""
+            self.loadingUI.isLoading = false
+            await axios.post(`change_teacher/${data.school_id}/${data.classroom_id}`,data).then(function (response) {
+              self.successMessage = response.data.message
+              self.loadingUI.isLoading = false
+              data.class_id = 'empty'
+              self.designatedTeachers(data);
+            }).catch(function(err){
+              self.classroomList = []
+              self.errorMessage = err.response.data
+              self.loadingUI.isLoading = false
+            })
+          },
     },
 })

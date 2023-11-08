@@ -344,6 +344,8 @@
       store.get_registration_request_info(route.params.token)
       setPageTitle('Register school')
       districts.value = districtsList
+      feedbackStatus.value = true
+      successFeedbackStatus.value = true
     });
 
     return {

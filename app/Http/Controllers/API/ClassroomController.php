@@ -39,6 +39,20 @@ class ClassroomController extends Controller
         *  {
         *  "passport": {}},
         *  },
+        *  @OA\RequestBody(
+        *         @OA\JsonContent(),
+        *         @OA\MediaType(
+        *            mediaType="multipart/form-data",
+        *            @OA\Schema(
+        *               type="object",
+        *               @OA\Property(property="limit", type="text"),
+        *               @OA\Property(property="page", type="text"),
+        *               @OA\Property(property="sort", type="text"), 
+        *               @OA\Property(property="sort_by", type="text"), 
+        *
+        *        ),
+        *     ),
+        *  ),
         *      @OA\Parameter(
         *         name="school_id",
         *         in="path",
@@ -67,11 +81,26 @@ class ClassroomController extends Controller
     public function index(Request $request)
     {
         //
+        $page = $request->page ?? 1;    
+        $limit=$request->limit ?? 10;
+        $sort_by = $request->sort_by ?? 'ASC';
+        $page=$page-1;
+        $offset=ceil($limit*$page);
+
         if(!empty($request->school_id) && empty($request->class_id))
         {
-        $classrooms = classrooms::select('*')
+        $total_classrooms = classrooms::select('*')
         ->where('school_id', '=', $request->school_id)
-        ->orderBy('classroom_name','ASC')
+        ->get()
+        ->count();
+
+        $classrooms = classrooms::select('classrooms.*','name')
+        ->leftjoin('users','users.account_id','=','classrooms.classroom_representative')
+        ->where('classrooms.school_id', '=', $request->school_id)
+        ->orderBy('classrooms.classroom_name','ASC')
+        ->offset($offset)
+        ->limit($limit)
+        ->orderBy('classrooms.classroom_name',$sort_by)
         ->get();
     }
     else if(!empty($request->school_id) && !empty($request->class_id))
@@ -85,7 +114,7 @@ class ClassroomController extends Controller
     }
         
 
-        return response()->json([ 'classrooms' => $classrooms, 'message' => 'Retrieved successfully'], 200);
+        return response()->json([ 'classrooms' => $classrooms,'no_of_classroom'=>$total_classrooms,'offset'=>$offset,'message' => 'Retrieved successfully'], 200);
     }
 
     
@@ -407,7 +436,9 @@ class ClassroomController extends Controller
             ['class_id', '=', $request->class_id]
         ])
         ->update([
-        'classroom_name'=>$request->classroom_name
+        'classroom_name'=>$request->classroom_name,
+        'classroom_alias'=>$request->classroom_alias,
+        'classroom_representative'=>$request->classroom_representative
         ]);    
             
         return response()->json(['message'=>'Updated successfully'],200);   

@@ -55,6 +55,7 @@ Route::post('course', [API\CoursesController::class, 'store']);
 Route::get('course/{school_id}', [API\CoursesController::class, 'index']);
 Route::get('course/{school_id}/{class_id}', [API\CoursesController::class, 'index']);
 Route::post('course/update/{school_id}', [API\CoursesController::class, 'update']);
+Route::post('course/search/{school_id}', [API\CoursesController::class, 'search']);
 Route::post('course/destroy/{school_id}', [API\CoursesController::class, 'destroy']);
 
 Route::post('users', [API\UsersController::class, 'store']);

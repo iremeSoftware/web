@@ -1642,6 +1642,85 @@
                         "required": true
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "limit": {
+                                        "type": "text"
+                                    },
+                                    "page": {
+                                        "type": "text"
+                                    },
+                                    "sort": {
+                                        "type": "text"
+                                    },
+                                    "sort_by": {
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Courses are successfully fetched",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/api/course/search/{school_id}": {
+            "post": {
+                "tags": [
+                    "Search course API"
+                ],
+                "summary": "Search course API",
+                "description": "Search course API",
+                "operationId": "searchCourseSchool",
+                "parameters": [
+                    {
+                        "name": "school_id",
+                        "in": "path",
+                        "description": "School ID",
+                        "required": true
+                    },
+                    {
+                        "name": "search_query",
+                        "in": "query",
+                        "description": "Course name",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Courses are successfully fetched",
@@ -2144,7 +2223,7 @@
                                     "teacher_id",
                                     "course_id",
                                     "school_id",
-                                    "class_id"
+                                    "classroom_id"
                                 ],
                                 "properties": {
                                     "teacher_id": {
@@ -2156,7 +2235,7 @@
                                     "school_id": {
                                         "type": "text"
                                     },
-                                    "class_id": {
+                                    "classroom_id": {
                                         "type": "number"
                                     }
                                 },

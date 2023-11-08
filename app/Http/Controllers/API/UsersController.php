@@ -69,14 +69,13 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         //
-         $User = user_role::select('users.account_id','users.school_id','name','user_role')
-         ->join('users','users.account_id',"=",'user_roles.account_id')
-         ->where('users.school_id', '=', $request->school_id)
+         $User = User::select('users.account_id','users.school_id','name','user_role')
+         ->leftjoin('user_roles','users.account_id',"=",'user_roles.account_id')
+         ->where('user_roles.school_id', '=', $request->school_id)
          ->distinct()
          ->orderBy('users.name','ASC')
          ->get();
         
-
         return response()->json([ 'users' => $User, 'message' => 'Retrieved successfully'], 200);
     }
 

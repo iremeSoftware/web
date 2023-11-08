@@ -37,6 +37,20 @@ class CoursesController extends Controller
         *  {
         *  "passport": {}},
         *  },
+        *  @OA\RequestBody(
+        *         @OA\JsonContent(),
+        *         @OA\MediaType(
+        *            mediaType="multipart/form-data",
+        *            @OA\Schema(
+        *               type="object",
+        *               @OA\Property(property="limit", type="text"),
+        *               @OA\Property(property="page", type="text"),
+        *               @OA\Property(property="sort", type="text"), 
+        *               @OA\Property(property="sort_by", type="text"), 
+        *
+        *        ),
+        *     ),
+        *  ),
         *      @OA\Parameter(
         *         name="school_id",
         *         in="path",
@@ -66,36 +80,115 @@ class CoursesController extends Controller
     
     public function index(Request $request)
     {
-        if(!empty($request->school_id) && empty($request->class_id))
-        {
-        //
-         $Courses = Courses::select('*')->where('school_id', '=', $request->school_id)->get();
-        }
-        else if(!empty($request->school_id) && !empty($request->class_id))
-        {
-            $Courses = Courses::select('courses.course_name','courses.course_id','designated_teachers.teacher_id')
-            ->join('designated_teachers','designated_teachers.course_id','=','courses.course_id')
-            
-            ->where([
-                ['courses.school_id', '=', $request->school_id],
-                ['designated_teachers.class_id', '=', $request->class_id]
-            ])
-            ->orderBy('course_name','ASC')
-            ->get();
-
-            foreach($Courses as $key=>$course)
+            $page = $request->page ?? 1;    
+            $limit=$request->limit ?? 10;
+            $sort_by = $request->sort_by ?? 'ASC';
+            $page=$page-1;
+            $offset=ceil($limit*$page);
+            if(!empty($request->school_id) && empty($request->class_id))
             {
-                $max=Out_of_marks::select('term1_quiz','term1_exam','term2_quiz','term2_exam','term3_quiz','term3_exam',)
-                ->where('course_id',$course->course_id)
-                ->first();
+            //
+                    
+                $Count_courses = Courses::select('*')->where('school_id', '=', $request->school_id)
+                ->get()
+                ->count();
 
-                $Courses[$key]->maximum=$max;
-
+                $Courses = Courses::select('*')->where('school_id', '=', $request->school_id)
+                ->offset($offset)
+                ->limit($limit)
+                ->orderBy('course_name',$sort_by)
+                ->get();
+            
             }
+            else if(!empty($request->school_id) && !empty($request->class_id))
+            {
+                $Count_courses = Courses::select('*')->where([
+                    ['courses.school_id', '=', $request->school_id],
+                    ['designated_teachers.class_id', '=', $request->class_id]
+                ])
+                ->get()
+                ->count();
+
+                $Courses = Courses::select('courses.course_name','courses.course_id','designated_teachers.teacher_id')
+                ->join('designated_teachers','designated_teachers.course_id','=','courses.course_id')
+                ->where([
+                    ['courses.school_id', '=', $request->school_id],
+                    ['designated_teachers.class_id', '=', $request->class_id]
+                ])
+                ->offset($offset)
+                ->limit($limit)
+                ->orderBy('course_name',$sort_by)
+                ->get();
+    
+                foreach($Courses as $key=>$course)
+                {
+                    $max=Out_of_marks::select('term1_quiz','term1_exam','term2_quiz','term2_exam','term3_quiz','term3_exam',)
+                    ->where('course_id',$course->course_id)
+                    ->first();
+    
+                    $Courses[$key]->maximum=$max;
+    
+                }
         }
 
-        return response()->json([ 'Courses' => $Courses, 'message' => 'Retrieved successfully'], 200);
+        return response()->json([ 'Courses' => $Courses,'no_of_courses'=>$Count_courses,'offset'=>$offset,'message' => 'Retrieved successfully'], 200);
     }
+
+
+    /**
+        * @OA\POst(
+        * path="/api/course/search/{school_id}",
+        * operationId="searchCourseSchool",
+        * tags={"Search course API"},
+        * summary="Search course API",
+        * description="Search course API",
+        * security={
+        *  {
+        *  "passport": {}},
+        *  },
+        *      @OA\Parameter(
+        *         name="school_id",
+        *         in="path",
+        *         description="School ID",
+        *         required=true,
+        *      ),
+         *      @OA\Parameter(
+        *         name="search_query",
+        *         in="query",
+        *         description="Course name",
+        *         required=true,
+        *      ),
+        *      @OA\Response(
+        *          response=200,
+        *          description="Courses are successfully fetched",
+        *          @OA\JsonContent()
+        *       ),
+        *      @OA\Response(
+        *          response=422,
+        *          description="Unprocessable Entity",
+        *          @OA\JsonContent()
+        *       ),
+        *      @OA\Response(response=400, description="Bad request"),
+        *      @OA\Response(response=404, description="Resource Not Found"),
+        * )
+        */
+    
+        public function search(Request $request)
+        {
+
+                if(!empty($request->school_id) && !empty($request->search_query))
+                {
+    
+                    $Courses = Courses::select('*')
+                    ->where('school_id', '=', $request->school_id)
+                    ->where('course_name','like', '%'. $request->search_query.'%')
+                    ->get();
+                
+                }
+                
+    
+            return response()->json([ 'Courses' => $Courses,'no_of_courses'=>$Courses->count(),'offset'=>0,'message' => 'Retrieved successfully'], 200);
+        }
 
     /**
      * Store a newly created resource in storage.

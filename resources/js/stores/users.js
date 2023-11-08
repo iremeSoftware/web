@@ -89,7 +89,7 @@ export const manageUserStore = defineStore("users", {
               self.loadingUI.isLoading = false
             })
           },
-          async getSchoolUsers(data) {  
+          async getSchoolUsers(school_id) {  
             let self = this
             self.errorMessage = ""
             self.loadingUI.isLoading = false
@@ -156,5 +156,6 @@ export const manageUserStore = defineStore("users", {
               self.loadingUI.isLoading = false
             })
           },
+          
     },
 })
