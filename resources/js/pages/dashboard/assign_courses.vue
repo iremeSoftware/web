@@ -89,6 +89,8 @@
   import { uiChangesStore } from '../../stores/ui_changes'
   import confirmationPrompt from '../../components/popup_forms/confirmation_prompt.vue'
   import DataTable from '../../components/DataTable.vue'
+  import {setPageTitle} from '../../helpers/set_page_title'
+
   
   export default {
       name:"AssignCourses",
@@ -115,13 +117,6 @@
        return currentUser.value;
       });
   
-      function setPageTitle(newTitle){
-        if (document.title != newTitle) {
-            document.title = ""
-            document.title = import.meta.env.VITE_APP_NAME +' - '+ newTitle
-        }
-      }
-  
       const classroomDetails = computed (() => {
         return classroomStores.classroomDetails
       })
@@ -137,8 +132,6 @@
       const getClassroomList = computed(() => {
             return classroomStores.classroomList.classrooms;
         });
-
-      const isPopUpOpened = computed(() => uiStore.isPopUpOpened)
   
   
       watch(route,() => {

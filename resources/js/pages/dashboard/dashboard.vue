@@ -22,6 +22,8 @@ import sidebarVue from '../../components/sidebar.vue'
 import { useUserStore } from '../../stores/auth'
 import { onMounted,ref,computed } from 'vue'
 import { useRouter } from 'vue-router'
+import {setPageTitle} from '../../helpers/set_page_title'
+
 
 export default {
     name:"dashboard",
@@ -40,13 +42,6 @@ export default {
       currentUser.value = store.userDetails
      return currentUser.value;
     });
-
-    function setPageTitle(newTitle){
-      if (document.title != newTitle) {
-          document.title = ""
-          document.title = import.meta.env.VITE_APP_NAME +' - '+ newTitle
-      }
-    }
 
     onMounted(() => {
       setPageTitle('Dashboard')

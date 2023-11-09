@@ -614,8 +614,6 @@ class AuthController extends Controller
             'uid' => 'required',
             'accessToken' => 'required'          
         ]); 
-
-
         }
         else
         {

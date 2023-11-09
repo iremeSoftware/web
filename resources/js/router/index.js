@@ -11,6 +11,8 @@ import studentsPage from '../pages/dashboard/students_list.vue'
 import AssignCourses from '../pages/dashboard/assign_courses.vue'
 import coursesList from '../pages/dashboard/course_list.vue'
 import classroomsList from '../pages/dashboard/classrooms_list.vue'
+import usersList from '../pages/dashboard/users_list.vue'
+
 
 
 const routes = [
@@ -77,6 +79,10 @@ const routes = [
       {
         path: 'classrooms/list',
         component: classroomsList,
+      },
+      {
+        path: 'users/list',
+        component: usersList,
       },
     ],
 

@@ -14,7 +14,9 @@
         <slot name="columnsToShow"></slot>
       </div>
       <div class="p-6">
-        <slot name="table"></slot>
+        <slot name="table">
+          
+        </slot>
         <div class="flex w-full text-xs md:text-sm ">
           <div class="flex pl-1 pt-6 w-5/12 hidden md:block">
           <p class="text-sm font-semibold text-left mt-2 pr-2">
