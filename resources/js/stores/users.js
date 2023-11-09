@@ -156,6 +156,33 @@ export const manageUserStore = defineStore("users", {
               self.loadingUI.isLoading = false
             })
           },
+          async getUsersAuthentications(data) {  
+            let self = this
+            self.errorMessage = ""
+            self.loadingUI.isLoading = true
+            let school_id = localStorage.getItem("school_id") ?? ''
+            await axios.get(`authentication/${school_id}?records=all&limit=${data.limit}&page=${data.page}&sort=${data.sort}&sort_by=${data.sort_by}`).then(function (response) {
+              self.usersList = response.data;
+              self.loadingUI.isLoading = false
+            }).catch(function(err){
+              self.errorMessage = err.response.data
+              self.loadingUI.isLoading = false
+            })
+          },
+
+          async searchUsersAuthentications(data) {  
+            let self = this
+            self.errorMessage = ""
+            self.loadingUI.isLoading = true
+            let school_id = localStorage.getItem("school_id") ?? ''
+            await axios.post(`authentication/search/${school_id}`,data).then(function (response) {
+              self.usersList = response.data;
+              self.loadingUI.isLoading = false
+            }).catch(function(err){
+              self.errorMessage = err.response.data
+              self.loadingUI.isLoading = false
+            })
+          },
           
     },
 })

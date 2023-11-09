@@ -42,7 +42,26 @@ class AuthenticationsController extends Controller
         *         name="account_id",
         *         in="query",
         *         description="Account ID",
-        *         required=true,
+        *      ),
+        *      @OA\Parameter(
+        *         name="records",
+        *         in="query",
+        *         description="Records(all)",
+        *      ),
+        *      @OA\Parameter(
+        *         name="limit",
+        *         in="query",
+        *         description="Limit",
+        *      ),
+        *      @OA\Parameter(
+        *         name="page",
+        *         in="query",
+        *         description="Page",
+        *      ),
+        *      @OA\Parameter(
+        *         name="sort_by",
+        *         in="query",
+        *         description="Sort BY",
         *      ),
         *      @OA\Response(
         *          response=200,
@@ -115,14 +134,34 @@ class AuthenticationsController extends Controller
           }
           else if($request->records=='all')
            {
+
+            $page = $request->page ?? 1;    
+            $limit=$request->limit ?? 10;
+            $sort = $request->sort ?? 'users.name';
+            $sort_by = $request->sort_by ?? 'ASC';
+            $page=$page-1;
+            $offset=ceil($limit*$page);
             $authentication=User_authentications::select('*')
             ->join('users','users.account_id','=','user_authentications.account_id')
-        ->where([
-            ['user_authentications.school_id', '=', $request->school_id],
-        ])
-        ->orderBy('users.name','ASC')
-        ->get();
-        $offset=0;
+            ->where([
+                ['user_authentications.school_id', '=', $request->school_id],
+            ])
+            ->offset($offset)
+            ->limit($limit)
+            ->orderBy($sort,$sort_by)
+            ->get();
+
+            foreach($authentication as $key=>$user)
+            {
+              if(filter_var($user->profile_pic, FILTER_VALIDATE_URL) === FALSE)
+              {
+                if(!file_exists($_SERVER['DOCUMENT_ROOT'].'/avatar/'.($user->profile_pic!="" ? $user->profile_pic : 'null')))
+                {
+                    $authentication[$key]['profile_pic'] = 'default.png';
+                }
+              }
+            }
+
           }
 
         $records=$count;
@@ -311,6 +350,17 @@ class AuthenticationsController extends Controller
         ->get();
         $offset=0;
         $records=$count;
+
+        foreach($authentication as $key=>$user)
+            {
+              if(filter_var($user->profile_pic, FILTER_VALIDATE_URL) === FALSE)
+              {
+                if(!file_exists($_SERVER['DOCUMENT_ROOT'].'/avatar/'.($user->profile_pic!="" ? $user->profile_pic : 'null')))
+                {
+                    $authentication[$key]['profile_pic'] = 'default.png';
+                }
+              }
+        }
 
 
 

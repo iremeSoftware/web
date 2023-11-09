@@ -865,8 +865,27 @@
                     {
                         "name": "account_id",
                         "in": "query",
-                        "description": "Account ID",
-                        "required": true
+                        "description": "Account ID"
+                    },
+                    {
+                        "name": "records",
+                        "in": "query",
+                        "description": "Records(all)"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page"
+                    },
+                    {
+                        "name": "sort_by",
+                        "in": "query",
+                        "description": "Sort BY"
                     }
                 ],
                 "responses": {
@@ -1057,6 +1076,32 @@
                         "description": "Class ID"
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "limit": {
+                                        "type": "text"
+                                    },
+                                    "page": {
+                                        "type": "text"
+                                    },
+                                    "sort": {
+                                        "type": "text"
+                                    },
+                                    "sort_by": {
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "Got the list of classrooms",
