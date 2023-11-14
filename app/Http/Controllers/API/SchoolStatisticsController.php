@@ -123,6 +123,11 @@ class SchoolStatisticsController extends Controller
         *         in="query",
         *         description="For",
         *      ),
+        *      @OA\Parameter(
+        *         name="class_id",
+        *         in="query",
+        *         description="Class ID",
+        *      ),
         *      @OA\Response(
         *          response=200,
         *          description="Marks statistics are successfully retrieved",
@@ -144,15 +149,16 @@ class SchoolStatisticsController extends Controller
         {
            $student_id=$request->student_id;
           
-        $marks=DB::table("report_form_$request->school_id")
-           ->selectRaw("SUM(report_form_$request->school_id.term1_total_marks)/SUM(out_of_marks.term1_total_marks)*100 as term1_total_marks,SUM(report_form_$request->school_id.term2_total_marks)/SUM(out_of_marks.term2_total_marks)*100 as term2_total_marks,SUM(report_form_$request->school_id.term3_total_marks)/SUM(out_of_marks.term3_total_marks)*100 as term3_total_marks")
-           ->join('students','students.student_id','=',"report_form_$request->school_id.student_id")
-           ->join('out_of_marks','out_of_marks.class_id','=',"report_form_$request->school_id.class_id")
+           $marks=DB::table("report_form_view")
+           ->selectRaw("SUM(report_form_view.term1_total_marks)/SUM(out_of_marks.term1_total_marks)*100 as term1_total_marks,SUM(report_form_view.term2_total_marks)/SUM(out_of_marks.term2_total_marks)*100 as term2_total_marks,SUM(report_form_view.term3_total_marks)/SUM(out_of_marks.term3_total_marks)*100 as term3_total_marks")
+           ->join('students','students.student_id','=',"report_form_view.student_id")
+           ->join('out_of_marks','out_of_marks.class_id','=',"report_form_view.class_id")
            ->where([
-            ["report_form_$request->school_id.student_id",'=',$student_id],
-            ["report_form_$request->school_id.school_id",$request->school_id]
+            ["report_form_view.student_id",'=',$student_id],
+            ["report_form_view.school_id",$request->school_id]
         ])
         ->get();
+        
         }
         else if($request->for=='class')
         {
@@ -162,38 +168,38 @@ class SchoolStatisticsController extends Controller
            ->where([
             ["students.classroom",'=',$class_id],
             ["students.school_id",'=',$request->school_id]
-        ])
-        ->get()
-        ->count();
+            ])
+            ->get()
+            ->count();
 
            $marks=DB::table("marks")
            ->selectRaw("courses.course_name,courses.course_id,(marks.term1_total_marks*$count_records)/(out_of_marks.term1_total_marks*$count_records)*100 as term1_total_marks,(marks.term2_total_marks*$count_records)/(out_of_marks.term2_total_marks*$count_records)*100 as term2_total_marks,(marks.term3_total_marks*$count_records)/(out_of_marks.term3_total_marks*$count_records)*100 as term3_total_marks")
            ->join('students','students.student_id','=',"marks.student_id")
            ->join('out_of_marks','out_of_marks.course_id','=',"marks.course_id")
            ->join('courses','courses.course_id','=',"marks.course_id")
-           ->groupBy('courses.course_id')
+        //    ->groupBy('courses.course_id')
            ->where([
             ["marks.class_id",'=',$class_id],
             ["marks.school_id",'=',$request->school_id]
         ])
         ->get();
+
         }
         else if($request->for=='school')
         {
             
-
-
            $school_id=$request->school_id;
-           $marks=DB::table("report_form_$school_id")
-           ->selectRaw("classrooms.classroom_name,classrooms.class_id,SUM(`report_form_$school_id`.`term1_total_marks`)/SUM(`report_form_$school_id`.`term1_maximum_marks`)*100 as term1_total_marks,SUM(`report_form_$school_id`.`term2_total_marks`)/SUM(`report_form_$school_id`.`term2_maximum_marks`)*100 as term2_total_marks,SUM(`report_form_$school_id`.`term3_total_marks`)/SUM(`report_form_$school_id`.`term3_maximum_marks`)*100 as term3_total_marks")
-           ->join('students','students.student_id','=',"report_form_$school_id.student_id")
-           ->join('classrooms','classrooms.class_id','=',"report_form_$school_id.class_id")
-           ->groupBy("report_form_$school_id.class_id")
+           $marks=DB::table("report_form_view")
+           ->selectRaw("SUM(`report_form_view`.`term1_total_marks`)/SUM(`report_form_view`.`term1_maximum_marks`)*100 as term1_total_marks,SUM(`report_form_view`.`term2_total_marks`)/SUM(`report_form_view`.`term2_maximum_marks`)*100 as term2_total_marks,SUM(`report_form_view`.`term3_total_marks`)/SUM(`report_form_view`.`term3_maximum_marks`)*100 as term3_total_marks")
+        //    ->join('students','students.student_id','=',"report_form_view.student_id")
+        //    ->join('classrooms','classrooms.class_id','=',"report_form_view.class_id")
+           ->groupBy("report_form_view.class_id")
            ->where([
-            ["report_form_$school_id.school_id",'=',$school_id],
-            ["report_form_$school_id.school_id",'=',$request->school_id]
+            ["report_form_view.school_id",'=',$request->school_id]
         ])
         ->get();
+
+      //  var_dump($marks);
            
         }
 

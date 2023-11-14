@@ -134,6 +134,7 @@ Route::post('delete/user', [API\UsersController::class, 'destroy']);
 
 
 Route::get('authentication/{school_id}', [API\AuthenticationsController::class, 'index']);
+Route::get('authentication/null/{account_id}', [API\AuthenticationsController::class, 'index']);
 Route::post('authentication/update/{school_id}', [API\AuthenticationsController::class, 'update']);
 Route::post('authentication/search/{school_id}', [API\AuthenticationsController::class, 'search']);
 

@@ -47,8 +47,13 @@ export const useUserStore = defineStore("auth", {
               this.userDetails = [];
               this.errorMessage = "";
               this.successMessage = "";
+              let school_id =  localStorage.getItem("school_id") ?? ""
+
+              let data = {
+                'school_id':school_id
+              }
               
-              const response = (await axios.post("current_user",{})).data;
+              const response = (await axios.post("current_user",data)).data;
               if (response) {
                 this.userDetails= response.user_info;
               }
@@ -161,6 +166,21 @@ export const useUserStore = defineStore("auth", {
             await axios.post('register',data).then(function (response) {
               self.loadingUI.isLoading = false;
               self.successMessage = response.data.status;
+            }).catch(function(err){
+              self.userDetails = [];
+              self.loadingUI.isLoading = false;
+              self.errorMessage = err.response.data;
+            })
+          },
+
+          async current_school() {
+            let self = this;
+            self.errorMessage = "";
+            self.loadingUI.isLoading = true;
+            let school_id = localStorage.getItem("school_id") ?? ''
+            await axios.post(`current_school/${school_id}`).then(function (response) {
+              self.loadingUI.isLoading = false;
+              self.demoSchoolInfo = response.data;
             }).catch(function(err){
               self.userDetails = [];
               self.loadingUI.isLoading = false;

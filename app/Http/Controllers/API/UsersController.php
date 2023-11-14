@@ -129,9 +129,9 @@ class UsersController extends Controller
         $validate = Validator::make($request->all(), [
             'name'      => 'required',
             'school_id'      => 'required',
-            'email'     => 'required|email',
+            'email'     => 'required|email|unique:users',
             'select_user_role'     => 'required',
-            'phone_number'  => 'required|string|min:10|max:10',
+            'phone_number'  => 'required|string|unique:users|min:10|max:10',
         ]);   
 
          if ($validate->fails()) {
@@ -704,13 +704,15 @@ class UsersController extends Controller
         {
           $delete_user=User::select('*')
         ->where([
-          ['account_id','=',$request->account_id]
+          ['account_id','=',$request->account_id],
+          ['school_id','=',$user->school_id]
         ])
         ->delete();
 
         $delete_auth=user_authentications::select('*')
         ->where([
-          ['account_id','=',$request->account_id]
+          ['account_id','=',$request->account_id],
+          ['school_id','=',$user->school_id],
         ])
         ->delete();
 
@@ -718,7 +720,7 @@ class UsersController extends Controller
         }
         else
         {
-           return response()->json(['message'=>'Failed to delete user'],401);
+           return response()->json(['message'=>'Failed to delete user, Already have assigned courses or Authentications'],401);
         }
 
       

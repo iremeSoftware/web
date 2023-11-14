@@ -274,6 +274,22 @@ class Helper {
 
 
         }
+
+        public static function checkIfFileExists($file,$folder,$default){
+           
+            if(filter_var($file, FILTER_VALIDATE_URL) === FALSE)
+            {
+                
+                if(!file_exists($_SERVER['DOCUMENT_ROOT'].'/'.$folder.'/'.($file!="" ? $file : 'null')))
+                {
+                    return $default;
+                }
+
+                return $file;
+            }
+
+            return $file;
+        }
         
 
 

@@ -16,9 +16,9 @@ export const uiChangesStore = defineStore("ui_changes", {
     getters: {
     },
     actions: {
-        isLeftMenuSelected (status)
+        isLeftMenuSelected ()
         {
-          this.isMenuClicked = status
+          this.isMenuClicked =! this.isMenuClicked
         },
         openPopUpFunc(popup_type = "",to = "",popup_records = ""){
            this.isPopUpOpened =! this.isPopUpOpened

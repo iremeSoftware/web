@@ -13,6 +13,7 @@ export const manageUserStore = defineStore("users", {
         loadingUI :{
           isLoading:false
         },
+        schools_list:[]
     }),
     getters: {
       getStaffUsers(state){
@@ -124,6 +125,7 @@ export const manageUserStore = defineStore("users", {
             let self = this
             self.errorMessage = ""
             self.loadingUI.isLoading = true
+            data.school_id = 
             await axios.get(`user_roles/${data.school_id}?limit=${data.limit}&page=${data.page}`).then(function (response) {
               self.userRolesList = response.data.user_roles;
               self.loadingUI.isLoading = false
@@ -156,7 +158,7 @@ export const manageUserStore = defineStore("users", {
               self.loadingUI.isLoading = false
             })
           },
-          async getUsersAuthentications(data) {  
+          async getUsersAuthentications(data="") {  
             let self = this
             self.errorMessage = ""
             self.loadingUI.isLoading = true
@@ -170,7 +172,19 @@ export const manageUserStore = defineStore("users", {
             })
           },
 
-          async searchUsersAuthentications(data) {  
+          async getAllAuthentications(account_id) {  
+            let self = this
+            self.errorMessage = ""
+            self.loadingUI.isLoading = true
+            await axios.get(`authentication/null?account_id=${account_id}`).then(function (response) {
+              self.schools_list = response.data.authentication;
+              self.loadingUI.isLoading = false
+            }).catch(function(err){
+              self.errorMessage = err.response.data
+              self.loadingUI.isLoading = false
+            })
+          },
+          async searchUsersAuthentications(data="") {  
             let self = this
             self.errorMessage = ""
             self.loadingUI.isLoading = true
@@ -178,6 +192,34 @@ export const manageUserStore = defineStore("users", {
             await axios.post(`authentication/search/${school_id}`,data).then(function (response) {
               self.usersList = response.data;
               self.loadingUI.isLoading = false
+            }).catch(function(err){
+              self.errorMessage = err.response.data
+              self.loadingUI.isLoading = false
+            })
+          },
+          async updateUsersAuthentications(data) {  
+            let self = this
+            self.errorMessage = ""
+            self.loadingUI.isLoading = true
+            let school_id = localStorage.getItem("school_id") ?? ''
+            await axios.post(`authentication/update/${school_id}`,data).then(function (response) {
+              self.successMessage = response.data.message;
+              self.loadingUI.isLoading = false
+              self.getUsersAuthentications()
+            }).catch(function(err){
+              self.errorMessage = err.response.data
+              self.loadingUI.isLoading = false
+            })
+          },
+
+          async deleteSchoolUser(data) {  
+            let self = this
+            self.errorMessage = ""
+            self.loadingUI.isLoading = true
+            await axios.post(`delete/user`,data).then(function (response) {
+              self.successMessage = response.data.message;
+              self.loadingUI.isLoading = false
+              self.getUsersAuthentications()
             }).catch(function(err){
               self.errorMessage = err.response.data
               self.loadingUI.isLoading = false

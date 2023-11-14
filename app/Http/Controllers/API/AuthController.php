@@ -15,9 +15,6 @@ use App\Models\license_keys;
 use App\Models\School_registration_requests;
 use App\Models\transactionApproved;
 use App\Models\sms_requests;
-
-
-
 use App\Models\User;
 use App\Models\Mail\Sendmail;
 use App\Models\Schools;
@@ -624,19 +621,23 @@ class AuthController extends Controller
         ]); 
         }
         
-         $device_id=$request->d_id;
-         $user_type=$request->user_type;
+        $device_id=$request->d_id;
+        $user_type=$request->user_type;
         $confirmed = User::where([
             ['email', '=', $request->email],
-            ['account_enabled','=',1],
             ['user_type','LIKE', '%'. $user_type.'%']
         ])
-        ->get();
+        ->first();
+        
 
-        if($confirmed->count()==0)
+        if($confirmed->account_enabled==0)
         {
           return response()->json(['password'=>['Your account was not verified']], 401); 
 
+        }
+        else if($confirmed->account_enabled==2) 
+        {
+            return response()->json(['password'=>['Your account was disabled']], 401); 
         }
 
         if($request->loginWith=='Google')
@@ -748,6 +749,16 @@ class AuthController extends Controller
         *  {
         *  "passport": {}},
         *  },
+        *     @OA\RequestBody(
+        *         @OA\JsonContent(),
+        *         @OA\MediaType(
+        *            mediaType="multipart/form-data",
+        *            @OA\Schema(
+        *               type="object",
+        *               @OA\Property(property="school_id", type="text"),
+        *            ),
+        *        ),
+        *    ),
         *      @OA\Response(
         *          response=200,
         *          description="Get Current User",
@@ -762,14 +773,32 @@ class AuthController extends Controller
         *      @OA\Response(response=404, description="Resource Not Found"),
         * )
         */
-    public function get_user(){
+    public function get_user(Request $request){
         $user=auth()->user();
-
-
+        $school_id  = $request->school_id ?? $user->school_id;
         $data = DB::table('users')
        ->join('schools', 'users.school_id', '=', 'schools.school_id')
+       ->join('user_authentications', 'user_authentications.account_id', '=', 'users.account_id')
        ->where('users.account_id','=',$user->account_id)
        ->first();
+
+       $authentication=User_authentications::select('authentications')
+        ->where([
+            ['school_id', '=', $school_id],
+            ['account_id', '=', $user->account_id]
+        ])
+        ->first();
+
+        $currentSchool=Schools::select('school_representative')
+        ->where([
+            ['school_id', '=', $school_id],
+        ])
+        ->first();
+
+        $data->authentications = $authentication->authentications;
+        $data->school_representative = $currentSchool->school_representative;
+        $data->logo = Helper::checkIfFileExists($data->logo,'school_logo','default.jpg');
+        $data->profile_pic = Helper::checkIfFileExists($data->profile_pic,'avatar','default.png');
 
         $check_classroom=classrooms::select('*')
         ->where('school_id','=',$user->school_id)
@@ -985,9 +1014,6 @@ class AuthController extends Controller
            ],401);
         }
         */
-
-        
-       
         
         $change_password = DB::update('update users set password = ? where account_id = ?',[bcrypt($request->new_password),$user->account_id]);
 
