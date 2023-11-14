@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\User_authentications;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Helpers\Helper;
 use DB;
 
 class AuthenticationsController extends Controller
@@ -87,7 +89,7 @@ class AuthenticationsController extends Controller
         $authentication=User_authentications::select('*')
         ->where([
             ['school_id', '=', $request->school_id],
-            ['account_id', '=', $user->account_id]
+            ['account_id', '=', $request->account_id]
         ])
         ->first();
         $offset=0;
@@ -100,9 +102,15 @@ class AuthenticationsController extends Controller
         $authentication=User_authentications::select('*')
         ->join('schools','schools.school_id','=','user_authentications.school_id')
         ->where([
-            ['account_id', '=', $user->account_id]
+            ['account_id', '=', $request->account_id]
         ])
         ->get();
+
+        foreach($authentication as $key=>$auth)
+        {
+            $authentication[$key]->logo = Helper::checkIfFileExists($auth->logo,'school_logo','default.jpg');
+        }
+
         $offset=0;
         $records=$authentication->count();
         }
@@ -135,10 +143,10 @@ class AuthenticationsController extends Controller
           else if($request->records=='all')
            {
 
-            $page = $request->page ?? 1;    
-            $limit=$request->limit ?? 10;
-            $sort = $request->sort ?? 'users.name';
-            $sort_by = $request->sort_by ?? 'ASC';
+            $page = $request->page !='undefined'? $request->page : 1;    
+            $limit= $request->limit !='undefined'? $request->limit : 10;
+            $sort = $request->sort !='undefined'? $request->sort : 'users.name';
+            $sort_by = $request->sort_by !='undefined'? $request->sort_by : 'ASC';
             $page=$page-1;
             $offset=ceil($limit*$page);
             $authentication=User_authentications::select('*')
@@ -225,6 +233,7 @@ class AuthenticationsController extends Controller
         *               required={"account_id", "authentications"},
         *               @OA\Property(property="account_id", type="number"),
         *               @OA\Property(property="authentications", type="text"),
+        *               @OA\Property(property="account_enabled", type="number"),
         *            ),
         *        ),
         *    ),
@@ -247,35 +256,47 @@ class AuthenticationsController extends Controller
         //
         $user=auth()->user();
         $now=date("Y-m-d H:i:s");
+        $school_id = $request->school_id ?? $user->school_id;
         $check_exist=User_authentications::select('*')
         ->where([
-            ['school_id', '=', $request->school_id],
-            ['account_id', '=', $user->account_id]
+            ['school_id', '=', $school_id],
+            ['account_id', '=',$request->account_id]
         ])
         ->count();
 
         if($check_exist==0)
         {
-
-        
-        $authentications = new User_authentications;
-        $authentications->account_id = $request->account_id;
-        $authentications->school_id = $request->school_id;
-        $authentications->authentications = $request->authentications;
-        $authentications->save();
+            $authentications = new User_authentications;
+            $authentications->account_id = $request->account_id;
+            $authentications->school_id = $school_id;
+            $authentications->authentications = $request->authentications;
+            $authentications->save();
         }
         else
         {
          
         $update_authentication = DB::table('user_authentications')
         ->where([
-            ['school_id', '=', $request->school_id],
+            ['school_id', '=', $school_id],
             ['account_id', '=', $request->account_id]
         ])
         ->update([
         'authentications'=>$request->authentications,
         'updated_at'=>$now
-        ]);    
+        ]); 
+
+
+
+        if($request->account_id !=$user->account_id)
+        {
+            $user = User::select('*')
+            ->where([
+                ['account_id', '=',$request->account_id]
+            ])
+            ->first();
+            $user->account_enabled = $request->account_enabled;
+            $user->save();
+        }
        }
             
         return response()->json(['message'=>'Updated successfully'],200);   
@@ -353,14 +374,9 @@ class AuthenticationsController extends Controller
 
         foreach($authentication as $key=>$user)
             {
-              if(filter_var($user->profile_pic, FILTER_VALIDATE_URL) === FALSE)
-              {
-                if(!file_exists($_SERVER['DOCUMENT_ROOT'].'/avatar/'.($user->profile_pic!="" ? $user->profile_pic : 'null')))
-                {
-                    $authentication[$key]['profile_pic'] = 'default.png';
-                }
-              }
-        }
+              
+              $authentication[$key]->profile_pic = Helper::checkIfFileExists($user->profile_pic,'avatar','default.png');
+            }
 
 
 

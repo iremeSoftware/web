@@ -39,7 +39,7 @@
                 <div class="pt-4 ">
                   <p class="h-10 text-black text-[20px] font-bold "> Report form generator </p>
                   <p class="h-[150px] text-[15px] mt-3 "> This system helps the school to automatically generate the student report form without requiring teachers to provide student grades, just click the print 'button'.</p>
-                    <router-link to="/registerSchool">
+                    <router-link to="/auth/registration_request">
                         <button class="h-8 text-[16px] rounded-lg text-center pl-4 ml-6 w-auto bg-[#000000] text-white ml-4 mt-2 z-10 "><p class="flex"> Learn more <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
                     </svg>&nbsp;&nbsp;</p></button>
@@ -54,7 +54,7 @@
                 <div class="pt-4 ">
                   <p class="h-10 text-black text-[20px] font-bold "> Grade management system </p>
                   <p class="h-[150px] text-[15px] mt-3 "> This system allows teachers to store and edit assessment and exam scores, which helps in automatically generating the student's progressive report form.</p>
-                    <router-link to="/registerSchool">
+                    <router-link to="/auth/registration_request">
                         <button class="h-8 text-[16px] rounded-lg text-center pl-4 ml-6 w-auto bg-[#000000] text-white ml-4 mt-2 z-10 "><p class="flex"> Learn more <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
                     </svg>&nbsp;&nbsp;</p></button>
@@ -69,7 +69,7 @@
                 <div class="pt-4 ">
                   <p class="h-14 text-black text-[20px] font-bold "> Student attendance system </p>
                   <p class="h-[140px] text-[15px] mt-3 "> This system enables the schools to record student attendance on a daily basis and generate a monthly report.</p>
-                    <router-link to="/registerSchool">
+                    <router-link to="/auth/registration_request">
                         <button class="h-8 text-[16px] rounded-lg text-center pl-4 ml-6 w-auto bg-[#000000] text-white ml-4 mt-2 z-10 "><p class="flex"> Learn more <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
                     </svg>&nbsp;&nbsp;</p></button>
@@ -84,13 +84,12 @@
                 <div class="pt-4 ">
                   <p class="h-10 text-black text-[20px] font-bold ">School Cloud Storage</p>
                   <p class="h-[150px] text-[15px] mt-3 "> This system enables the school to upload and access their files in the cloud at any time and from any location.</p>
-                    <router-link to="/registerSchool">
+                    <router-link to="/auth/registration_request">
                         <button class="h-8 text-[16px] rounded-lg text-center pl-4 ml-6 w-auto bg-[#000000] text-white ml-4 mt-2 z-10 "><p class="flex"> Learn more <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
                     </svg>&nbsp;&nbsp;</p></button>
                     </router-link>
                 </div>
-                
             </div> 
         </div>
         </div>

@@ -160,7 +160,7 @@ import Header2 from '../../components/header2.vue'
 import sidebarVue from '../../components/sidebar.vue'
 import { useUserStore } from '../../stores/auth'
 import { onMounted,ref,computed,watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute,useRouter } from 'vue-router'
 import { classroomStore } from '../../stores/classroom'
 import { studentsStore } from '../../stores/students'
 import { uiChangesStore } from '../../stores/ui_changes'
@@ -184,6 +184,7 @@ export default {
     const uiStore = uiChangesStore();
     const currentUser = ref([])
     const route = useRoute()
+    const router = useRouter()
     const classroomStores = classroomStore()
     const studentsStores = studentsStore()
     const currentPage = ref(1)
@@ -342,13 +343,23 @@ export default {
       }
 
     }
+
+    function checkAuth(){
+          if(userStore.userDetails != undefined){
+            if(!userStore.userDetails.authentications?.includes('add_classroom'))
+            {
+              router.push('/dashboard/home')
+            }
+          }
+      }
      
      
     onMounted(() => {
-      setPageTitle(`List of courses`)
+      setPageTitle(`List of classrooms`)
       if(userStore.getUserData())
             {
                 setTimeout(function (){
+                    checkAuth()
                     getClassroom()
                 },1000);
             }

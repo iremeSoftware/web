@@ -1,7 +1,18 @@
 <template>
     <div class="w-full md:w-[85%] h-16 shadow-md bg-white fixed md:ml-[15%] ">
         <div class="flex pl-2 md:pl-10 pt-4">
-          <p class="hidden md:block text-[17px] font-semibold">Dashboard</p>
+          <div class="hidden w-full md:block text-[16px] font-semibold ">
+            <div class="flex">
+              <img  :src="
+          getUsers.profile_pic != undefined ? 
+          (getUsers.profile_pic.includes('https://lh3.googleusercontent.com') == false
+           ? '/avatar/' +getUsers.profile_pic : getUsers.profile_pic)
+           : 'https://img.icons8.com/?size=512&id=108652&format=png'" class="h-[40px] w-[40px] rounded-full">
+            <span class="pl-3 pt-2">Welcome, {{ getUsers.name }}</span>
+            </div>
+          </div>
+
+
           <div class="text-left">
             <button class="block md:hidden" @click="showLeftMenu()">
               <svg :class="isMenuClicked ? 'hidden':'block'" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -12,6 +23,8 @@
             </svg>
           </button>
           </div>
+
+
           <div class="w-full text-right space-x-4 pr-2">
             <button class=" h-8 w-8  text-center pl-2" @click="toggleNotification()">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
@@ -19,11 +32,11 @@
             </svg>
           <span class="absolute bg-red-500 -mt-6 ml-[1px] h-3 w-3 rounded-full text-[8px] text-white">2</span>
           </button>
-          <button @click="showPopUp('newUsers')" class="w-[150px] h-8 text-sm rounded-lg text-white bg-[#000000]"><p class="flex pl-2 pt-1"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6 pb-1">
+          <button v-if="getUsers.authentications?.includes('edit_school_settings')" @click="showPopUp('newUsers')" class="w-[150px] h-8 text-sm rounded-lg text-white bg-[#000000]"><p class="flex pl-2 pt-1"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6 pb-1">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>Invite new user </p></button>
 
-<div class="border-l-[2px]"></div>
+          <div class="border-l-[2px]"></div>
 
 
           </div>
@@ -67,14 +80,17 @@
       <template v-else-if="popup_type == 'update_classroom'">
         <updateClassroomPopup/>
       </template>
-
-      
-
+      <template v-else-if="popup_type == 'update_user'">
+        <updateUserPopup/>
+      </template>
+      <template v-else-if="popup_type == 'switch_schools'">
+        <switchSchoolsPopup/>
+      </template>
 </template>
 
 <script>
 
-import { ref,computed} from 'vue';
+import { ref,computed,onMounted} from 'vue';
 import { useUserStore } from '../stores/auth'
 import { uiChangesStore } from '../stores/ui_changes'
 import ModalPopUp from './ModalPopUp.vue';
@@ -88,6 +104,8 @@ import updateStudentPopup from './popup_forms/update_student.vue'
 import assignNewCourse from './popup_forms/assign_courses.vue'
 import updateCoursePopup from './popup_forms/update_course.vue';
 import updateClassroomPopup from './popup_forms/update_classroom.vue'
+import updateUserPopup from './popup_forms/update_user_details.vue'
+import switchSchoolsPopup from './popup_forms/switch_schools.vue'
 
 export default{
     name:"Header2",
@@ -102,13 +120,16 @@ export default{
       updateStudentPopup,
       assignNewCourse,
       updateCoursePopup,
-      updateClassroomPopup
+      updateClassroomPopup,
+      updateUserPopup,
+      switchSchoolsPopup
    },
     setup() {
 
       const notification = ref(false)
       const store = useUserStore();
       const uiStore = uiChangesStore();
+      const currentUser = ref([]);
 
       const popup_type = computed(() => uiStore.popup_type);
 
@@ -117,8 +138,7 @@ export default{
       const popupDetails = computed(() => uiStore.popupDetails)
 
       function showLeftMenu(){
-        isMenuClicked =! isMenuClicked
-        return uiStore.isLeftMenuSelected(isMenuClicked)         
+        return uiStore.isLeftMenuSelected()         
       }
 
       function toggleNotification(){
@@ -129,7 +149,20 @@ export default{
       return uiStore.openPopUpFunc(popup_type);
       }
 
-      return {toggleNotification,notification,showLeftMenu,isMenuClicked,popup_type,showPopUp,popupDetails}
+      const getUsers = computed(() => {
+        currentUser.value = store.userDetails
+        return currentUser.value;
+      });
+
+      onMounted(() => {
+      if(store.getUserData())
+      {
+        currentUser.value = store.userDetails
+        console.log(currentUser.value)
+      }
+    });
+
+      return {toggleNotification,notification,showLeftMenu,isMenuClicked,popup_type,showPopUp,popupDetails,currentUser,getUsers}
         
     },
 }

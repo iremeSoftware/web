@@ -20,6 +20,12 @@
   
             </p>
         </div>
+
+        <Alert v-if="successStatus !='' && successFeedbackStatus == false" :message="successStatus"  type="success" :closeMethod="closeFeedback"/>
+
+        <Alert  v-if="errorStatus !='' && errorFeedbackStatus == false" :message="errorStatus.message " type="danger" :closeMethod="closeFeedback"/>
+        
+        
         <DataTable>
           <template v-slot:no_of_records>
             <p class=" font-semibold text-left mt-2 pr-2">Show:</p>
@@ -45,7 +51,7 @@
           <option value="name">User Names</option>
           <option value="email">User Email</option>
           <option value="phone_number">User Phone</option>
-          <option value="account_enabled">Status</option>
+          <option value="account_enabled">Account Status</option>
           <option value="authentications">User Authentications</option>
           <option value="account_id">User Account Id</option>
           <option value="profile_pic">User Profile Picture</option>
@@ -62,13 +68,13 @@
           <template v-slot:table>
             <div @mousemove="hideCols(false)"  id="dataTable" >
           <div class="overflow-x-auto shadow-md sm:rounded-lg">
-          <table class="w-full text-xs md:text-sm text-left text-gray-500 dark:text-gray-400">
+          <table class="w-full text-xs md:text-sm text-left text-gray-500 dark:text-gray-400" :class="colsToShow.some(obj => obj.key === 'authentications') ?'w-[115%]':''">
             <thead class=" text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                   <th scope="col" class="px-4 md:px-6 py-3">
                       #
                   </th>
-                  <th scope="col" class=" px-4 md:px-6 py-3" v-for="col in colsToShow" :class="col.key == 'name' || col.key == 'account_enabled' ?'flex':''">
+                  <th scope="col" class="px-4 md:px-6 py-3 " v-for="col in colsToShow" :class="col.key == 'name' || col.key == 'account_enabled' ?'flex':''">
                    {{ col.value }}
                       <button v-if="col.key == 'name' || col.key == 'account_enabled'" type="button" @click="sortRecords(col.key == 'name' ? 'users.name':'users.account_enabled')" class="flex ml-2 pl-2 colToHide">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4" :class="isSorted ? 'text-red-500':''">
@@ -94,34 +100,35 @@
                   </td>
                   <td class=" px-4 md:px-6 py-4 flex-wrap"  v-for="col in colsToShow">
                     <template  v-if="col.key != 'profile_pic' && col.key != 'authentications' ">
-                        {{ col.key == 'account_enabled' ? (user[col.key] == 1 ? 'Active' : 'Inactive'): user[col.key]  }}
+                        {{ col.key == 'account_enabled' ? (user[col.key] == 1 ? 'ACTIVE' : (user[col.key] == 2 ? 'BLOCKED' : 'NOT VERIFIED')): user[col.key]  }}
                     </template> 
                     <template v-else-if="col.key == 'authentications'">
                         <input type="hidden" v-set="auths = user[col.key].split(',')">
                         
                          <template v-if="auths.length > 1">
-                           <button  class="w-auto h-6 md:h-8 text-xs md:text-sm rounded-2xl text-black bg-[#f3f4f6]  ml-2 mt-3" v-for="auth in auths" :class="auth!=''?'pl-2 pr-2':''"><p class="flex">
-                            <font>{{ auth }}</font></p>
+                          <div class="flex flex-wrap">
+                            <button  class="w-auto h-6 md:h-8 text-xs md:text-sm rounded-2xl text-black bg-[#f3f4f6]  ml-2 mt-3" v-for="auth in auths" :class="auth!=''?'pl-2 pr-2':''">{{ auth }}
                            </button>
+                          </div>
                         </template>
                         <template v-else>
                            <p>No authentications set</p>
                         </template>
                     </template>
                     <template v-else>
-                        <img :src="isValidUrl(user.profile_pic) == false ? user.profile_pic : '/avatar/'+user.profile_pic" class="h-12 w-12 rounded-full colToHide" />
+                        <img :src="isValidUrl(user.profile_pic) == false ? user.profile_pic : '/avatar/'+user.profile_pic" class="h-12 w-12 rounded-full" />
                     </template>
                   </td>
                   <td class="flex px-4 md:px-6 py-4 colToHide space-x-2 md:space-x-5">
-                  <a href="#" @click="showPopUp('update_classroom','','','',classroom)" class="flex md:w-36 h-8 text-sm rounded-lg md:text-white md:bg-[#000000]" ><p class="flex pl-3 pt-1"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <a href="#" @click="showPopUp('update_user','','','',user)" class="flex md:w-40 h-8 text-sm rounded-lg md:text-white md:bg-[#000000]" ><p class="flex pl-3 pt-1"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                    </svg> <font class="hidden md:block pt-1"> Edit Records</font></p>
+                    </svg> <font class="hidden md:block pt-1"> Edit Permissions</font></p>
                   </a>
-                  
-                  <a href="#" class="flex md:w-[100px] h-8 text-sm rounded-lg md:text-white md:bg-[#000000] pt-1 pl-2" @click="
-                  showPopUp('delete','','Confirmation Alert','Are you sure you want to delete <b>'+classroom.classroom_name+'</b> and its linked data completely?',
+
+                  <a v-if="formData.school_representative != user.account_id"  href="#" class="flex md:w-[100px] h-8 text-sm rounded-lg md:text-white md:bg-[#000000] pt-1 pl-2" @click="
+                  showPopUp('delete','','Confirmation Alert','Are you sure you want to delete <b>'+user.name+'</b> ? <br><i> N.B Make sure to remove all assigned courses and authentications</i>',
                   {
-                    'class_id':classroom.class_id
+                    'account_id':user.account_id
                   })"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                   </svg>
@@ -129,18 +136,14 @@
                   <font class="hidden md:block pt-1">Delete</font>
                   </a>
                   </td>
-  
               </tr>
-              
           </tbody>
           <tbody v-else>
                     <td colspan="9" class="h-20">
                         <h3 class="text-lg text-center">No user found</h3>
                     </td>
-          </tbody>
+           </tbody>
           </table>
-
-
           </div>
          <p class="text-sm font-semibold text-left mt-4 pr-2 ">
             Show {{ firstItem }} to {{ lastItem }} of {{ getUsersList.records }} users
@@ -194,8 +197,7 @@
   import sidebarVue from '../../components/sidebar.vue'
   import { useUserStore } from '../../stores/auth'
   import { onMounted,ref,computed,watch } from 'vue'
-  import { useRoute } from 'vue-router'
-  import { classroomStore } from '../../stores/classroom'
+  import { useRoute,useRouter } from 'vue-router'
   import { studentsStore } from '../../stores/students'
   import { manageUserStore } from '../../stores/users'
   import { uiChangesStore } from '../../stores/ui_changes'
@@ -218,19 +220,23 @@
       const uiStore = uiChangesStore();
       const currentUser = ref([])
       const route = useRoute()
-      const classroomStores = classroomStore()
+      const router = useRouter()
       const studentsStores = studentsStore()
       const currentPage = ref(1)
       const isSorted = ref(false)
       const userStore = useUserStore()
       const manageUsersStore = manageUserStore()
+      const successFeedbackStatus = ref(false)
+      const errorFeedbackStatus = ref(false)
+      
 
       const formData = ref({
         user_name:"",
           page:1,
           limit:localStorage.getItem('numRows') ?? 10,
           sort:'users.name',
-          sort_by:'ASC'
+          sort_by:'ASC',
+          school_representative:userStore.userDetails.school_representative ?? "",
       });
 
       const colsToShow = ref([
@@ -248,9 +254,9 @@
             },
             {
                 key:'account_enabled',
-                value:"Status"
+                value:"Account Status"
             },
-    ])
+      ])
   
   
       const getUsers = computed(() => {
@@ -319,7 +325,7 @@
               'popup_data':popup_data,
           }
   
-          formData.value.class_id = popup_data.class_id
+          formData.value.account_id = popup_data.account_id
           toggleSideBar()
           return uiStore.openPopUpFunc(popup_type,to,popup_records);    
           }
@@ -332,10 +338,13 @@
             const popupDetails = computed(() => uiStore.popupDetails)
         
             function deleteAction(){
-                let school_id = userStore.userDetails.school_id
-                let class_id = formData.value.class_id
+                let data =  {
+                  'account_id':formData.value.account_id
+                }
                 uiStore.openPopUpFunc() // Close popup
-                return classroomStores.deleteClassroom(school_id,class_id)
+                successFeedbackStatus.value = false
+                errorFeedbackStatus.value = false
+                return manageUsersStore.deleteSchoolUser(data)
             }
 
             function selectColsToShow(){
@@ -422,19 +431,52 @@
         }
   
       }
-       
-       
+
+      const loadingStatus = computed(() => {
+            errorFeedbackStatus.value = manageUsersStore.errorMessage != "" ? false : true
+            successFeedbackStatus.value = manageUsersStore.successMessage != "" ? false : true
+            return manageUsersStore.loadingUI
+        });
+
+      const errorStatus = computed(() => {
+            return manageUsersStore.errorMessage
+        });
+
+        function closeFeedback() {
+        successFeedbackStatus.value =! successFeedbackStatus.value
+        errorFeedbackStatus.value =! errorFeedbackStatus.value
+        }
+
+        const successStatus = computed(() => {
+            return manageUsersStore.successMessage
+        });
+
+
+      function checkAuth(){
+          console.log(currentUser.value)
+          if(store.userDetails != undefined){
+            if(!store.userDetails.authentications?.includes('edit_school_settings'))
+            {
+              router.push('/dashboard/home')
+            }
+          }
+      }
+
       onMounted(() => {
         setPageTitle(`Manage users`)
         if(userStore.getUserData())
               {
+                  successFeedbackStatus.value = false
+                  errorFeedbackStatus.value = false
                   setTimeout(function (){
+                    checkAuth()
+                    formData.value.school_representative = userStore.userDetails.school_representative ?? ""
                     getUsersAuthentications()
                   },1000);
               }
-      });
+        });
   
-      return {currentUser,getUsers,setNumberOfRecords,isLoading,selectPage,currentPage,sortRecords,isSorted,showPopUp,deleteAction,popupDetails,print_pdf,print_ms,formData,hideCols,popup_type,getUsersList,isValidUrl,searchUser,clearSearch,colsToShow,selectColsToShow,removeCol}
+      return {currentUser,getUsers,setNumberOfRecords,isLoading,selectPage,currentPage,sortRecords,isSorted,showPopUp,deleteAction,popupDetails,print_pdf,print_ms,formData,hideCols,popup_type,getUsersList,isValidUrl,searchUser,clearSearch,colsToShow,selectColsToShow,removeCol,errorStatus,successStatus,closeFeedback,successFeedbackStatus,errorFeedbackStatus,loadingStatus}
     }
   }
   </script>

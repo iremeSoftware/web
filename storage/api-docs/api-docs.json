@@ -453,6 +453,23 @@
                 "summary": "Get Current User",
                 "description": "Get Current User",
                 "operationId": "get_user",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "school_id": {
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "Get Current User",
@@ -947,6 +964,9 @@
                                     },
                                     "authentications": {
                                         "type": "text"
+                                    },
+                                    "account_enabled": {
+                                        "type": "number"
                                     }
                                 },
                                 "type": "object"
@@ -5072,6 +5092,11 @@
                         "name": "for",
                         "in": "query",
                         "description": "For"
+                    },
+                    {
+                        "name": "class_id",
+                        "in": "query",
+                        "description": "Class ID"
                     }
                 ],
                 "responses": {

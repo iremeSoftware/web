@@ -83,7 +83,7 @@
   import sidebarVue from '../../components/sidebar.vue'
   import { useUserStore } from '../../stores/auth'
   import { onMounted,ref,computed,watch } from 'vue'
-  import { useRoute } from 'vue-router'
+  import { useRoute,useRouter } from 'vue-router'
   import { classroomStore } from '../../stores/classroom'
   import { studentsStore } from '../../stores/students'
   import { uiChangesStore } from '../../stores/ui_changes'
@@ -106,6 +106,7 @@
       const uiStore = uiChangesStore();
       const currentUser = ref([])
       const route = useRoute()
+      const router = useRouter()
       const classroomStores = classroomStore()
       const studentsStores = studentsStore()
       const currentPage = ref(1)
@@ -226,7 +227,6 @@
 
         function getDesignatedTeachers()
         {
-
             const data = {
                 'school_id':store.userDetails.school_id,
                 'class_id':'empty'
@@ -239,17 +239,27 @@
                 return classroomStores.designatedTeachersList;
         }); 
 
-        
-       
+        function checkAuth(){
+          console.log(currentUser.value)
+          if(store.userDetails != undefined){
+            if(!store.userDetails.authentications?.includes('add_course'))
+            {
+              router.push('/dashboard/home')
+            }
+          }
+        }
+
         onMounted(() => {
         setPageTitle(`Assign teachers courses`)
         if(store.getUserData())
         {
           setTimeout(function (){
+            checkAuth()
             currentUser.value = store.userDetails
+            console.log(currentUser.value)
             classroomStores.getClassroomList(store.userDetails.school_id)
             getDesignatedTeachers()
-          },500);
+          },1000);
           
         }
       });

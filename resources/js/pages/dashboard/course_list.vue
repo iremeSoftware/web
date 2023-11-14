@@ -155,7 +155,7 @@ import Header2 from '../../components/header2.vue'
 import sidebarVue from '../../components/sidebar.vue'
 import { useUserStore } from '../../stores/auth'
 import { onMounted,ref,computed,watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute,useRouter } from 'vue-router'
 import { classroomStore } from '../../stores/classroom'
 import { studentsStore } from '../../stores/students'
 import { uiChangesStore } from '../../stores/ui_changes'
@@ -181,6 +181,7 @@ export default {
     const uiStore = uiChangesStore();
     const currentUser = ref([])
     const route = useRoute()
+    const router = useRouter()
     const classroomStores = classroomStore()
     const studentsStores = studentsStore()
     const currentPage = ref(1)
@@ -367,6 +368,16 @@ export default {
       }
 
     }
+
+    function checkAuth(){
+          console.log(currentUser.value)
+          if(store.userDetails != undefined){
+            if(!store.userDetails.authentications?.includes('add_course'))
+            {
+              router.push('/dashboard/home')
+            }
+          }
+      }
      
      
     onMounted(() => {
@@ -374,9 +385,9 @@ export default {
       if(store.getUserData())
       {
         setTimeout(function (){
+          checkAuth()
           currentUser.value = store.userDetails
           courseList()
-
         },500);
         
       }

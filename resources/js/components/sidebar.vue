@@ -1,6 +1,6 @@
 <template>
-    <div class="md:block fixed w-[20%] md:w-[15%] h-full  shadow-md bg-white " :class="isMenuClicked ? 'block w-[40%]':'hidden'">
-      <div class=" pl-2 pt-12 md:pt-2">
+    <div class="md:block fixed w-[20%] md:w-[15%] h-full  shadow-md bg-white " :class="isMenuClicked ? 'flexblock w-[50%]':'hidden'">
+      <div class="pl-2 pt-12 md:pt-2">
         <router-link to="/dashboard/home" class="hidden pb-2 md:block shadow-sm -pr-2">
                 <img class=" w-[80px] h-[40px] " src="https://www.iremeapp.com/logo/logo.png" />
           </router-link>
@@ -19,21 +19,33 @@
             </template>
           </LeftSideMenu>
 
-          <LeftSideMenu>
+
+          <LeftSideMenu v-if="getUsers.authentications?.includes('manage_students')" >
             <template v-slot:icon>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
               </svg>
-
             </template>
             <template v-slot:menu>
-              <p class="pt-1 w-[20%]"> Students</p>
+              <p class="pt-1">Manage Students </p>
             </template>
             <template v-slot:submenu>
               <div class="flex py-2" @click="showPopUp('add_student')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> Add students</a></div>
-
               <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#" @click="showPopUp('classroomList','/dashboard/students')"> Manage students</a></div>
+            </template>
+          </LeftSideMenu>
 
+          <LeftSideMenu v-if="getUsers.authentications?.includes('edit_student_attendance')">
+            <template v-slot:icon>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            </template>
+            <template v-slot:menu>
+              <p class="pt-1 w-[80%]">Students Attendance</p>
+            </template>
+            <template v-slot:submenu>
+              
               <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#" @click="showPopUp('classroomList','/dashboard/attendance')"> Student Attendance</a></div>
 
               <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#" @click="showPopUp('classroomList','/dashboard/report_form')"> Student report forms</a></div>
@@ -41,14 +53,32 @@
             </template>
           </LeftSideMenu>
 
-          <LeftSideMenu>
+          <LeftSideMenu v-if="getUsers.authentications?.includes('generate_report')">
             <template v-slot:icon>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
                 </svg>
             </template>
             <template v-slot:menu>
-              <p class="pt-1 w-[20%]">Classrooms</p>
+              <p class="pt-1">Generate Students Reports</p>
+            </template>
+            <template v-slot:submenu>
+              
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#" @click="showPopUp('classroomList','/dashboard/attendance')"> Student Attendance</a></div>
+
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#" @click="showPopUp('classroomList','/dashboard/report_form')"> Student report forms</a></div>
+
+            </template>
+          </LeftSideMenu>
+
+          <LeftSideMenu v-if="getUsers.authentications?.includes('add_classroom')">
+            <template v-slot:icon>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z" />
+              </svg>
+            </template>
+            <template v-slot:menu>
+              <p class="pt-1">Manage Classrooms</p>
             </template>
             <template v-slot:submenu>
               <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#" @click="showPopUp('createClassroom')"> Add classroom</a></div>
@@ -58,14 +88,14 @@
           </LeftSideMenu>
 
 
-          <LeftSideMenu>
+          <LeftSideMenu v-if="getUsers.authentications?.includes('add_course')">
             <template v-slot:icon>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
                 </svg>
             </template>
             <template v-slot:menu>
-              <p class="pt-1 w-[20%]">Courses</p>
+              <p class="pt-1">Manage Courses</p>
             </template>
             <template v-slot:submenu>
               <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#" @click="showPopUp('createCourses')"> Add new course</a></div>
@@ -74,15 +104,14 @@
             </template>
           </LeftSideMenu>
 
-          <LeftSideMenu>
+          <LeftSideMenu v-if="getUsers.authentications?.includes('edit_school_settings')">
             <template v-slot:icon>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
               </svg>
-
             </template>
             <template v-slot:menu>
-              <p class="pt-1 w-[20%]">Users</p>
+              <p class="pt-1">Manage Users</p>
             </template>
             <template v-slot:submenu>
               <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#" @click="showPopUp('newUsers')"> Invite new user</a></div>
@@ -90,29 +119,29 @@
             </template>
           </LeftSideMenu>
 
-          <LeftSideMenu>
+          <LeftSideMenu v-if="getUsers.authentications?.includes('manage_reports')">
             <template v-slot:icon>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
                 </svg>
             </template>
             <template v-slot:menu>
-              <p class="pt-1 w-[20%]">Reports</p>
+              <p class="pt-1 w-[40%]">Reports</p>
             </template>
           </LeftSideMenu>
 
-          <LeftSideMenu>
+          <LeftSideMenu  v-if="getUsers.authentications?.includes('access_file_manager')">
             <template v-slot:icon>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
               </svg>
             </template>
             <template v-slot:menu>
-              <p class="pt-1 w-full">Cloud Storage </p>
+              <p class="pt-1 w-full">Manage Cloud Storage </p>
             </template>
           </LeftSideMenu>
 
-          <LeftSideMenu>
+          <LeftSideMenu v-if="getUsers.authentications?.includes('send_sms')">
             <template v-slot:icon>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M9.348 14.651a3.75 3.75 0 010-5.303m5.304 0a3.75 3.75 0 010 5.303m-7.425 2.122a6.75 6.75 0 010-9.546m9.546 0a6.75 6.75 0 010 9.546M5.106 18.894c-3.808-3.808-3.808-9.98 0-13.789m13.788 0c3.808 3.808 3.808 9.981 0 13.79M12 12h.008v.007H12V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
@@ -134,7 +163,7 @@
                     </svg>
             </template>
             <template v-slot:menu>
-              <p class="pt-1 w-[30%]">Settings</p>
+              <p class="pt-1">Account Settings</p>
             </template>
           </LeftSideMenu>
 
@@ -147,7 +176,7 @@
                 </svg>
             </template>
             <template v-slot:menu>
-              <p class="pt-1 w-[30%]">Support</p>
+              <p class="pt-1">Help & Support</p>
             </template>
           </LeftSideMenu>
 
@@ -163,22 +192,11 @@
             </template>
           </LeftSideMenu>
 
-          
-
-
         <div class="h-4"></div>
-        <div class="h-10 mt-2 mr-1 text-[14px] bg-transparent ring-4 ring-[#f3f3f3] rounded-lg  flex cursor-pointer">
-          <!-- src="https://img.icons8.com/?size=512&id=108652&format=png" -->
-          <img  :src="
-          getUsers.profile_pic != undefined ? 
-          (getUsers.profile_pic.includes('https://lh3.googleusercontent.com') == false
-           ? urlPath+'/avatar/' +getUsers.profile_pic : getUsers.profile_pic)
-           : 'https://img.icons8.com/?size=512&id=108652&format=png'" class="h-[40px] w-[40px] rounded-full">
-          <span class="flex-none -space-y-2">
-            <p class="font-bold pl-3 pt-1 flex-none">{{ getUsers.name }}</p>
-            <p class="w-32 text-xs pl-3 pt-2 ">({{ getUsers.user_type }})</p>
-          </span>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mt-3 ml-20 w-4 h-4 text-grey">
+        <div @click="showPopUp('switch_schools')" class="h-10 mt-2 mr-1 text-[14px] bg-transparent ring-2 ring-[#f3f3f3] rounded-lg  flex cursor-pointer hover:shadow-lg" >
+          <img  :src="urlPath+'/school_logo/' +schoolInfo.logo" class="h-[40px] w-[40px] rounded-full">
+            <p class="truncate w-[76%] font-bold pl-3 pt-2 ">{{ schoolInfo.school_name }}</p>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mt-3 w-4 h-4 text-grey">
             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
           </svg>
         </div>
@@ -223,6 +241,10 @@ export default {
       return currentUser.value;
     });
 
+    const schoolInfo = computed(() => {
+      return store.demoSchoolInfo;
+    });
+
     let isMenuClicked = computed(() => uiStore.isMenuClicked);
 
     function showPopUp(popup_type,to=''){
@@ -233,18 +255,18 @@ export default {
     function toggleSideBar(){
         isMenuClicked =! isMenuClicked
         return uiStore.isLeftMenuSelected(isMenuClicked)         
-      }
+    }
     
 
     onMounted(() => {
-      if(store.getUserData())
+      if(store.getUserData() && store.current_school())
       {
         currentUser.value = store.userDetails
         currentUser.value.length == 0 && localStorage.getItem("token") == undefined  ? router.push({ path:"/auth/login"}):"";
       }
     });
 
-    return {currentUser,urlPath,logout,getUsers,isMenuClicked,showPopUp,toggleSideBar}
+    return {currentUser,urlPath,logout,getUsers,isMenuClicked,showPopUp,toggleSideBar,schoolInfo}
 
   },
 }

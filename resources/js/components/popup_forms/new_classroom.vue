@@ -7,9 +7,7 @@
 
                 <Alert v-if="successStatus !='' && successFeedbackStatus == false" :message="successStatus"  type="success" :closeMethod="closeFeedback"/>
 
-                <Alert  v-if="errorStatus !='' && errorFeedbackStatus == false" :message="errorStatus.error.classroom_name  == 'add_new_class_Modal.class_room_exist' ? 'Classroom you entered is already exists' : ''
-
- ?? errorStatus.error " type="danger" :closeMethod="closeFeedback"/>
+                <Alert  v-if="errorStatus !='' && errorFeedbackStatus == false" :message="errorStatus.error.classroom_name  == 'add_new_class_Modal.class_room_exist' ? 'Classroom you entered is already exists' : errorStatus.error.license_expired ?? errorStatus.error.license_expired" type="danger" :closeMethod="closeFeedback"/>
 
 
                 <p class="text-sm font-semibold text-left">Classroom Name: <span class=" text-red-600" title="Required field">(*)</span></p>
