@@ -65,7 +65,7 @@
         </thead>
         <input type="hidden" v-set="firstItem = 0">
         <input type="hidden" v-set="lastItem = 0">
-        <tbody v-if="getCoursesList" >
+        <tbody v-if="getCoursesList.Courses?.length > 0" >
             <tr v-for="(course,i) in getCoursesList.Courses" :key="course.id" class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                 <input v-if="i==0" type="hidden" v-set="firstItem = (i + getCoursesList.offset) +1">
                 <input  type="hidden" v-set="lastItem = (i + getCoursesList.offset) +1">

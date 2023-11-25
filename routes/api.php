@@ -166,6 +166,8 @@ Route::post('sms/activate', [API\LicenseKeyController::class, 'activate_sms']);
 Route::get('statistics/schoolfees/{school_id}', [API\SchoolStatisticsController::class, 'schoolfees_statistics']);
 Route::get('statistics/marks/{school_id}', [API\SchoolStatisticsController::class, 'marks_statistics']);
 Route::get('statistics/students/{school_id}', [API\SchoolStatisticsController::class, 'students_statistics']);
+Route::get('statistics/dashboard/{school_id}', [API\SchoolStatisticsController::class, 'dashboardStatistics']);
+
 
 Route::get('file_manager/', [API\FileManagersController::class, 'index']);
 Route::post('file_manager/', [API\FileManagersController::class, 'store']);

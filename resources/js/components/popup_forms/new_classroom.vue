@@ -38,6 +38,8 @@ import Alert from '../../components/alert.vue'
 import ModalPopUp from './../ModalPopUp.vue'
 import {validations,onlyNumberKey} from "../../helpers/validations"
 import {generateKey} from '../../helpers/generate_key'
+import { statisticsStore } from '../../stores/statistics'
+
 
 
 export default {
@@ -52,7 +54,9 @@ export default {
         const classroomstores = classroomStore()
         const userStore = useUserStore()
         const successFeedbackStatus = ref(false)
-        const errorFeedbackStatus = ref(false)      
+        const errorFeedbackStatus = ref(false)
+        const statisticStore = statisticsStore();
+      
 
         const formData = ref({
             classroom_name:"",
@@ -103,6 +107,7 @@ export default {
         const successStatus = computed(() => {
             formData.value.classroom_name=""
             formData.value.classroom_alias=""
+            statisticStore.getDashboardStistics();
             return classroomstores.successMessage
         });
 

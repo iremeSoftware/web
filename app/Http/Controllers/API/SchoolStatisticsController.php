@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Marks;
 use App\Models\Students;
 use App\Models\Schoolfees;
+use App\Models\User;
+use App\Models\User_authentications;
 use DB;
 
 class SchoolStatisticsController extends Controller
@@ -177,7 +179,7 @@ class SchoolStatisticsController extends Controller
            ->join('students','students.student_id','=',"marks.student_id")
            ->join('out_of_marks','out_of_marks.course_id','=',"marks.course_id")
            ->join('courses','courses.course_id','=',"marks.course_id")
-        //    ->groupBy('courses.course_id')
+           ->groupBy('courses.course_id')
            ->where([
             ["marks.class_id",'=',$class_id],
             ["marks.school_id",'=',$request->school_id]
@@ -310,9 +312,64 @@ class SchoolStatisticsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    /**
+        * @OA\Get(
+        * path="/api/statistics/dashboard/{school_id}",
+        * operationId="getDashboardStatistics",
+        * tags={"Get dashboard statistics API"},
+        * security={
+        *  {
+        *  "passport": {}},
+        *  },
+        *      @OA\Parameter(
+        *         name="school_id",
+        *         in="path",
+        *         description="School ID",
+        *      ),
+        *      @OA\Response(
+        *          response=200,
+        *          description="Dashboard statistics are successfully retrieved",
+        *          @OA\JsonContent()
+        *       ),
+        *      @OA\Response(
+        *          response=422,
+        *          description="Unprocessable Entity",
+        *          @OA\JsonContent()
+        *       ),
+        *      @OA\Response(response=400, description="Bad request"),
+        *      @OA\Response(response=404, description="Resource Not Found"),
+        * )
+        */
+    public function dashboardStatistics(Request $request)
     {
         //
+        $students=DB::table("students")
+           ->select("*")
+           ->where([
+            ["students.school_id",'=',$request->school_id]
+           ])->count();
+
+        $users=User_authentications::select('*')
+        ->join('users','users.account_id','=','user_authentications.account_id')
+        ->where([
+            ['user_authentications.school_id', '=', $request->school_id],
+        ])
+        ->count();   
+
+        $courses=DB::table("courses")
+           ->select("*")
+           ->where([
+            ["courses.school_id",'=',$request->school_id]
+           ])->count();  
+           
+        $classrooms=DB::table("classrooms")
+           ->select("*")
+           ->where([
+            ["classrooms.school_id",'=',$request->school_id]
+           ])->count();   
+
+           return response()->json(['students'=>$students,'users'=>$users,'courses'=>$courses,'classrooms'=>$classrooms,'message'=>'Retrieved successfully']);
+
     }
 
     /**

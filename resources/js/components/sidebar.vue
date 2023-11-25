@@ -1,5 +1,5 @@
 <template>
-    <div class="md:block fixed w-[20%] md:w-[15%] h-full  shadow-md bg-white " :class="isMenuClicked ? 'flexblock w-[50%]':'hidden'">
+    <div class="md:block fixed w-[20%] md:w-[15%] h-full  shadow-lg bg-white " :class="isMenuClicked ? 'flexblock w-[50%]':'hidden'">
       <div class="pl-2 pt-12 md:pt-2">
         <router-link to="/dashboard/home" class="hidden pb-2 md:block shadow-sm -pr-2">
                 <img class=" w-[80px] h-[40px] " src="https://www.iremeapp.com/logo/logo.png" />
@@ -49,6 +49,42 @@
               <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#" @click="showPopUp('classroomList','/dashboard/attendance')"> Student Attendance</a></div>
 
               <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#" @click="showPopUp('classroomList','/dashboard/report_form')"> Student report forms</a></div>
+
+            </template>
+          </LeftSideMenu>
+
+          <LeftSideMenu v-if="getUsers.authentications?.includes('teacher')">
+            <template v-slot:icon>
+              <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                width="20pt" height="20pt" viewBox="0 0 50.000000 50.000000"
+                preserveAspectRatio="xMidYMid meet">
+
+                <g transform="translate(0.000000,50.000000) scale(0.100000,-0.100000)"
+                fill="#000000" stroke="none">
+                <path d="M155 456 c-60 -28 -87 -56 -114 -116 -36 -79 -19 -183 42 -249 33
+                -36 115 -71 167 -71 52 0 134 35 167 71 34 37 63 110 63 159 0 52 -35 134 -71
+                167 -37 34 -110 63 -159 63 -27 0 -65 -10 -95 -24z m180 -15 c128 -58 164
+                -223 72 -328 -101 -115 -283 -88 -348 52 -79 171 104 354 276 276z"/>
+                <path d="M166 334 c-3 -9 -6 -42 -6 -75 0 -33 -4 -59 -10 -59 -5 0 -10 -4 -10
+                -10 0 -5 6 -10 14 -10 8 0 17 -11 20 -25 10 -39 28 -31 20 9 -6 33 -4 36 33
+                55 l40 20 17 -30 c9 -16 21 -29 27 -29 13 0 11 12 -6 37 -8 12 -12 29 -9 38 5
+                11 2 15 -7 13 -8 -2 -32 16 -53 40 -41 45 -60 52 -70 26z m56 -41 c15 -15 28
+                -30 28 -35 0 -7 -52 -38 -65 -38 -3 0 -5 23 -5 50 0 28 3 50 7 50 4 0 20 -12
+                35 -27z"/>
+                <path d="M326 325 c4 -15 2 -25 -5 -25 -6 0 -11 -5 -11 -11 0 -6 7 -8 15 -5 9
+                3 18 -1 21 -9 9 -23 26 -18 19 5 -4 13 -1 22 9 26 23 9 19 26 -4 19 -13 -4
+                -22 -1 -26 9 -10 26 -25 18 -18 -9z"/>
+                </g>
+              </svg>
+            </template>
+            <template v-slot:menu>
+              <p class="pt-1">Manage Students Marks</p>
+            </template>
+            <template v-slot:submenu>
+              
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#" @click="showPopUp('teacher_classrooms','/dashboard/marks')"> Edit students marks</a></div>
+
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#" @click="showPopUp('classroomList','/dashboard/report_form')"> Assessment sheets</a></div>
 
             </template>
           </LeftSideMenu>
@@ -118,7 +154,6 @@
               <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><router-link to="/dashboard/users/list" class="pt-1"> Manage users</router-link></div>
             </template>
           </LeftSideMenu>
-
           <LeftSideMenu v-if="getUsers.authentications?.includes('manage_reports')">
             <template v-slot:icon>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
@@ -193,10 +228,10 @@
           </LeftSideMenu>
 
         <div class="h-4"></div>
-        <div @click="showPopUp('switch_schools')" class="h-10 mt-2 mr-1 text-[14px] bg-transparent ring-2 ring-[#f3f3f3] rounded-lg  flex cursor-pointer hover:shadow-lg" >
+        <div @click="showPopUp('switch_schools')" class="h-10 mt-2 mr-1 text-[14px] bg-transparent ring-2 ring-[#f3f3f3] rounded-lg  flex cursor-pointer hover:shadow-lg text-transparent bg-clip-text bg-gradient-to-l from-[#8fcc53] to-[#0171c0]" >
           <img  :src="urlPath+'/school_logo/' +schoolInfo.logo" class="h-[40px] w-[40px] rounded-full">
             <p class="truncate w-[76%] font-bold pl-3 pt-2 ">{{ schoolInfo.school_name }}</p>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mt-3 w-4 h-4 text-grey">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mt-3 w-4 h-4 font-semibold text-black">
             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
           </svg>
         </div>

@@ -91,7 +91,7 @@
           </thead>
           <input type="hidden" v-set="firstItem = 0">
           <input type="hidden" v-set="lastItem = 0">
-          <tbody v-if="getUsersList.authentication" >
+          <tbody v-if="getUsersList.authentication?.length > 0" >
               <tr v-for="(user,i) in getUsersList.authentication" :key="user.id" class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                   <input v-if="i==0" type="hidden" v-set="firstItem = (i + getUsersList.offset) +1">
                   <input  type="hidden" v-set="lastItem = (i + getUsersList.offset) +1">

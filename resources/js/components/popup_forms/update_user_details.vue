@@ -87,7 +87,7 @@ export default {
             },
             {
             key:'teacher',
-            value:"Teacher"
+            value:"Manage Students Marks"
             },
             {
             key:'add_new_users',

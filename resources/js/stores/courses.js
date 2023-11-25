@@ -107,6 +107,19 @@ export const coursesStore = defineStore("courses", {
               self.loadingUI.isLoading = false
             })
           },
+          async getCoursesOfTeacherInClass(data) {  
+            let self = this;
+            self.errorMessage = ""
+            self.loadingUI.isLoading = false
+            data.school_id = localStorage.getItem("school_id") ?? ""
+            await axios.get(`designated_teachers/${data.school_id}/${data.account_id}/${data.class_id}`,{}).then(function (response) {
+               self.coursesList = response.data
+              self.loadingUI.isLoading = false
+            }).catch(function(err){
+              self.errorMessage = err.response.data
+              self.loadingUI.isLoading = false
+            })
+          },
 
     },
 })

@@ -25,6 +25,7 @@ export const manageUserStore = defineStore("users", {
             let self = this
             self.errorMessage = ""
             self.loadingUI.isLoading = true
+            data.school_id = localStorage.getItem("school_id") ?? ''
             await axios.post('users',data).then(function (response) {
               self.loadingUI.isLoading = false
               self.successMessage = response.data.status
@@ -38,6 +39,7 @@ export const manageUserStore = defineStore("users", {
             let self = this
             self.errorMessage = ""
             self.loadingUI.isLoading = true
+            data.school_id = localStorage.getItem("school_id") ?? ''
             await axios.post('account/settings',data).then(function (response) {
               self.successMessage = response.data.message
               self.loadingUI.isLoading = false
@@ -50,6 +52,7 @@ export const manageUserStore = defineStore("users", {
             let self = this
             self.errorMessage = ""
             self.loadingUI.isLoading = false
+            data.school_id = localStorage.getItem("school_id") ?? ''
             await axios.post('account/change_password',data).then(function (response) {
               self.successMessage = response.data.status;
             }).catch(function(err){
@@ -72,6 +75,7 @@ export const manageUserStore = defineStore("users", {
             let self = this
             self.errorMessage = ""
             self.loadingUI.isLoading = false
+            data.school_id = localStorage.getItem("school_id") ?? ''
             await axios.post('user/tracker',data).then(function (response) {
               self.successMessage = response.data.message;
             }).catch(function(err){
@@ -83,6 +87,7 @@ export const manageUserStore = defineStore("users", {
             let self = this
             self.errorMessage = ""
             self.loadingUI.isLoading = false
+            data.school_id = localStorage.getItem("school_id") ?? ''
             await axios.post('user/tracker/active',data).then(function (response) {
               self.isUserInactive = response.data.message.inactive;
             }).catch(function(err){
@@ -94,6 +99,8 @@ export const manageUserStore = defineStore("users", {
             let self = this
             self.errorMessage = ""
             self.loadingUI.isLoading = false
+            school_id = localStorage.getItem("school_id") ?? ""
+
             await axios.get(`users/${school_id}`).then(function (response) {
               self.usersList = response.data.users;
             }).catch(function(err){
@@ -105,7 +112,7 @@ export const manageUserStore = defineStore("users", {
             let self = this
             self.errorMessage = ""
             self.loadingUI.isLoading = true
-            
+            data.school_id = localStorage.getItem("school_id") ?? ''
             await axios({
               method: "POST",
               url: `users/${data.school_id}/importcsv`,
@@ -125,7 +132,7 @@ export const manageUserStore = defineStore("users", {
             let self = this
             self.errorMessage = ""
             self.loadingUI.isLoading = true
-            data.school_id = 
+            data.school_id = localStorage.getItem("school_id") ?? ''
             await axios.get(`user_roles/${data.school_id}?limit=${data.limit}&page=${data.page}`).then(function (response) {
               self.userRolesList = response.data.user_roles;
               self.loadingUI.isLoading = false
@@ -138,6 +145,7 @@ export const manageUserStore = defineStore("users", {
             let self = this
             self.errorMessage = ""
             self.loadingUI.isLoading = true
+            data.school_id = localStorage.getItem("school_id") ?? ''
             await axios.post('user_roles',data).then(function (response) {
               self.userRolesList = response.data.status;
               self.loadingUI.isLoading = false
@@ -150,6 +158,7 @@ export const manageUserStore = defineStore("users", {
             let self = this
             self.errorMessage = ""
             self.loadingUI.isLoading = true
+            data.school_id = localStorage.getItem("school_id") ?? ''
             await axios.get(`user_roles/${data.school_id}/${data.account_id}/${data.user_role}?limit=${data.limit}&page=${data.page}`).then(function (response) {
               self.userRolesList = response.data.user_roles;
               self.loadingUI.isLoading = false
@@ -216,6 +225,8 @@ export const manageUserStore = defineStore("users", {
             let self = this
             self.errorMessage = ""
             self.loadingUI.isLoading = true
+            data.school_id = localStorage.getItem("school_id") ?? ""
+
             await axios.post(`delete/user`,data).then(function (response) {
               self.successMessage = response.data.message;
               self.loadingUI.isLoading = false

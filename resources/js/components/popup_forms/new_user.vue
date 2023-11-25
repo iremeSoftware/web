@@ -160,6 +160,8 @@ import { manageUserStore } from '../../stores/users'
 import Alert from '../../components/alert.vue'
 import ModalPopUp from './../ModalPopUp.vue'
 import {validations,onlyNumberKey} from "../../helpers/validations"
+import { statisticsStore } from '../../stores/statistics'
+
 
 
 export default {
@@ -174,10 +176,12 @@ export default {
         const uiStore = uiChangesStore()
         const userStore = useUserStore()
         const manageUsersStore = manageUserStore()
+        const statisticStore = statisticsStore();
         const isPopUpOpened = computed(() => uiStore.isPopUpOpened)
         const feedbackStatus = ref(false);
         const successFeedbackStatus = ref(false)
-        const errorFeedbackStatus = ref(false)      
+        const errorFeedbackStatus = ref(false) 
+             
         const formData = ref({
             name:"",
             email: "",
@@ -283,6 +287,7 @@ export default {
             formData.value.email=""
             formData.value.phone_number= ""
             formData.value.select_user_role= ""
+            statisticStore.getDashboardStistics();
             return manageUsersStore.successMessage
         });
 

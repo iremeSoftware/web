@@ -9,7 +9,9 @@ export const uiChangesStore = defineStore("ui_changes", {
         popupDetails: {
             popup_title : "",
             popup_message : "",
-            popup_data : {}
+            popup_data : {
+                
+            }
         },
         
     }),
@@ -27,6 +29,7 @@ export const uiChangesStore = defineStore("ui_changes", {
            this.popupDetails.popup_title = popup_records.popup_title
            this.popupDetails.popup_message = popup_records.popup_message
            this.popupDetails.popup_data = popup_records.popup_data
+           
         },
     },
 })

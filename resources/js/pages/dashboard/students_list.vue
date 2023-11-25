@@ -96,7 +96,7 @@
         </thead>
         <input type="hidden" v-set="firstItem = 0">
         <input type="hidden" v-set="lastItem = 0">
-        <tbody  v-if="studentsList.Students">
+        <tbody  v-if="studentsList.Students?.length > 0">
             <tr v-for="(student,i) in studentsList.Students" :key="student.id" class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
               <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white colToHide">
                     <input type="checkbox" v-model="studentIds" @click="select" :value="student.student_id">
@@ -107,7 +107,9 @@
                    {{ (i + studentsList.offset)+1}}
                 </td>
                 <td class="px-6 py-4" v-for="col in colsToShow" >
-                  {{student[col.key] == 'mp' ? "Mother's phone" : student[col.key] == 'fp' ? "Father's phone":student[col.key] }}
+                  {{student[col.key] == 'mp' ? "Mother's phone" : student[col.key] == 'fp' ? "Father's phone":
+                  (col.key =='location_district' || col.key =='location_sector' || col.key =='location_cell' || col.key =='location_village')
+                  ?  student[col.key].split('_')[1] : student[col.key]  }}
                 </td>
                 <td class="flex px-6 py-4 colToHide">
                   <a href="#" @click="showPopUp('update_student','','','',student)" class="font-medium pr-3 text-blue-600 dark:text-blue-500 hover:underline" ><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
