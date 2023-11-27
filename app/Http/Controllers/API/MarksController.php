@@ -47,12 +47,27 @@ class MarksController extends Controller
         *      @OA\Parameter(
         *         name="course_id",
         *         in="path",
-        *         description="Course ID",
+        *         description="Course ID or 'all' to get all courses",
         *      ),
         *      @OA\Parameter(
         *         name="student_id",
         *         in="path",
         *         description="Student ID",
+        *      ),
+        *      @OA\Parameter(
+        *         name="limit",
+        *         in="query",
+        *         description="Limit",
+        *      ),
+        *      @OA\Parameter(
+        *         name="page",
+        *         in="query",
+        *         description="Page",
+        *      ),
+        *      @OA\Parameter(
+        *         name="sort_by",
+        *         in="query",
+        *         description="Sort BY",
         *      ),
         *      @OA\Response(
         *          response=201,
@@ -71,7 +86,7 @@ class MarksController extends Controller
     public function index(Request $request)
     {
         //****Get student marks for all courses by student id FOR SPECIFIED SCHOOL***************
-
+          
         if (
             !empty($request->school_id) &&
             !empty($request->class_id) &&
@@ -320,12 +335,9 @@ class MarksController extends Controller
         //****Get student marks for all courses by student id FOR SPECIFIED SCHOOL***************
 
         //**************FETCH STUDENTS FROM CLASSROOM FOR SPECIFIED SCHOOL***************
-        if (
-            !empty($request->school_id) &&
-            !empty($request->class_id) &&
-            $request->course_id != "all" &&
-            empty($request->student_id)
-        ) {
+        else {
+              
+
             $limit = $request->limit;
             $page = $request->page - 1;
             $offset = ceil($limit * $page);
@@ -415,6 +427,56 @@ class MarksController extends Controller
             );
         }
     }
+
+
+            /**
+        * @OA\Get(
+        * path="/api/get_marks/all_classes/{school_id}/{class_id}",
+        * operationId="getAnnualReportForm",
+        * tags={"Get annual report form API"},
+        * security={
+        *  {
+        *  "passport": {}},
+        *  }, 
+        *      @OA\Parameter(
+        *         name="school_id",
+        *         in="path",
+        *         description="School ID",
+        *      ),
+        *      @OA\Parameter(
+        *         name="class_id",
+        *         in="path",
+        *         description="Class ID",
+        *      ),
+        *      @OA\Parameter(
+        *         name="limit",
+        *         in="query",
+        *         description="Limit",
+        *      ),
+        *      @OA\Parameter(
+        *         name="page",
+        *         in="query",
+        *         description="Page",
+        *      ),
+        *      @OA\Parameter(
+        *         name="sort_by",
+        *         in="query",
+        *         description="Sort BY",
+        *      ),
+        *      @OA\Response(
+        *          response=201,
+        *          description="Students marks are successfully retrieved",
+        *          @OA\JsonContent()
+        *       ),
+        *      @OA\Response(
+        *          response=422,
+        *          description="Unprocessable Entity",
+        *          @OA\JsonContent()
+        *       ),
+        *      @OA\Response(response=400, description="Bad request"),
+        *      @OA\Response(response=404, description="Resource Not Found"),
+        * )
+        */
 
     public function all_class(Request $request)
     {
@@ -621,6 +683,11 @@ class MarksController extends Controller
         *         description="Class ID",
         *      ),
         *      @OA\Parameter(
+        *         name="limit",
+        *         in="query",
+        *         description="Limit",
+        *      ),
+        *      @OA\Parameter(
         *         name="sort_by",
         *         in="query",
         *         description="Sort By",
@@ -787,11 +854,10 @@ class MarksController extends Controller
         $number_of_students = $all_students->count();
 
         $average_marks = DB::table("marks")
-            ->select("marks.course_id", "name", "course_name")
+            ->select("marks.course_id", "users.name", "courses.course_name")
             ->selectRaw("SUM(  `marks`.`term1_quiz`) as term1_quiz")
             ->selectRaw("SUM(  `marks`.`term2_quiz`) as term2_quiz")
             ->selectRaw("SUM(  `marks`.`term3_quiz`) as term3_quiz")
-
             ->selectRaw("SUM(  `marks`.`term1_total_marks`) as total_term1")
             ->selectRaw("SUM(  `marks`.`term2_total_marks`) as total_term2")
             ->selectRaw("SUM(  `marks`.`term3_total_marks`) as total_term3")
@@ -803,7 +869,7 @@ class MarksController extends Controller
             ])
             ->distinct()
             ->orderBy("courses.course_name")
-            ->groupBy("marks.course_id")
+            ->groupBy("marks.course_id","users.name","courses.course_name")
             ->get();
 
         $average_max = DB::table("out_of_marks")
@@ -854,7 +920,7 @@ class MarksController extends Controller
         * @OA\Get(
         * path="/api/report_form/{school_id}/{class_id}",
         * operationId="getReportFormList",
-        * tags={"Get report form API"},
+        * tags={"Get report form sorts API"},
         * security={
         *  {
         *  "passport": {}},
@@ -1005,6 +1071,11 @@ class MarksController extends Controller
         *         description="School ID",
         *      ),
         *      @OA\Parameter(
+        *         name="student_name",
+        *         in="query",
+        *         description="Students Name",
+        *      ),
+        *      @OA\Parameter(
         *         name="class_id",
         *         in="path",
         *         description="Class ID",
@@ -1107,7 +1178,7 @@ class MarksController extends Controller
         * @OA\Post(
         * path="/api/marks",
         * operationId="saveStudentsMarks",
-        * tags={"Save students marks API"},
+        * tags={"Import students marks API"},
         * security={
         *  {
         *  "passport": {}},
@@ -1118,12 +1189,15 @@ class MarksController extends Controller
         *            mediaType="multipart/form-data",
         *            @OA\Schema(
         *               type="object",
-        *               required={"school_id","class_id","course_id","teacher_id","classroom"},
+        *               required={"school_id","course_id","teacher_id","classroom"},
         *               @OA\Property(property="school_id", type="text"),
-        *               @OA\Property(property="class_id", type="number"),
         *               @OA\Property(property="course_id", type="number"),
         *               @OA\Property(property="teacher_id", type="number"),
-        *               @OA\Property(property="classroom", type="number"),
+        *               @OA\Property(property="class_id", type="number"),
+        *               @OA\Property(property="page", type="number"),
+        *               @OA\Property(property="limit", type="number"),
+        *               @OA\Property(property="sort_by", type="text"),
+        *               @OA\Property(property="sort", type="text"),
         *            ),
         *        ),
         *    ),
@@ -1156,8 +1230,8 @@ class MarksController extends Controller
         } else {
             $school_id = $request->school_id;
             $course_id = $request->course_id;
-            $teacher_id = $request->teacher_id;
-            $class_id = $request->classroom;
+            $teacher_id = $request->account_id;
+            $class_id = $request->class_id;
             $rows = 0;
             $today = strtotime(date("Y-m-d"));
             $academic_year = academic_year::get();
@@ -1185,68 +1259,33 @@ class MarksController extends Controller
                 if ($marks == 0) {
                     $rows++;
                     $now = date("Y-m-d H:i:s");
-                    $insert_user = DB::insert(
-                        "INSERT INTO marks(academic_year,school_id,student_id,course_id,teacher_id,class_id,term1_quiz,term1_exam,term1_total_marks,term2_quiz,term2_exam,term2_total_marks,term3_quiz,term3_exam,term3_total_marks,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                        [
-                            $academic_year,
-                            $school_id,
-                            $student_id,
-                            $course_id,
-                            $teacher_id,
-                            $class_id,
-                            0,
-                            0,
-                            0,
-                            0,
-                            0,
-                            0,
-                            0,
-                            0,
-                            0,
-                            $now,
-                            $now,
-                        ]
-                    );
+                    $student_marks = new Marks();
+                    $student_marks->academic_year = $academic_year ;
+                    $student_marks->school_id = $school_id;
+                    $student_marks->student_id = $student_id;
+                    $student_marks->course_id = $course_id;
+                    $student_marks->teacher_id = $teacher_id;
+                    $student_marks->class_id = $class_id;
+                    $student_marks->term1_quiz = 0;
+                    $student_marks->term1_exam = 0;
+                    $student_marks->term1_total_marks = 0;
+                    $student_marks->rank1 = 0;
+                    $student_marks->term2_quiz = 0;
+                    $student_marks->term2_exam = 0;
+                    $student_marks->term2_total_marks = 0;
+                    $student_marks->rank2 = 0;                    
+                    $student_marks->term3_quiz = 0;
+                    $student_marks->term3_exam = 0;
+                    $student_marks->term3_total_marks = 0;
+                    $student_marks->rank3 = 0;
+                    $student_marks->save();
                 }
             }
-            #################################AFTER IMPORTING LIST OF STUDENTS DISPLAY IT#####################
-            $limit = $request->limit;
-            $page = $request->page - 1;
-            $offset = ceil($limit * $page);
-
-            $all_students = Marks::select("*")
-                ->where([
-                    ["marks.school_id", "=", $school_id],
-                    ["class_id", "=", $class_id],
-                    ["course_id", "=", $course_id],
-                ])
-                ->get();
-
-            $Marks = Marks::select("*")
-                ->join(
-                    "students",
-                    "students.student_id",
-                    "=",
-                    "marks.student_id"
-                )
-                ->where([
-                    ["marks.school_id", "=", $school_id],
-                    ["classroom", "=", $class_id],
-                    ["marks.course_id", "=", $course_id],
-                ])
-                ->offset($offset)
-                ->limit($limit)
-                ->orderBy("students.name")
-                ->get();
-            #################################//AFTER IMPORTING LIST OF STUDENTS DISPLAY IT###################
+           
 
             return response()->json(
                 [
-                    "Marks" => $Marks,
-                    "message" => "success",
-                    "no_of_students" => $all_students->count(),
-                    "offset" => $offset,
-                    "records" => $rows,
+                    "message" => "Imported ($rows) students",
                 ],
                 201
             );
@@ -1261,7 +1300,7 @@ class MarksController extends Controller
      */
     /**
         * @OA\Post(
-        * path="/api/update",
+        * path="/api/marks/update",
         * operationId="updateStudentsMarks",
         * tags={"Update students marks API"},
         * security={
@@ -1274,16 +1313,15 @@ class MarksController extends Controller
         *            mediaType="multipart/form-data",
         *            @OA\Schema(
         *               type="object",
-        *               required={"school_id","class_id","course_id","teacher_id","classroom","sort_by","sort","limit","page"},
+        *               required={"school_id","course_id","course_id","student_id","account_id","class_id","term_quiz","term_exam","term"},
         *               @OA\Property(property="school_id", type="text"),
-        *               @OA\Property(property="class_id", type="number"),
         *               @OA\Property(property="course_id", type="number"),
-        *               @OA\Property(property="teacher_id", type="number"),
-        *               @OA\Property(property="classroom", type="number"),
-        *               @OA\Property(property="sort_by", type="text"),
-        *               @OA\Property(property="sort", type="text"),
-        *               @OA\Property(property="limit", type="number"),
-        *               @OA\Property(property="page", type="number"),
+        *               @OA\Property(property="student_id", type="number"),
+        *               @OA\Property(property="account_id", type="number"),
+        *               @OA\Property(property="class_id", type="number"),
+        *               @OA\Property(property="term_quiz", type="number"),
+        *               @OA\Property(property="term_exam", type="number"),
+        *               @OA\Property(property="term", type="number"),
         *            ),
         *        ),
         *    ),
@@ -1316,8 +1354,8 @@ class MarksController extends Controller
         } else {
             $school_id = $request->school_id;
             $course_id = $request->course_id;
-            $teacher_id = $request->teacher_id;
-            $class_id = $request->classroom;
+            $teacher_id = $request->account_id;
+            $class_id = $request->class_id;
             $student_id = $request->student_id;
             $now = date("Y-m-d H:i:s");
             $today = strtotime(date("Y-m-d"));
@@ -1330,13 +1368,14 @@ class MarksController extends Controller
             $term3_to = strtotime($academic_year->term3_to);
             $student_marks = Marks::select("*")
                 ->where([
-                    ["student_id", "=", $request->student_id],
-                    ["teacher_id", "=", $request->teacher_id],
-                    ["course_id", "=", $request->course_id],
-                    ["class_id", "=", $request->class_id],
-                    ["school_id", "=", $request->school_id],
+                    ["student_id", "=", $student_id],
+                    ["teacher_id", "=", $teacher_id],
+                    ["course_id", "=", $course_id],
+                    ["class_id", "=", $class_id],
+                    ["school_id", "=", $school_id],
                 ])
                 ->first();
+
             ##########################################################################################
             ##########################################################################################
             ############################CREATE MARKS VIEW FOR REPORT FORM#############################
@@ -1427,16 +1466,16 @@ class MarksController extends Controller
             if ($request->term == 1) {
                 if ($today >= $term1_from && $today <= $term3_to) {
                     $student = DB::table("students")
-                        ->where("student_id", $request->student_id)
+                        ->where("student_id", $student_id)
                         ->first();
 
                     $update = DB::table("marks")
                         ->where([
-                            ["student_id", "=", $request->student_id],
-                            ["teacher_id", "=", $request->teacher_id],
-                            ["course_id", "=", $request->course_id],
-                            ["class_id", "=", $request->class_id],
-                            ["school_id", "=", $request->school_id],
+                            ["student_id", "=", $student_id],
+                            ["teacher_id", "=", $teacher_id],
+                            ["course_id", "=", $course_id],
+                            ["class_id", "=", $class_id],
+                            ["school_id", "=", $school_id],
                         ])
                         ->update([
                             "term1_quiz" =>
@@ -1450,10 +1489,10 @@ class MarksController extends Controller
                         ]);
 
                     $this->update_report_form(
-                        $request->school_id,
-                        $request->student_id,
+                        $school_id,
+                        $student_id,
                         $student->name,
-                        $request->class_id
+                        $class_id
                     );
 
                     return response()->json(
@@ -1462,7 +1501,7 @@ class MarksController extends Controller
                     );
                 } else {
                     return response()->json(
-                        ["message" => "marks_vue.failed_edit_marks_term1"],
+                        ["message" => "Error:You can not edit first term points"],
                         401
                     );
                 }
@@ -1470,11 +1509,11 @@ class MarksController extends Controller
                 if ($today >= $term2_from && $today <= $term3_to) {
                     $update = DB::table("marks")
                         ->where([
-                            ["student_id", "=", $request->student_id],
-                            ["teacher_id", "=", $request->teacher_id],
-                            ["course_id", "=", $request->course_id],
-                            ["class_id", "=", $request->class_id],
-                            ["school_id", "=", $request->school_id],
+                            ["student_id", "=", $student_id],
+                            ["teacher_id", "=", $teacher_id],
+                            ["course_id", "=", $course_id],
+                            ["class_id", "=", $class_id],
+                            ["school_id", "=", $school_id],
                         ])
                         ->update([
                             "term2_quiz" =>
@@ -1493,7 +1532,7 @@ class MarksController extends Controller
                     );
                 } else {
                     return response()->json(
-                        ["message" => "marks_vue.failed_edit_marks_term2"],
+                        ["message" => "Error:You can not edit second term points"],
                         401
                     );
                 }
@@ -1501,11 +1540,11 @@ class MarksController extends Controller
                 if ($today >= $term3_from && $today <= $term3_to) {
                     $update = DB::table("marks")
                         ->where([
-                            ["student_id", "=", $request->student_id],
-                            ["teacher_id", "=", $request->teacher_id],
-                            ["course_id", "=", $request->course_id],
-                            ["class_id", "=", $request->class_id],
-                            ["school_id", "=", $request->school_id],
+                            ["student_id", "=", $student_id],
+                            ["teacher_id", "=", $teacher_id],
+                            ["course_id", "=", $course_id],
+                            ["class_id", "=", $class_id],
+                            ["school_id", "=", $school_id],
                         ])
                         ->update([
                             "term3_quiz" =>
@@ -1524,7 +1563,7 @@ class MarksController extends Controller
                     );
                 } else {
                     return response()->json(
-                        ["message" => "marks_vue.failed_edit_marks_term3"],
+                        ["message" => "Error:You can not edit third term points"],
                         401
                     );
                 }
@@ -1597,13 +1636,13 @@ class MarksController extends Controller
                 ["class_id", "=", $class_id],
             ])
             ->update([
-                "term1_quiz" => $select_from_marks->term1_quiz,
-                "term2_quiz" => $select_from_marks->term2_quiz,
-                "term3_quiz" => $select_from_marks->term3_quiz,
-                "term1_total_marks" => $select_from_marks->term1_total_marks,
-                "term2_total_marks" => $select_from_marks->term2_total_marks,
-                "term3_total_marks" => $select_from_marks->term3_total_marks,
-                "annual_marks" => $select_from_marks->annual_marks,
+                "term1_quiz" => $select_from_marks->term1_quiz ?? 0,
+                "term2_quiz" => $select_from_marks->term2_quiz ?? 0,
+                "term3_quiz" => $select_from_marks->term3_quiz ?? 0,
+                "term1_total_marks" => $select_from_marks->term1_total_marks ?? 0,
+                "term2_total_marks" => $select_from_marks->term2_total_marks ?? 0,
+                "term3_total_marks" => $select_from_marks->term3_total_marks ?? 0,
+                "annual_marks" => $select_from_marks->annual_marks ?? 0,
             ]);
     }
 
@@ -1633,6 +1672,8 @@ class MarksController extends Controller
         *               @OA\Property(property="school_id", type="text"),
         *               @OA\Property(property="class_id", type="number"),
         *               @OA\Property(property="course_id", type="number"),
+        *               @OA\Property(property="student_name", type="text"),
+
         *            ),
         *        ),
         *    ),
@@ -1685,7 +1726,6 @@ class MarksController extends Controller
                 ["marks.course_id", "=", $request->course_id],
             ])
             ->orderBy("name", "ASC")
-            ->limit("5")
             ->get();
 
         $number_of_students = $Marks->count();

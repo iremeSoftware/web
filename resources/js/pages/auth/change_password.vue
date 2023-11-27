@@ -53,6 +53,8 @@ import {validations} from "../../helpers/validations"
 import Alert from '../../components/alert.vue'
 import { ref,computed,onMounted } from 'vue';
 import { useRouter,useRoute } from 'vue-router';
+import {setPageTitle} from '../../helpers/set_page_title'
+
 
 export default {
   name:"ChangePassword",
@@ -128,6 +130,10 @@ export default {
     const loadingStatus = computed(() => {
        feedbackStatus.value = store.errorMessage != "" ? false : true
        return store.loadingUI
+    });
+
+    onMounted(() => {
+      setPageTitle('Change Password')
     });
 
     return {

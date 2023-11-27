@@ -121,10 +121,10 @@ class AuthenticationsController extends Controller
             
             $count=User_authentications::select('*')
             ->join('users','users.account_id','=','user_authentications.account_id')
-        ->where([
-            ['user_authentications.school_id', '=', $request->school_id],
-        ])
-        ->count();
+            ->where([
+                ['user_authentications.school_id', '=', $request->school_id],
+            ])
+            ->count();
            if($request->records=='pagination')
            {
             $limit=$request->limit;

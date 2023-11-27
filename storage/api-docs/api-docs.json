@@ -3574,17 +3574,96 @@
                     {
                         "name": "course_id",
                         "in": "path",
-                        "description": "Course ID"
+                        "description": "Course ID or 'all' to get all courses"
                     },
                     {
                         "name": "student_id",
                         "in": "path",
                         "description": "Student ID"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page"
+                    },
+                    {
+                        "name": "sort_by",
+                        "in": "query",
+                        "description": "Sort BY"
                     }
                 ],
                 "responses": {
                     "201": {
                         "description": "Students are successfully retrieved",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/api/get_marks/all_classes/{school_id}/{class_id}": {
+            "get": {
+                "tags": [
+                    "Get annual report form API"
+                ],
+                "operationId": "getAnnualReportForm",
+                "parameters": [
+                    {
+                        "name": "school_id",
+                        "in": "path",
+                        "description": "School ID"
+                    },
+                    {
+                        "name": "class_id",
+                        "in": "path",
+                        "description": "Class ID"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page"
+                    },
+                    {
+                        "name": "sort_by",
+                        "in": "query",
+                        "description": "Sort BY"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Students marks are successfully retrieved",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -3629,6 +3708,11 @@
                         "name": "class_id",
                         "in": "path",
                         "description": "Class ID"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit"
                     },
                     {
                         "name": "sort_by",
@@ -3736,7 +3820,7 @@
         "/api/report_form/{school_id}/{class_id}": {
             "get": {
                 "tags": [
-                    "Get report form API"
+                    "Get report form sorts API"
                 ],
                 "operationId": "getReportFormList",
                 "parameters": [
@@ -3815,6 +3899,11 @@
                         "description": "School ID"
                     },
                     {
+                        "name": "student_name",
+                        "in": "query",
+                        "description": "Students Name"
+                    },
+                    {
                         "name": "class_id",
                         "in": "path",
                         "description": "Class ID"
@@ -3874,7 +3963,7 @@
         "/api/marks": {
             "post": {
                 "tags": [
-                    "Save students marks API"
+                    "Import students marks API"
                 ],
                 "operationId": "saveStudentsMarks",
                 "requestBody": {
@@ -3883,7 +3972,6 @@
                             "schema": {
                                 "required": [
                                     "school_id",
-                                    "class_id",
                                     "course_id",
                                     "teacher_id",
                                     "classroom"
@@ -3892,17 +3980,26 @@
                                     "school_id": {
                                         "type": "text"
                                     },
-                                    "class_id": {
-                                        "type": "number"
-                                    },
                                     "course_id": {
                                         "type": "number"
                                     },
                                     "teacher_id": {
                                         "type": "number"
                                     },
-                                    "classroom": {
+                                    "class_id": {
                                         "type": "number"
+                                    },
+                                    "page": {
+                                        "type": "number"
+                                    },
+                                    "limit": {
+                                        "type": "number"
+                                    },
+                                    "sort_by": {
+                                        "type": "text"
+                                    },
+                                    "sort": {
+                                        "type": "text"
                                     }
                                 },
                                 "type": "object"
@@ -3944,7 +4041,7 @@
                 ]
             }
         },
-        "/api/update": {
+        "/api/marks/update": {
             "post": {
                 "tags": [
                     "Update students marks API"
@@ -3956,41 +4053,38 @@
                             "schema": {
                                 "required": [
                                     "school_id",
-                                    "class_id",
                                     "course_id",
-                                    "teacher_id",
-                                    "classroom",
-                                    "sort_by",
-                                    "sort",
-                                    "limit",
-                                    "page"
+                                    "course_id",
+                                    "student_id",
+                                    "account_id",
+                                    "class_id",
+                                    "term_quiz",
+                                    "term_exam",
+                                    "term"
                                 ],
                                 "properties": {
                                     "school_id": {
                                         "type": "text"
                                     },
-                                    "class_id": {
-                                        "type": "number"
-                                    },
                                     "course_id": {
                                         "type": "number"
                                     },
-                                    "teacher_id": {
+                                    "student_id": {
                                         "type": "number"
                                     },
-                                    "classroom": {
+                                    "account_id": {
                                         "type": "number"
                                     },
-                                    "sort_by": {
-                                        "type": "text"
-                                    },
-                                    "sort": {
-                                        "type": "text"
-                                    },
-                                    "limit": {
+                                    "class_id": {
                                         "type": "number"
                                     },
-                                    "page": {
+                                    "term_quiz": {
+                                        "type": "number"
+                                    },
+                                    "term_exam": {
+                                        "type": "number"
+                                    },
+                                    "term": {
                                         "type": "number"
                                     }
                                 },
@@ -4058,6 +4152,9 @@
                                     },
                                     "course_id": {
                                         "type": "number"
+                                    },
+                                    "student_name": {
+                                        "type": "text"
                                     }
                                 },
                                 "type": "object"
@@ -4102,7 +4199,7 @@
         "/api/out_of_marks/{school_id}/{class_id}/{course_id}": {
             "get": {
                 "tags": [
-                    "Get maximum marks API"
+                    "Get maximum points API"
                 ],
                 "operationId": "getMaximumMarks",
                 "parameters": [
@@ -4117,14 +4214,14 @@
                         "description": "Class ID"
                     },
                     {
-                        "name": "course_id",
-                        "in": "path",
-                        "description": "Course ID"
+                        "name": "term",
+                        "in": "query",
+                        "description": "Term"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Maximum points is successfully retrieved",
+                        "description": "Maximum points are successfully retrieved",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -4151,7 +4248,90 @@
                         "passport": []
                     }
                 ]
-            },
+            }
+        },
+        "/api/out_of_marks": {
+            "post": {
+                "tags": [
+                    "Create maximum points API"
+                ],
+                "operationId": "createMaximumMarks",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "school_id",
+                                    "class_id",
+                                    "course_id",
+                                    "account_id",
+                                    "term",
+                                    "term_quiz",
+                                    "term_exam"
+                                ],
+                                "properties": {
+                                    "school_id": {
+                                        "type": "text"
+                                    },
+                                    "class_id": {
+                                        "type": "number"
+                                    },
+                                    "course_id": {
+                                        "type": "number"
+                                    },
+                                    "account_id": {
+                                        "type": "number"
+                                    },
+                                    "term": {
+                                        "type": "number"
+                                    },
+                                    "term_quiz": {
+                                        "type": "number"
+                                    },
+                                    "term_exam": {
+                                        "type": "number"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Maximum points are successfully created",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/api/out_of_marks/convert": {
             "post": {
                 "tags": [
                     "Convert maximum marks API"
@@ -4163,21 +4343,33 @@
                             "schema": {
                                 "required": [
                                     "school_id",
+                                    "class_id",
                                     "course_id",
-                                    "teacher_id",
-                                    "class_id"
+                                    "account_id",
+                                    "term",
+                                    "term_quiz",
+                                    "term_exam"
                                 ],
                                 "properties": {
                                     "school_id": {
                                         "type": "text"
                                     },
+                                    "class_id": {
+                                        "type": "number"
+                                    },
                                     "course_id": {
                                         "type": "number"
                                     },
-                                    "teacher_id": {
+                                    "account_id": {
                                         "type": "number"
                                     },
-                                    "class_id": {
+                                    "term_quiz": {
+                                        "type": "number"
+                                    },
+                                    "term_exam": {
+                                        "type": "number"
+                                    },
+                                    "term": {
                                         "type": "number"
                                     }
                                 },
@@ -5151,6 +5343,50 @@
                 "responses": {
                     "200": {
                         "description": "Students statistics are successfully retrieved",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/api/statistics/dashboard/{school_id}": {
+            "get": {
+                "tags": [
+                    "Get dashboard statistics API"
+                ],
+                "operationId": "getDashboardStatistics",
+                "parameters": [
+                    {
+                        "name": "school_id",
+                        "in": "path",
+                        "description": "School ID"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dashboard statistics are successfully retrieved",
                         "content": {
                             "application/json": {
                                 "schema": {}

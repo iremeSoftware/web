@@ -4,13 +4,21 @@
             Choose classroom 
             </template>
             <template v-slot:contents>
-                <div v-if="loadingStatus.isLoading == false" class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div v-if="loadingStatus.isLoading == false" >
+                    <template v-if="getClassroomList?.length > 0">
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+
                     <router-link  v-for="a in getClassroomList" :value="a.class_id" :key="a.class_id" :to="`${toPage}/${a.class_id}`" @click="showPopUp()" class="flex w-full h-10 rounded-md background-transparent ring-2 ring-[#000000] pl-4 pt-2 hover:shadow-xl hover:scale-105">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z" />
                     </svg>
-                        <strong class="pl-3">{{a.classroom_name}}</strong>
+                        <strong class="pl-3 truncate">{{a.classroom_name}}</strong>
                     </router-link>
+                    </div>
+                    </template>
+                    <template v-else>
+                        <div class="flex w-full h-10 text-lg rounded-md background-transparent ring-2 ring-[#000000] pl-4 pt-2 "><p>There is no classrooms found</p></div>
+                    </template>
                 </div>
                 <div v-else  class="pl-[40%]">
                     <svg class="animate-spin text-black h-14 w-14" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" ></circle><path class="opacity-75" fill="currentColor"

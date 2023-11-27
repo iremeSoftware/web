@@ -6,6 +6,7 @@ export const classroomStore = defineStore("classroom", {
         classroomList: [],
         classroomDetails:{},
         designatedTeachersList:[],
+        designateClassrooms:[],
         successMessage:"",
         errorMessage : "",
         loadingUI :{
@@ -24,7 +25,6 @@ export const classroomStore = defineStore("classroom", {
             self.loadingUI.isLoading = true
             school_id =  localStorage.getItem("school_id") ?? ""
             await axios.get(`classroom/${school_id}?page=${page}&limit=${limit}`).then(function (response) {
-              self.classroomList = []
               self.classroomList = response.data
               self.loadingUI.isLoading = false
             }).catch(function(err){
@@ -58,6 +58,7 @@ export const classroomStore = defineStore("classroom", {
             await axios.post('classroom',data).then(function (response) {
               self.successMessage = response.data.message
               self.loadingUI.isLoading = false
+              self.getClassroomList(data.school_id)
             }).catch(function(err){
               self.classroomList = []
               self.errorMessage = err.response.data
@@ -85,6 +86,7 @@ export const classroomStore = defineStore("classroom", {
             let self = this;
             self.errorMessage = ""
             self.loadingUI.isLoading = false
+            data.school_id = localStorage.getItem("school_id") ?? ""
             await axios.post('classroom/designate_class_teacher',data).then(function (response) {
               self.successMessage = response.data.status
               self.loadingUI.isLoading = false
@@ -98,7 +100,7 @@ export const classroomStore = defineStore("classroom", {
             let self = this;
             self.errorMessage = ""
             self.loadingUI.isLoading = false
-            data.school_id = data.school_id == undefined ? localStorage.getItem("school_id") : data.school_id
+            data.school_id = localStorage.getItem("school_id") ?? ""
             await axios.get(`designated_teachers/get/teachers/${data.school_id}/${data.class_id}`,{}).then(function (response) {
               self.designatedTeachersList = response.data.teachers
               self.loadingUI.isLoading = false
@@ -107,6 +109,20 @@ export const classroomStore = defineStore("classroom", {
               self.loadingUI.isLoading = false
             })
           },
+          async getClassroomsByDesignatedTeacher(data) {  
+            let self = this;
+            self.errorMessage = ""
+            self.loadingUI.isLoading = false
+            data.school_id = localStorage.getItem("school_id") ?? ""
+            await axios.get(`designated_teachers/${data.school_id}/${data.account_id}`,{}).then(function (response) {
+               self.designateClassrooms = response.data
+              self.loadingUI.isLoading = false
+            }).catch(function(err){
+              self.errorMessage = err.response.data
+              self.loadingUI.isLoading = false
+            })
+          },
+          
           async designateTeacher(data) {  
             let self = this;
             self.errorMessage = ""
@@ -141,6 +157,7 @@ export const classroomStore = defineStore("classroom", {
             let self = this;
             self.errorMessage = ""
             self.loadingUI.isLoading = false
+            data.school_id = localStorage.getItem("school_id") ?? ""
             await axios.post(`change_teacher/${data.school_id}/${data.classroom_id}`,data).then(function (response) {
               self.successMessage = response.data.message
               self.loadingUI.isLoading = false

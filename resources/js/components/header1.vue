@@ -17,12 +17,11 @@
               </button>
         </div>
         
-
         <div class="w-7/12 space-x-3 pt-4  hidden md:block ">
             <router-link to="/"  href="#home" v-smooth-scroll>
             <button  class="text-sm pb-4 hover:text-[#0673c3]" :class="fullUrl.split('#')[1] == 'home'?'text-[#0673c3]':''"><p class="flex"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-5 h-5">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-</svg>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+            </svg>
 
 
 &nbsp;&nbsp;Home</p>
@@ -214,7 +213,8 @@
     },
   methods: {
     onScroll(e) {
-    this.windowTop = window.top.scrollY ;
+    this.windowTop = window.top.scrollY
+    console.log(this.windowTop)
     if(this.fullUrl.includes("#") || this.fullUrl.split('/')[3]=='')
     {
     if(this.windowTop == 0 && this.windowTop<692 )
@@ -224,14 +224,14 @@
         hash:"#home"
       })
     }
-    else if(this.windowTop > 725 && this.windowTop<1330 )
+    else if(this.windowTop > 858 && this.windowTop<1462 )
     {
       this.$router.push({
         path:"/",
         hash:"#solutions"
       })
     }
-    else if(this.windowTop > 1359)
+    else if(this.windowTop > 1600)
     {
       this.$router.push({
         path:"/",

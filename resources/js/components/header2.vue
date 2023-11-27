@@ -1,8 +1,8 @@
 <template>
-    <div class="w-full md:w-[85%] h-16 shadow-md bg-white fixed md:ml-[15%] ">
+    <div class="z-10 w-full md:w-[85%] h-16 shadow-md bg-white fixed md:ml-[15%] ">
         <div class="flex pl-2 md:pl-10 pt-4">
           <div class="hidden w-full md:block text-[16px] font-semibold ">
-            <div class="flex">
+            <div class="flex text-transparent bg-clip-text bg-gradient-to-l from-[#8fcc53] to-[#0171c0]">
               <img  :src="
           getUsers.profile_pic != undefined ? 
           (getUsers.profile_pic.includes('https://lh3.googleusercontent.com') == false
@@ -34,7 +34,8 @@
           </button>
           <button v-if="getUsers.authentications?.includes('edit_school_settings')" @click="showPopUp('newUsers')" class="w-[150px] h-8 text-sm rounded-lg text-white bg-[#000000]"><p class="flex pl-2 pt-1"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6 pb-1">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>Invite new user </p></button>
+           </svg>Invite new user </p>
+          </button>
 
           <div class="border-l-[2px]"></div>
 
@@ -86,6 +87,15 @@
       <template v-else-if="popup_type == 'switch_schools'">
         <switchSchoolsPopup/>
       </template>
+      <template v-else-if="popup_type == 'teacher_classrooms'">
+        <teacher_classrooms/>
+      </template>
+      <template v-else-if="popup_type == 'set_maximum_points'">
+        <setMaximumPoints/>
+      </template>
+      <template v-else-if="popup_type == 'convert_maximum_points'">
+        <convertMaximumPoints/>
+      </template>
 </template>
 
 <script>
@@ -102,11 +112,13 @@ import newUserModal from './popup_forms/new_user.vue'
 import LogoutPopUp from './popup_forms/logout_prompt.vue'
 import updateStudentPopup from './popup_forms/update_student.vue'
 import assignNewCourse from './popup_forms/assign_courses.vue'
-import updateCoursePopup from './popup_forms/update_course.vue';
+import updateCoursePopup from './popup_forms/update_course.vue'
 import updateClassroomPopup from './popup_forms/update_classroom.vue'
 import updateUserPopup from './popup_forms/update_user_details.vue'
 import switchSchoolsPopup from './popup_forms/switch_schools.vue'
-
+import teacher_classrooms from './popup_forms/teacher_classrooms.vue'
+import setMaximumPoints from './popup_forms/set_maximum_points.vue'
+import convertMaximumPoints from './popup_forms/convert_points.vue'
 export default{
     name:"Header2",
     components:{
@@ -122,7 +134,10 @@ export default{
       updateCoursePopup,
       updateClassroomPopup,
       updateUserPopup,
-      switchSchoolsPopup
+      switchSchoolsPopup,
+      teacher_classrooms,
+      setMaximumPoints,
+      convertMaximumPoints
    },
     setup() {
 

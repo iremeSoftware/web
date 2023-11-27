@@ -19,4 +19,5 @@ let app = createApp(App)
 app
 .use(pinia)
 .use(VueSmoothScroll)
-.use(router).mount("#app")
+.use(router)
+.mount("#app")

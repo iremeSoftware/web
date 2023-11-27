@@ -7,7 +7,7 @@
                 <div v-if="loadingStatus.isLoading == false" class="grid grid-cols-1 gap-4">
                     <button  v-for="a in getSchoolsList" :value="a.class_id" :key="a.class_id" @click="switchSchool(a.school_id)" class="flex w-full h-10 rounded-md background-transparent ring-2 ring-[#000000] pl-4 pt-2 hover:shadow-xl hover:scale-105">
                         <img  :src="'/school_logo/' +a.logo" class="h-[30px] w-[30px] rounded-full">
-                        <strong class="pl-3">{{a.school_name}}</strong>
+                        <strong class="truncate pl-3">{{a.school_name}}</strong>
                     </button>
                 </div>
                 <div v-else  class="pl-[40%]">

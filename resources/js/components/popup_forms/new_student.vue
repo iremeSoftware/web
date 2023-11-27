@@ -51,6 +51,7 @@
 </div>
 
 <div class="space-y-4" :class="isCSVTabSelected?'hidden':'block'">
+
     <p class="pt-12 text-sm font-semibold text-left">Names: <span class=" text-red-600" title="Required field">(*)</span></p>
           <input type='text' class='w-full h-9 ring-2 ring-[#f6f6f6] rounded-lg placeholder:p-1 placeholder:font-light  enabled:p-2' @keyup="validate(messages,rules,formData,$event)" placeholder='Enter student names' v-model="formData.name" id="formData.name" />
         <div class="text-end">
@@ -124,24 +125,39 @@
                       <span class="  text-red-600 text-xs" >{{messages.mothers_ID.slot}}</span>
           </div> 
 
+    <p class="pt-2 text-sm font-semibold text-left">Select location province :</p>
+    <select @change='display_districts($event)'  name='location_province' class="w-full h-9 bg-transparent ring-2 ring-[#f6f6f6] rounded-lg   enabled:p-2 enabled:font-light" id="formData.location_province"  v-model="formData.location_province"  >
+                <option value=''>Select provinces</option>
+                <option v-for="a,k in locations.provinces" :value="k+'_'+a.name" :key="a.name">{{a.name}} </option>
+                </select>      
+
 
     <p class="pt-2 text-sm font-semibold text-left">Select location district:</p>
          <select @change='display_sectors($event)'  name='location_district' class="w-full h-9 bg-transparent ring-2 ring-[#f6f6f6] rounded-lg   enabled:p-2 enabled:font-light" id="formData.location_district"  v-model="formData.location_district"  >
                       <option value=''>Select district</option>
-                      <option v-for="a in districts" :value="a.name" :key="a.name">{{a.name}} </option>
+                      <option v-for="a,k in districts" :value="k+'_'+a.name" :key="a.name">{{a.name}} </option>
                       </select>
 
     <p class="pt-2 text-sm font-semibold text-left">Select location sector:</p>
-          <select name='location_sector' class="w-full h-9 bg-transparent ring-2 ring-[#f6f6f6] rounded-lg enabled:p-2 enabled:font-light" v-model="formData.location_sector" id="formData.location_sector">
+          <select @change='display_cells($event)' name='location_sector' class="w-full h-9 bg-transparent ring-2 ring-[#f6f6f6] rounded-lg enabled:p-2 enabled:font-light" v-model="formData.location_sector" id="formData.location_sector">
                       <option value=''>Select location sector:</option>
-                      <option  v-for="a in sector" v-bind:value="a.sector" :key="a.sector">{{a.sector}} </option>
+                      <option  v-for="a,k in sector" v-bind:value="k+'_'+a.name" :key="k+'_'+a.name">{{a.name}} </option>
                       </select>
 
-    <p class="pt-2 text-sm font-semibold text-left">Enter location cell:</p>
-          <input type='text' class='w-full h-9 ring-2 ring-[#f6f6f6] rounded-lg placeholder:p-1 placeholder:font-light  enabled:p-2' @keyup="validate(messages,rules,formData,$event)" placeholder="Enter location cell" v-model="formData.location_cell" id="formData.location_cell" />
 
-          <p class="pt-2 text-sm font-semibold text-left">Enter location village:</p>
-          <input type='text' class='w-full h-9 ring-2 ring-[#f6f6f6] rounded-lg placeholder:p-1 placeholder:font-light  enabled:p-2' @keyup="validate(messages,rules,formData,$event)" placeholder="Enter location village" v-model="formData.location_village" id="formData.location_village" />    
+    <p class="pt-2 text-sm font-semibold text-left">Select location cell:</p>
+          <select @change="display_villages($event)" name='location_sector' class="w-full h-9 bg-transparent ring-2 ring-[#f6f6f6] rounded-lg enabled:p-2 enabled:font-light" v-model="formData.location_cell" id="formData.location_cell">
+                      <option value=''>Select location cell:</option>
+                      <option  v-for="a,k in cell" v-bind:value="k+'_'+a.name" :key="k+'_'+a.name">{{a.name}} </option>
+                      </select>  
+                      
+
+    <p class="pt-2 text-sm font-semibold text-left">Select location village:</p>
+          <select name='location_sector' class="w-full h-9 bg-transparent ring-2 ring-[#f6f6f6] rounded-lg enabled:p-2 enabled:font-light" v-model="formData.location_village" id="formData.location_village">
+                      <option value=''>Select location village:</option>
+                      <option  v-for="a,k in villages" v-bind:value="k+'_'+a.name" :key="k+'_'+a.name">{{a.name}} </option>
+                      </select>                    
+
         <input type="hidden" v-model="formData.school_id">
         </div>
 
@@ -237,12 +253,14 @@ import { uiChangesStore } from '../../stores/ui_changes'
 import { classroomStore } from '../../stores/classroom'
 import { useUserStore } from '../../stores/auth'
 import { studentsStore } from '../../stores/students'
-import districtsList from "../../data/districts.json"
 import sectors from '../../data/sectors.json'
+import locations from '../../data/locations.json'
 import Alert from '../../components/alert.vue'
 import ModalPopUp from './../ModalPopUp.vue'
 import {validations,onlyNumberKey} from "../../helpers/validations"
 import {generateKey} from '../../helpers/generate_key'
+import { statisticsStore } from '../../stores/statistics'
+
 
 
 export default {
@@ -264,6 +282,8 @@ export default {
         const errorFeedbackStatus = ref(false)      
         const districts = ref([])
         const sector = ref([])
+        const cell = ref([])
+        const villages = ref([])
         const formData = ref({
             name:"",
             student_sex: "",
@@ -276,13 +296,17 @@ export default {
             parent_email:"",
             fathers_ID:"",
             mothers_ID:"",
+            location_province:"",
             location_district:"",
             location_sector:"",
             location_cell:"",
+            location_village:"",
             school_id:"",
             student_id:generateKey(10),
             registered_by:""
         });
+        const statisticStore = statisticsStore();
+
 
         const rules = ref({
             name:{
@@ -392,9 +416,9 @@ export default {
         const isDragging = ref(false)
         const files = ref([])
 
-        function display_sectors(){
-          sector.value=sectors[event.target.value];
-        }
+        // function display_sectors(){
+        //   sector.value=sectors[event.target.value];
+        // }
 
         function validate (messages,rules,formData,event){
             return validations(messages,rules,formData,event)
@@ -435,6 +459,7 @@ export default {
 
         const successMessageMap = computed(() => {
             clearUpload()
+            statisticStore.getDashboardStistics();
             return studentsStores.successMessageArr
         })
 
@@ -455,6 +480,7 @@ export default {
             formData.value.location_sector=""
             formData.value.location_cell=""
             formData.value.location_cell=""
+            statisticStore.getDashboardStistics();
             return studentsStores.successMessage
         });
 
@@ -512,11 +538,38 @@ export default {
                 'class_id':formData.value.classroom
             }
             return studentsStores.importStudents(datas,frmData)
-           }
+        }
+
+        function display_districts(){
+            let k = event.target.value
+            k = parseInt(k.split('_')[0])
+            console.log(locations.provinces[k].districts)
+            districts.value = locations.provinces[k].districts.map((p,v)=>locations.provinces[k].districts[v])
+        }
+
+        function display_sectors(){
+            let prov = parseInt(formData.value.location_province.split('_')[0])
+            let dist = parseInt(formData.value.location_district.split('_')[0])
+            sector.value = locations.provinces[prov].districts[dist].sectors.map((p,v)=> locations.provinces[prov].districts[dist].sectors[v])
+        }
+
+        function display_cells(){
+            let prov = parseInt(formData.value.location_province.split('_')[0])
+            let dist = parseInt(formData.value.location_district.split('_')[0])
+            let sect = parseInt(formData.value.location_sector.split('_')[0])            
+            cell.value = locations.provinces[prov].districts[dist].sectors[sect].cells.map((p,v)=> locations.provinces[prov].districts[dist].sectors[sect].cells[v])
+        }
+
+        function display_villages(){
+            let prov = parseInt(formData.value.location_province.split('_')[0])
+            let dist = parseInt(formData.value.location_district.split('_')[0])
+            let sect = parseInt(formData.value.location_sector.split('_')[0]) 
+            let cell = parseInt(formData.value.location_cell.split('_')[0])
+            villages.value = locations.provinces[prov].districts[dist].sectors[sect].cells[cell].villages.map((p,v)=> locations.provinces[prov].districts[dist].sectors[sect].cells[cell].villages[v])
+        }
 
 
         onMounted(() => {
-            districts.value = districtsList
             if(userStore.getUserData())
             {
                 setTimeout(function (){
@@ -526,7 +579,7 @@ export default {
                 },1000);
             }
         });
-        return {messages,formData,rules,slotData,isPopUpOpened,showPopUp,createStudent,validate,loadingStatus,getClassroomList,districts,sector,display_sectors,closeFeedback,feedbackStatus,successFeedbackStatus,errorFeedbackStatus,successStatus,onlyNumberKey,errorStatus,selectTab,isCSVTabSelected,files,dragover,dragleave,drop,onChange,clearUpload,importStudent,successMessageMap}
+        return {messages,formData,rules,slotData,isPopUpOpened,showPopUp,createStudent,validate,loadingStatus,getClassroomList,districts,sector,display_sectors,closeFeedback,feedbackStatus,successFeedbackStatus,errorFeedbackStatus,successStatus,onlyNumberKey,errorStatus,selectTab,isCSVTabSelected,files,dragover,dragleave,drop,onChange,clearUpload,importStudent,successMessageMap,locations,display_districts,display_cells,cell,display_villages,villages}
        },
     }
     </script>

@@ -182,8 +182,7 @@ class DesignatedTeachersController extends Controller
          ->join('courses', 'courses.course_id', '=', 'designated_teachers.course_id')
          ->where([
             ['designated_teachers.school_id', '=', $request->school_id],
-            ['designated_teachers.class_id', '=', $request->class_id]
-
+            ['designated_teachers.class_id', '=', $request->class_id],
          ])
          ->distinct()
          ->get();
@@ -245,7 +244,7 @@ class DesignatedTeachersController extends Controller
     {
         //
          $courses = Designated_teachers::select('courses.*','designated_teachers.*')
-         ->leftjoin('courses', 'courses.course_id', '=', 'designated_teachers.course_id')
+         ->join('courses', 'courses.course_id', '=', 'designated_teachers.course_id')
          ->where([
             ['designated_teachers.school_id', '=', $request->school_id],
             ['designated_teachers.teacher_id', '=', $request->teacher_id],

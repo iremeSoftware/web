@@ -21,6 +21,7 @@ export const studentsStore = defineStore("students", {
             let self = this
             self.errorMessage = ""
             self.loadingUI.isLoading = true
+            data.school_id = localStorage.getItem('school_id') ?? ""
             await axios.get(`students/${data.school_id}/${data.class_id}/${data.student_id}?page=${data.page}&limit=${data.limit}&sort=${data.sort}&sort_by=${data.sort_by}`,{}).then(function (response) {
               self.studentsList = response.data
               self.loadingUI.isLoading = false

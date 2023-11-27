@@ -1,5 +1,5 @@
 <template>
-    <div  class="fixed md:left-[35%] ring-2 ring-black top-20 w-full md:w-[500px] h-auto bg-white rounded-2xl shadow-2xl pb-4 m-2">
+    <div  class="z-10 fixed md:left-[35%] ring-2 ring-black top-20 w-full md:w-[500px] h-auto bg-white rounded-2xl shadow-2xl pb-4 m-2">
         <span class="">
       <button class="md:ml-[480px] -mt-2 bg-white rounded-full" @click="closeFeedback">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">

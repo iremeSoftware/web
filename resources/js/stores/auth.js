@@ -22,8 +22,7 @@ export const useUserStore = defineStore("auth", {
     },
     actions: {
         async login(credentials) {  
-          let self = this;
-          
+            let self = this;        
             self.loadingUI.isLoading = true;
             self.errorMessage = ""
             await axios.post("login", credentials).then(function (response) {
@@ -143,7 +142,6 @@ export const useUserStore = defineStore("auth", {
               self.errorMessage = err.response.data;
             })
           },
-
 
           async confirm_account(token) {
             let self = this;

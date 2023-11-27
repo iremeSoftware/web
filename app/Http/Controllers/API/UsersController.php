@@ -396,10 +396,10 @@ class UsersController extends Controller
             
              $i++;
 
-              $names = $data[0];
-              $email = $data[1];
-              $phone_number = $data[2];
-              $user_roles = $data[3];
+              $names = $data[0] ?? "";
+              $email = $data[1] ?? "";
+              $phone_number = $data[2] ?? "";
+              $user_roles = $data[3] ?? "";
 
               $account_id=Str::random(30);
               $user = new User;
@@ -437,30 +437,30 @@ class UsersController extends Controller
   ###################################DEFINE USER'S AUTHORISATION#################################
         if($user_roles=='Teacher')
         {
-          $user_role='teacher';
+          $role='teacher';
         }
         else if($user_roles=='Bursar')
         {
-          $user_role='student_payment';
+          $role='student_payment';
         }
         else if($user_roles=='DOS')
         {
-          $user_role='add_course,add_classroom,generate_report';
+          $role='add_course,add_classroom,generate_report';
         }
         else if($user_roles=='Patron')
         {
-          $user_role='edit_conduct_marks';
+          $role='edit_conduct_marks';
         }
         else if($user_roles=='Matron')
         {
-          $user_role='edit_conduct_marks';
+          $role='edit_conduct_marks';
         }
 ###################################//DEFINE USER'S AUTHORISATION#################################
 
         $authentications = new User_authentications;
         $authentications->account_id =$account_id;
         $authentications->school_id =$school_id;
-        $authentications->authentications =$user_role;
+        $authentications->authentications =$role;
         $authentications->save();
 
            $subject="Complete registration";
@@ -485,12 +485,15 @@ class UsersController extends Controller
       }
        else
       {
+        
         $user=User::select('*')
         ->where([
           ['email','=',$email]
         ])
-        ->first();
-        $account_id=$user->account_id;
+        ->get();
+        if($user->count())
+        {
+        $account_id=$user[0]->account_id;
         $user_role = new user_role;
         $user_role->school_id = $request->school_id;
         $user_role->account_id = $account_id;
@@ -504,27 +507,27 @@ class UsersController extends Controller
             ['account_id', '=', $account_id]
         ])
         ->get();
-           $check_exist=$my_auth->count();
+           $check_exist=$my_auth->count() ?? 0;
  ###################################DEFINE USER'S AUTHORISATION#################################
         if($user_roles=='Teacher')
         {
-          $user_role='teacher';
+          $role='teacher';
         }
         else if($user_roles=='Bursar')
         {
-          $user_role='student_payment';
+          $role='student_payment';
         }
         else if($user_roles=='DOS')
         {
-          $user_role='add_course,add_classroom,generate_report';
+          $role='add_course,add_classroom,generate_report';
         }
         else if($user_roles=='Patron')
         {
-          $user_role='edit_conduct_marks';
+          $role='edit_conduct_marks';
         }
         else if($user_roles=='Matron')
         {
-          $user_role='edit_conduct_marks';
+          $role='edit_conduct_marks';
         }
 ###################################//DEFINE USER'S AUTHORISATION#################################
         if($check_exist==0)
@@ -532,7 +535,7 @@ class UsersController extends Controller
         $authentications = new User_authentications;
         $authentications->account_id = $account_id;
         $authentications->school_id = $request->school_id;
-        $authentications->authentications =$user_role;
+        $authentications->authentications =$role;
         $authentications->save();
         }
         else
@@ -544,16 +547,13 @@ class UsersController extends Controller
             ['account_id', '=', $account_id]
         ])
         ->update([
-        'authentications'=>$user_role.$my_auth->authentications[0],
+        'authentications'=>$role.','.$my_auth[0]->authentications ?? "",
         'updated_at'=>$now
         ]);    
        }
       }
-
-
-
-
-          }
+    }
+}
           fclose($file);
 
 

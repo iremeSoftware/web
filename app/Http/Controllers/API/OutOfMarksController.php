@@ -29,7 +29,7 @@ class OutOfMarksController extends Controller
         * @OA\Get(
         * path="/api/out_of_marks/{school_id}/{class_id}/{course_id}",
         * operationId="getMaximumMarks",
-        * tags={"Get maximum marks API"},
+        * tags={"Get maximum points API"},
         * security={
         *  {
         *  "passport": {}},
@@ -46,13 +46,13 @@ class OutOfMarksController extends Controller
         *      ),
 
         *      @OA\Parameter(
-        *         name="course_id",
-        *         in="path",
-        *         description="Course ID",
+        *         name="term",
+        *         in="query",
+        *         description="Term",
         *      ),
         *      @OA\Response(
         *          response=200,
-        *          description="Maximum points is successfully retrieved",
+        *          description="Maximum points are successfully retrieved",
         *          @OA\JsonContent()
         *       ),
         *      @OA\Response(
@@ -80,10 +80,8 @@ class OutOfMarksController extends Controller
         ['out_of_marks.class_id', '=', $request->class_id]
         ])->first();
 
-         $total=$Out_of_marks->count();
-         $offset=0;
         }
-        return response()->json(['Out_of_marks'=>$Out_of_marks,'total'=>$total,'message'=>'Retrived successfully'],200);
+        return response()->json(['Out_of_marks'=>$Out_of_marks,'message'=>'Retrived successfully'],200);
     }
 
     /**
@@ -92,6 +90,46 @@ class OutOfMarksController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+         /**
+        * @OA\Post(
+        * path="/api/out_of_marks",
+        * operationId="createMaximumMarks",
+        * tags={"Create maximum points API"},
+        * security={
+        *  {
+        *  "passport": {}},
+        *  },
+        *     @OA\RequestBody(
+        *         @OA\JsonContent(),
+        *         @OA\MediaType(
+        *            mediaType="multipart/form-data",
+        *            @OA\Schema(
+        *               type="object",
+        *               required={"school_id","class_id","course_id","account_id","term","term_quiz","term_exam"},
+        *               @OA\Property(property="school_id", type="text"),
+        *               @OA\Property(property="class_id", type="number"),
+        *               @OA\Property(property="course_id", type="number"),
+        *               @OA\Property(property="account_id", type="number"),
+        *               @OA\Property(property="term", type="number"),
+        *               @OA\Property(property="term_quiz", type="number"),
+        *               @OA\Property(property="term_exam", type="number"),
+        *            ),
+        *        ),
+        *    ),
+        *      @OA\Response(
+        *          response=200,
+        *          description="Maximum points are successfully created",
+        *          @OA\JsonContent()
+        *       ),
+        *      @OA\Response(
+        *          response=422,
+        *          description="Unprocessable Entity",
+        *          @OA\JsonContent()
+        *       ),
+        *      @OA\Response(response=400, description="Bad request"),
+        *      @OA\Response(response=404, description="Resource Not Found"),
+        * )
+        */
     public function store(Request $request)
     {
         //
@@ -101,7 +139,7 @@ class OutOfMarksController extends Controller
         $check_course = Out_of_marks::select('*')->where([
             ['school_id', '=', $request->school_id],
             ['course_id','=',$request->course_id],
-            ['teacher_id','=',$request->teacher_id],
+            ['teacher_id','=',$request->account_id],
             ['class_id','=',$request->class_id]
         ])->count();
          $now=date('Y-m-d H:i:s');
@@ -125,13 +163,11 @@ class OutOfMarksController extends Controller
         if($check_course==0)
         {
 
-          
-           $insert_user=DB::insert('INSERT INTO out_of_marks(academic_year,school_id,course_id,teacher_id,class_id,term1_quiz,term1_exam,term1_total_marks,term2_quiz,term2_exam,term2_total_marks,term3_quiz,term3_exam,term3_total_marks,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',[$academic_year,$request->school_id,$request->course_id,$request->teacher_id,$request->class_id,0,0,0,0,0,0,0,0,0,$now,$now]);
-
+           $insert_user=DB::insert('INSERT INTO out_of_marks(academic_year,school_id,course_id,teacher_id,class_id,term1_quiz,term1_exam,term1_total_marks,term2_quiz,term2_exam,term2_total_marks,term3_quiz,term3_exam,term3_total_marks,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',[$academic_year,$request->school_id,$request->course_id,$request->account_id,$request->class_id,0,0,0,0,0,0,0,0,0,$now,$now]);
         }
          $Out_of_marks = Out_of_marks::select('*')
         ->where([
-                                ['teacher_id', '=', $request->teacher_id],
+                                ['teacher_id', '=', $request->account_id],
                                 ['course_id', '=', $request->course_id],
                                 ['class_id', '=', $request->class_id],
                                 ['school_id','=',$request->school_id]
@@ -140,7 +176,7 @@ class OutOfMarksController extends Controller
             'school_id' => $request->school_id,
             'class_id' => $request->class_id,
             'course_id' => $request->course_id,
-            'teacher_id' => $request->teacher_id,
+            'teacher_id' => $request->account_id,
             'term' => $request->term,
             'division1' => '90-100',
             'division2' => '80-89',
@@ -187,14 +223,14 @@ class OutOfMarksController extends Controller
 
             $update = DB::table('out_of_marks')
                             ->where([
-                                ['teacher_id', '=', $request->teacher_id],
+                                ['teacher_id', '=', $request->account_id],
                                 ['course_id', '=', $request->course_id],
                                 ['class_id', '=', $request->class_id],
                                 ['school_id','=',$request->school_id]
                             ])
                             ->update([
                               'term1_quiz'=>$Out_of_marks->term1_quiz+$request->term_quiz,
-                              'term1_exam'=>$request->term_exam,
+                              'term1_exam'=>$Out_of_marks->term1_exam+$request->term_exam,
                               'term1_total_marks'=>($Out_of_marks->term1_quiz)+($request->term_quiz+$request->term_exam),
                               'updated_at'=>$now
                             ]);
@@ -217,14 +253,14 @@ class OutOfMarksController extends Controller
 
             $update = DB::table('out_of_marks')
                             ->where([
-                                ['teacher_id', '=', $request->teacher_id],
+                                ['teacher_id', '=', $request->account_id],
                                 ['course_id', '=', $request->course_id],
                                 ['class_id', '=', $request->class_id],
                                 ['school_id','=',$request->school_id]
                             ])
                             ->update([
                               'term2_quiz'=>$Out_of_marks->term2_quiz+$request->term_quiz,
-                              'term2_exam'=>$request->term_exam,
+                              'term2_exam'=>$Out_of_marks->term2_exam+$request->term_exam,
                               'term2_total_marks'=>$Out_of_marks->term2_total_marks+$request->term_quiz+$request->term_exam,
                               'updated_at'=>$now
                             ]);
@@ -245,14 +281,14 @@ class OutOfMarksController extends Controller
             
             $update = DB::table('out_of_marks')
                             ->where([
-                                ['teacher_id', '=', $request->teacher_id],
+                                ['teacher_id', '=', $request->account_id],
                                 ['course_id', '=', $request->course_id],
                                 ['class_id', '=', $request->class_id],
                                 ['school_id','=',$request->school_id]
                             ])
                             ->update([
                               'term3_quiz'=>$Out_of_marks->term3_quiz+$request->term_quiz,
-                              'term3_exam'=>$request->term_exam,
+                              'term3_exam'=>$Out_of_marks->term3_exam+$request->term_exam,
                               'term3_total_marks'=>$Out_of_marks->term3_total_marks+$request->term_quiz+$request->term_exam,
                               'updated_at'=>$now
                             ]);
@@ -278,7 +314,7 @@ class OutOfMarksController extends Controller
      */
          /**
         * @OA\Post(
-        * path="/api/out_of_marks/{school_id}/{class_id}/{course_id}",
+        * path="/api/out_of_marks/convert",
         * operationId="convertMaximumMarks",
         * tags={"Convert maximum marks API"},
         * security={
@@ -291,11 +327,14 @@ class OutOfMarksController extends Controller
         *            mediaType="multipart/form-data",
         *            @OA\Schema(
         *               type="object",
-        *               required={"school_id","course_id","teacher_id","class_id"},
+        *               required={"school_id","class_id","course_id","account_id","term","term_quiz","term_exam"},
         *               @OA\Property(property="school_id", type="text"),
-        *               @OA\Property(property="course_id", type="number"),
-        *               @OA\Property(property="teacher_id", type="number"),
         *               @OA\Property(property="class_id", type="number"),
+        *               @OA\Property(property="course_id", type="number"),
+        *               @OA\Property(property="account_id", type="number"),
+        *               @OA\Property(property="term_quiz", type="number"),
+        *               @OA\Property(property="term_exam", type="number"),
+        *               @OA\Property(property="term", type="number"),
         *            ),
         *        ),
         *    ),
@@ -323,7 +362,7 @@ class OutOfMarksController extends Controller
         $check_course = Out_of_marks::select('*')->where([
             ['school_id', '=', $request->school_id],
             ['course_id','=',$request->course_id],
-            ['teacher_id','=',$request->teacher_id],
+            ['teacher_id','=',$request->account_id],
             ['class_id','=',$request->class_id]
         ])->count();
          $now=date('Y-m-d H:i:s');
@@ -346,15 +385,11 @@ class OutOfMarksController extends Controller
 
         if($check_course==0)
         {
-
-
-           
-           $insert_user=DB::insert('INSERT INTO out_of_marks(academic_year,school_id,course_id,teacher_id,class_id,term1_quiz,term1_exam,term1_total_marks,term2_quiz,term2_exam,term2_total_marks,term3_quiz,term3_exam,term3_total_marks,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',[$academic_year,$request->school_id,$request->course_id,$request->teacher_id,$request->class_id,0,0,0,0,0,0,0,0,0,$now,$now]);
-
+           $insert_user=DB::insert('INSERT INTO out_of_marks(academic_year,school_id,course_id,teacher_id,class_id,term1_quiz,term1_exam,term1_total_marks,term2_quiz,term2_exam,term2_total_marks,term3_quiz,term3_exam,term3_total_marks,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',[$academic_year,$request->school_id,$request->course_id,$request->account_id,$request->class_id,0,0,0,0,0,0,0,0,0,$now,$now]);
         }
          $Out_of_marks = Out_of_marks::select('*')
         ->where([
-                                ['teacher_id', '=', $request->teacher_id],
+                                ['teacher_id', '=', $request->account_id],
                                 ['course_id', '=', $request->course_id],
                                 ['class_id', '=', $request->class_id],
                                 ['school_id','=',$request->school_id]
@@ -362,11 +397,12 @@ class OutOfMarksController extends Controller
 
         $students = Marks::select('*')
         ->where([
-                                ['teacher_id', '=', $request->teacher_id],
+                                ['teacher_id', '=', $request->account_id],
                                 ['course_id', '=', $request->course_id],
                                 ['class_id', '=', $request->class_id],
                                 ['school_id','=',$request->school_id]
         ])->get();
+        
         if($request->term==1)
         {
             if($today>=$term1_from && $today<=$term3_to)
@@ -379,7 +415,7 @@ class OutOfMarksController extends Controller
 
             $update = DB::table('out_of_marks')
                             ->where([
-                                ['teacher_id', '=', $request->teacher_id],
+                                ['teacher_id', '=', $request->account_id],
                                 ['course_id', '=', $request->course_id],
                                 ['class_id', '=', $request->class_id],
                                 ['school_id','=',$request->school_id]
@@ -400,11 +436,11 @@ class OutOfMarksController extends Controller
                             $term1_exam=$students[$i]->term1_exam;
                             $term1_total_marks=$students[$i]->term1_total_marks;
 
-                            $term1_quiz=$term1_quiz>0?round(($term1_quiz/$Out_of_marks->term1_quiz)*$quiz,1):$term1_quiz;
-                            $term1_exam=$term1_exam>0?round(($term1_exam/$Out_of_marks->term1_exam)*$exam,1):$term1_exam;
+                            $term1_quiz=$term1_quiz && $Out_of_marks->term1_quiz?round(($term1_quiz/$Out_of_marks->term1_quiz)*$quiz,1):$term1_quiz;
+                            $term1_exam=$term1_exam && $Out_of_marks->term1_exam>0?round(($term1_exam/$Out_of_marks->term1_exam)*$exam,1):$term1_exam;
                             $term1_total_marks=$term1_quiz + $term1_exam;
 
-                            $update = DB::update("UPDATE marks SET `term1_quiz`=?,`term1_exam`=?,`term1_total_marks`=?,`updated_at`=? WHERE student_id=? AND teacher_id=? AND course_id=? AND class_id=? AND school_id=?",[$term1_quiz,$term1_exam,$term1_total_marks,$now,$student_id,$request->teacher_id,$request->course_id,$request->class_id,$request->school_id]);
+                            $update = DB::update("UPDATE marks SET `term1_quiz`=?,`term1_exam`=?,`term1_total_marks`=?,`updated_at`=? WHERE student_id=? AND teacher_id=? AND course_id=? AND class_id=? AND school_id=?",[$term1_quiz,$term1_exam,$term1_total_marks,$now,$student_id,$request->account_id,$request->course_id,$request->class_id,$request->school_id]);
                          }
 
 
@@ -429,7 +465,7 @@ class OutOfMarksController extends Controller
 
             $update = DB::table('out_of_marks')
                             ->where([
-                                ['teacher_id', '=', $request->teacher_id],
+                                ['teacher_id', '=', $request->account_id],
                                 ['course_id', '=', $request->course_id],
                                 ['class_id', '=', $request->class_id],
                                 ['school_id','=',$request->school_id]
@@ -455,7 +491,7 @@ class OutOfMarksController extends Controller
                             $term2_total_marks=$term2_quiz + $term2_exam;
 
 
-                            $update = DB::update("UPDATE marks SET `term2_quiz`=?,`term2_exam`=?,`term2_total_marks`=?,`updated_at`=? WHERE student_id=? AND teacher_id=? AND course_id=? AND class_id=? AND school_id=?",[$term2_quiz,$term2_exam,$term2_total_marks,$now,$student_id,$request->teacher_id,$request->course_id,$request->class_id,$request->school_id]);
+                            $update = DB::update("UPDATE marks SET `term2_quiz`=?,`term2_exam`=?,`term2_total_marks`=?,`updated_at`=? WHERE student_id=? AND teacher_id=? AND course_id=? AND class_id=? AND school_id=?",[$term2_quiz,$term2_exam,$term2_total_marks,$now,$student_id,$request->account_id,$request->course_id,$request->class_id,$request->school_id]);
                          }
 
 
@@ -472,15 +508,13 @@ class OutOfMarksController extends Controller
         {
             if($today>=$term3_from && $today<=$term3_to)
             {
-
-
             $quiz=$request->term_quiz==''?$Out_of_marks->term3_quiz:$request->term_quiz;
             $exam=$request->term_exam==''?$Out_of_marks->term3_exam:$request->term_exam;
             $total=$quiz + $exam;
 
             $update = DB::table('out_of_marks')
                             ->where([
-                                ['teacher_id', '=', $request->teacher_id],
+                                ['teacher_id', '=', $request->account_id],
                                 ['course_id', '=', $request->course_id],
                                 ['class_id', '=', $request->class_id],
                                 ['school_id','=',$request->school_id]
@@ -505,7 +539,7 @@ class OutOfMarksController extends Controller
                             $term3_exam=$term3_exam>0?round(($term3_exam/$Out_of_marks->term3_exam)*$exam,1):$term3_exam;
                             $term3_total_marks=$term3_quiz + $term3_exam;
 
-                            $update = DB::update("UPDATE marks SET `term3_quiz`=?,`term3_exam`=?,`term3_total_marks`=?,`updated_at`=? WHERE student_id=? AND teacher_id=? AND course_id=? AND class_id=? AND school_id=?",[$term3_quiz,$term3_exam,$term3_total_marks,$now,$student_id,$request->teacher_id,$request->course_id,$request->class_id,$request->school_id]);
+                            $update = DB::update("UPDATE marks SET `term3_quiz`=?,`term3_exam`=?,`term3_total_marks`=?,`updated_at`=? WHERE student_id=? AND teacher_id=? AND course_id=? AND class_id=? AND school_id=?",[$term3_quiz,$term3_exam,$term3_total_marks,$now,$student_id,$request->account_id,$request->course_id,$request->class_id,$request->school_id]);
                          }
 
 

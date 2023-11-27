@@ -19,15 +19,14 @@
               <p class="mt-1 ml-2">Users</p>
             </dt>
 
-            <dd class="text-5xl font-light md:text-6xl">20</dd>
+            <dd class="text-5xl font-light md:text-6xl">{{statisticsData.users ?? 0}}</dd>
 
-            <dd class="flex items-center space-x-1 text-sm font-medium text-green-500">
-                <span>32k increase</span>
-
-                <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.25 15.25V6.75H8.75"></path>
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 7L6.75 17.25"></path>
-                </svg>
+            <dd class="flex items-center space-x-1 text-sm font-medium text-transparent bg-clip-text bg-gradient-to-l from-[#8fcc53] to-[#0171c0]">
+              <button v-if="getUsers.authentications?.includes('edit_school_settings')" @click="showPopUp('newUsers')" class="w-[150px] h-8 text-sm rounded-lg "><p class="flex pl-2 pt-1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6 pb-1 text-black">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg><p class="mt-[2px]">Invite new user </p></p>
+             </button>
             </dd>
          </dl>
         </div>
@@ -40,15 +39,14 @@
               <p class="mt-1 ml-2">Students</p>
             </dt>
 
-            <dd class="text-5xl font-light md:text-6xl">200</dd>
+            <dd class="text-5xl font-light md:text-6xl">{{statisticsData.students ?? 0}}</dd>
 
-            <dd class="flex items-center space-x-1 text-sm font-medium text-red-500">
-                <span>7% increase</span>
-
-                <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.25 8.75V17.25H8.75"></path>
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 17L6.75 6.75"></path>
-                </svg>
+            <dd class="flex items-center space-x-1 text-sm font-medium text-transparent bg-clip-text bg-gradient-to-l from-[#8fcc53] to-[#0171c0]">
+              <button v-if="getUsers.authentications?.includes('manage_students')" @click="showPopUp('add_student')" class="w-[150px] h-8 text-sm rounded-lg "><p class="flex pl-2 pt-1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6 pb-1 text-black">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg><p class="mt-[2px]">Add new student </p></p>
+             </button>
             </dd>
          </dl>
       </div>
@@ -61,15 +59,14 @@
               <p class="mt-1 ml-2">Courses</p>
           </dt>
 
-            <dd class="text-5xl font-light md:text-6xl">15</dd>
+            <dd class="text-5xl font-light md:text-6xl">{{statisticsData.courses ?? 0}}</dd>
 
-            <dd class="flex items-center space-x-1 text-sm font-medium text-red-500">
-                <span>7% increase</span>
-
-                <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.25 8.75V17.25H8.75"></path>
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 17L6.75 6.75"></path>
-                </svg>
+            <dd class="flex items-center space-x-1 text-sm font-medium text-transparent bg-clip-text bg-gradient-to-l from-[#8fcc53] to-[#0171c0]">
+              <button v-if="getUsers.authentications?.includes('add_course')" @click="showPopUp('createCourses')" class="w-full h-8 text-sm rounded-lg "><p class="flex pl-2 pt-1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6 pb-1 text-black">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg><p class="mt-[2px]">Add new course </p></p>
+             </button>
             </dd>
          </dl>
       </div>
@@ -82,21 +79,20 @@
               <p class="mt-1 ml-2">Classrooms</p>
           </dt>
 
-          <dd class="text-5xl font-light md:text-6xl">20</dd>
+          <dd class="text-5xl font-light md:text-6xl">{{statisticsData.classrooms ?? 0}}</dd>
 
-            <dd class="flex items-center space-x-1 text-sm font-medium text-red-500">
-                <span>7% increase</span>
-
-                <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.25 8.75V17.25H8.75"></path>
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 17L6.75 6.75"></path>
-                </svg>
+          <dd class="flex items-center space-x-1 text-sm font-medium text-transparent bg-clip-text bg-gradient-to-l from-[#8fcc53] to-[#0171c0]">
+              <button v-if="getUsers.authentications?.includes('add_classroom')" @click="showPopUp('createClassroom')" class="w-full h-8 text-sm rounded-lg "><p class="flex pl-2 pt-1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6 pb-1 text-black">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg><p class="mt-[2px]">Add new classroom </p></p>
+             </button>
             </dd>
          </dl>
       </div>
     </div>
       <div class="w-[99%] md:ml-[20%] mt-10 mr-2 p-3 w-full h-[400px] shadow-lg bg-[#ffffff] rounded-2xl">
-        <Bar :data="data" :options="options" />
+        <!-- <Bar :data="data" :options="options" /> -->
         
       </div>
 
@@ -109,6 +105,7 @@ import Alert from '../../components/alert.vue'
 import Header2 from '../../components/header2.vue'
 import sidebarVue from '../../components/sidebar.vue'
 import { useUserStore } from '../../stores/auth'
+import { statisticsStore } from '../../stores/statistics'
 import { onMounted,ref,computed } from 'vue'
 import { useRouter } from 'vue-router'
 import {setPageTitle} from '../../helpers/set_page_title'
@@ -122,6 +119,8 @@ import {
   LinearScale
 } from 'chart.js'
 import { Bar } from 'vue-chartjs'
+import { uiChangesStore } from '../../stores/ui_changes'
+
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
@@ -149,6 +148,9 @@ export default {
     const currentUser = ref([]);
     const urlPath = window.location.origin;
     const router = useRouter();
+    const uiStore = uiChangesStore();
+    const statisticStore = statisticsStore();
+
 
     const getUsers = computed(() => {
       currentUser.value = store.userDetails
@@ -159,16 +161,25 @@ export default {
       return store.demoSchoolInfo;
     });
 
+    const statisticsData = computed(() => {
+      return statisticStore.data;
+    });
+
+    function showPopUp(popup_type,to=''){
+      return uiStore.openPopUpFunc(popup_type,to);
+    }
+
     onMounted(() => {
       setPageTitle('Dashboard')
       if(store.getUserData() && store.current_school())
       {
         currentUser.value = store.userDetails
         currentUser.value.length == 0 && localStorage.getItem("token") == undefined  ? router.push({ path:"/auth/login"}):"";
+        statisticStore.getDashboardStistics();
       }
     });
 
-    return {currentUser,urlPath,getUsers,schoolInfo}
+    return {currentUser,urlPath,getUsers,schoolInfo,showPopUp,statisticsData}
     
   }
 }
