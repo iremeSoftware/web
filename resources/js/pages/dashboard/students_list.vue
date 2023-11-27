@@ -70,15 +70,15 @@
         </template>
 <template v-slot:table>
   <div class="overflow-x-auto shadow-md sm:rounded-lg" id="dataTable" @mousemove="hideCols(false)">
-        <table class="w-full text-xs md:text-sm text-left text-gray-500 dark:text-gray-400">
+        <table class="w-full border text-xs md:text-sm text-left text-gray-500 dark:text-gray-400">
           <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" class="px-6 py-3 colToHide">
+              <th scope="col" class="border px-6 py-3 colToHide">
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="border px-6 py-3">
                     #
                 </th>
-                <th scope="col" class="px-6 py-3" v-for="col in colsToShow" :class="col.key == 'name'?'flex':''">
+                <th scope="col" class="border px-6 py-3" v-for="col in colsToShow" :class="col.key == 'name'?'flex':''">
                    {{ col.value }}
 
                    <button type="button" v-if="col.key == 'name'" @click="sortRecords()" class="flex ml-2 pl-2 colToHide">
@@ -97,16 +97,16 @@
         <input type="hidden" v-set="firstItem = 0">
         <input type="hidden" v-set="lastItem = 0">
         <tbody  v-if="studentsList.Students?.length > 0">
-            <tr v-for="(student,i) in studentsList.Students" :key="student.id" class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white colToHide">
+            <tr v-for="(student,i) in studentsList.Students" :key="student.id" class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 ">
+              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white colToHide border">
                     <input type="checkbox" v-model="studentIds" @click="select" :value="student.student_id">
                 </th>
                 <input v-if="i==0" type="hidden" v-set="firstItem = (i + studentsList.offset) +1">
                 <input  type="hidden" v-set="lastItem = (i + studentsList.offset) +1">
-                <td class="px-6 py-4">
+                <td class="px-6 py-4 border">
                    {{ (i + studentsList.offset)+1}}
                 </td>
-                <td class="px-6 py-4" v-for="col in colsToShow" >
+                <td class="px-6 py-4 border" v-for="col in colsToShow" >
                   {{student[col.key] == 'mp' ? "Mother's phone" : student[col.key] == 'fp' ? "Father's phone":
                   (col.key =='location_district' || col.key =='location_sector' || col.key =='location_cell' || col.key =='location_village')
                   ?  student[col.key].split('_')[1] : student[col.key]  }}

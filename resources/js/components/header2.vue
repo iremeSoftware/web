@@ -93,6 +93,9 @@
       <template v-else-if="popup_type == 'set_maximum_points'">
         <setMaximumPoints/>
       </template>
+      <template v-else-if="popup_type == 'convert_maximum_points'">
+        <convertMaximumPoints/>
+      </template>
 </template>
 
 <script>
@@ -115,6 +118,7 @@ import updateUserPopup from './popup_forms/update_user_details.vue'
 import switchSchoolsPopup from './popup_forms/switch_schools.vue'
 import teacher_classrooms from './popup_forms/teacher_classrooms.vue'
 import setMaximumPoints from './popup_forms/set_maximum_points.vue'
+import convertMaximumPoints from './popup_forms/convert_points.vue'
 export default{
     name:"Header2",
     components:{
@@ -132,7 +136,8 @@ export default{
       updateUserPopup,
       switchSchoolsPopup,
       teacher_classrooms,
-      setMaximumPoints
+      setMaximumPoints,
+      convertMaximumPoints
    },
     setup() {
 

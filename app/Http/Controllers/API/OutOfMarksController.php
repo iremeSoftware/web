@@ -402,6 +402,7 @@ class OutOfMarksController extends Controller
                                 ['class_id', '=', $request->class_id],
                                 ['school_id','=',$request->school_id]
         ])->get();
+        
         if($request->term==1)
         {
             if($today>=$term1_from && $today<=$term3_to)
@@ -507,8 +508,6 @@ class OutOfMarksController extends Controller
         {
             if($today>=$term3_from && $today<=$term3_to)
             {
-
-
             $quiz=$request->term_quiz==''?$Out_of_marks->term3_quiz:$request->term_quiz;
             $exam=$request->term_exam==''?$Out_of_marks->term3_exam:$request->term_exam;
             $total=$quiz + $exam;

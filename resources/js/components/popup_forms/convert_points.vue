@@ -1,7 +1,7 @@
 <template>
     <ModalPopUp height="250">
         <template v-slot:title>
-           Set Maximum Points (Term {{ popupDetails.popup_data.term}})
+           Convert Maximum Points (Term {{ popupDetails.popup_data.term}})
             </template>
             <template v-slot:contents>
 
@@ -20,14 +20,16 @@
                 <!-- {{ maximumPoints }} -->
                <template v-if="selected == 'quiz'">
                 <div class="flex">
-                    <p class="text-sm font-semibold text-left mt-2">Quiz Maximum Points: </p>
-                    <p class="text-sm font-semibold text-left mt-2 ml-4">/</p>
+                    <p class="text-sm md:text-md font-semibold text-left mt-2">Convert quiz maximum points from 
+                        <template v-if="popupDetails.popup_data.term ==1">{{ popupDetails.popup_data.maximumPoints?.term1_quiz ?? 0 }}</template>
+                        <template v-else-if="popupDetails.popup_data.term ==2">{{ popupDetails.popup_data.maximumPoints?.term2_quiz ?? 0 }}</template>
+                        <template v-else>{{ popupDetails.popup_data.maximumPoints?.term3_quiz ?? 0 }}</template> to: </p>
                     <input type='number' class='w-20 h-10 ml-3 md:ml-2 ring-1 ring-[#000000]  enabled:p-2' v-model="formData.term_quiz"  />
-                <button class="w-20 h-8 text-xs md:text-sm rounded-lg text-white bg-[#000000] ml-4 mt-1" @click="setMaximumPoints()" ><p class="flex pl-2">
+                <button class="w-32 h-8 text-xs md:text-sm rounded-lg text-white bg-[#000000] ml-4 mt-1" @click="convertMaximumPoints()" ><p class="flex pl-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
                     </svg>
-                    <dt class="md:pl-2 pt-1">Set </dt></p>
+                    <dt class="md:pl-2 pt-1">Convert </dt></p>
                 </button>
 
                 </div> 
@@ -40,14 +42,16 @@
                </template>
                <template v-else>
                     <div class="flex">
-                    <p class="text-sm font-semibold text-left mt-2">Exam Maximum Points: </p>
-                    <p class="text-sm font-semibold text-left mt-2 ml-4">/</p>
+                        <p class="text-sm md:text-md font-semibold text-left mt-2">Convert exam maximum points from 
+                        <template v-if="popupDetails.popup_data.term ==1">{{ popupDetails.popup_data.maximumPoints?.term1_exam ?? 0 }}</template>
+                        <template v-else-if="popupDetails.popup_data.term ==2">{{ popupDetails.popup_data.maximumPoints?.term2_exam ?? 0 }}</template>
+                        <template v-else>{{ popupDetails.popup_data.maximumPoints?.term3_exam ?? 0 }}</template> to: </p>
                     <input type='number' class='w-20 h-10 ml-3 md:ml-2 ring-1 ring-[#000000]  enabled:p-2' v-model="formData.term_exam"  />
-                <button class="w-20 h-8 text-xs md:text-sm rounded-lg text-white bg-[#000000] ml-4 mt-1" @click="setMaximumPoints()" ><p class="flex pl-2">
+                <button class="w-32 h-8 text-xs md:text-sm rounded-lg text-white bg-[#000000] ml-4 mt-1" @click="convertMaximumPoints()" ><p class="flex pl-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
                     </svg>
-                    <dt class="md:pl-2 pt-1">Set </dt></p>
+                    <dt class="md:pl-2 pt-1">Convert </dt></p>
                 </button>
 
                 </div>    
@@ -71,7 +75,7 @@ import {studentsMarksStore} from '../../stores/student_marks'
 
 
 export default {
-      name:"setMaximumPoints",
+      name:"convertMaximumPoints",
       components:{
       ModalPopUp,
       Alert
@@ -94,18 +98,19 @@ export default {
               class_id:uiStore.popupDetails.popup_data?.class_id,
               account_id:uiStore.popupDetails.popup_data?.account_id,
               course_id:uiStore.popupDetails.popup_data?.course_id,
+              page:1,
               limit:uiStore.popupDetails.popup_data?.limit,
               sort_by:'name',
               sort:'ASC',
               term:uiStore.popupDetails.popup_data?.term,
-              term_quiz:0,
-              term_exam:0
+              term_quiz:"",
+              term_exam:""
         });
 
 
         function selectType(type){
             selected.value = type 
-            type == 'quiz' ? formData.value.term_exam = 0 : formData.value.term_quiz = 0
+            type == 'quiz' ? formData.value.term_exam = "" : formData.value.term_quiz = ""
         }
 
         const loadingStatus = computed(() => {
@@ -126,19 +131,11 @@ export default {
         maximumPoints = computed(() =>  studentsMarksStores.maximumPoints )
 
         const successStatus = computed(() => {
-            formData.value.term_quiz = 0
             return studentsMarksStores.successMessage
         });
 
-        function setMaximumPoints(){
-             formData.value.term_quiz >0 ? localStorage.setItem('quiz_maximum',formData.value.term_quiz) :""
-             studentsMarksStores.quiz_maximum = localStorage.getItem('quiz_maximum')
-             studentsMarksStores.updateMaximumPoints(formData.value)
-             getMaximum()
-        }
-
-        function getMaximum(){
-          return studentsMarksStores.getMaximumPoints(formData.value);
+        function convertMaximumPoints(){
+             return studentsMarksStores.convertMaximumPoints(formData.value)
         }
 
         onMounted(() => {
@@ -152,7 +149,7 @@ export default {
             }
          })
         
-        return {slotData,loadingStatus,errorStatus,successStatus,closeFeedback,successFeedbackStatus,errorFeedbackStatus,popupDetails,setMaximumPoints,selected,selectType,formData,maximumPoints}
+        return {slotData,loadingStatus,errorStatus,successStatus,closeFeedback,successFeedbackStatus,errorFeedbackStatus,popupDetails,convertMaximumPoints,selected,selectType,formData,maximumPoints}
        },
     }
     </script>

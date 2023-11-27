@@ -162,6 +162,8 @@ export const studentsMarksStore = defineStore("students_marks", {
             await axios.post(`out_of_marks/convert`,data).then(function (response) {
               self.successMessage = response.data.message
               self.loadingUI.isLoading = false
+              self.getMaximumPoints(data)
+              self.getStudentMarks(data)
             }).catch(function(err){
               self.errorMessage = err.response.data
               self.loadingUI.isLoading = false

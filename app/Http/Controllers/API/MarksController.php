@@ -1501,7 +1501,7 @@ class MarksController extends Controller
                     );
                 } else {
                     return response()->json(
-                        ["message" => "marks_vue.failed_edit_marks_term1"],
+                        ["message" => "Error:You can not edit first term points"],
                         401
                     );
                 }
@@ -1532,7 +1532,7 @@ class MarksController extends Controller
                     );
                 } else {
                     return response()->json(
-                        ["message" => "marks_vue.failed_edit_marks_term2"],
+                        ["message" => "Error:You can not edit second term points"],
                         401
                     );
                 }
@@ -1563,7 +1563,7 @@ class MarksController extends Controller
                     );
                 } else {
                     return response()->json(
-                        ["message" => "marks_vue.failed_edit_marks_term3"],
+                        ["message" => "Error:You can not edit third term points"],
                         401
                     );
                 }

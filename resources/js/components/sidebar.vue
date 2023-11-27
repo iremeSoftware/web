@@ -1,10 +1,10 @@
 <template>
-    <div class="md:block fixed w-[20%] md:w-[15%] h-full  shadow-lg bg-white " :class="isMenuClicked ? 'flexblock w-[50%]':'hidden'">
+    <div class="z-10 md:block fixed w-[20%] md:w-[15%] h-full  shadow-lg bg-white " :class="isMenuClicked ? 'flexblock w-[50%]':'hidden'">
       <div class="pl-2 pt-12 md:pt-2">
         <router-link to="/dashboard/home" class="hidden pb-2 md:block shadow-sm -pr-2">
                 <img class=" w-[80px] h-[40px] " src="https://www.iremeapp.com/logo/logo.png" />
           </router-link>
-          <div class="overflow-y-auto">  
+          <div class="h-4/5 overflow-y-auto">  
 
           <LeftSideMenu>
             <template v-slot:icon>
@@ -27,7 +27,7 @@
               </svg>
             </template>
             <template v-slot:menu>
-              <p class="pt-1">Manage Students </p>
+              <p class="pt-1 truncate">Manage Students </p>
             </template>
             <template v-slot:submenu>
               <div class="flex py-2" @click="showPopUp('add_student')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#"> Add students</a></div>
@@ -42,13 +42,13 @@
             </svg>
             </template>
             <template v-slot:menu>
-              <p class="pt-1 w-[80%]">Students Attendance</p>
+              <p class="pt-1 w-[80%] truncate">Students Attendance</p>
             </template>
             <template v-slot:submenu>
               
-              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#" @click="showPopUp('classroomList','/dashboard/attendance')"> Student Attendance</a></div>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1 truncate" href="#" @click="showPopUp('classroomList','/dashboard/attendance')"> Student Attendance</a></div>
 
-              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#" @click="showPopUp('classroomList','/dashboard/report_form')"> Student report forms</a></div>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1 truncate" href="#" @click="showPopUp('classroomList','/dashboard/report_form')"> Student report forms</a></div>
 
             </template>
           </LeftSideMenu>
@@ -78,13 +78,13 @@
               </svg>
             </template>
             <template v-slot:menu>
-              <p class="pt-1">Manage Students Marks</p>
+              <p class="pt-1 truncate">Manage Students Marks</p>
             </template>
             <template v-slot:submenu>
               
-              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#" @click="showPopUp('teacher_classrooms','/dashboard/marks')"> Edit students marks</a></div>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1 truncate" href="#" @click="showPopUp('teacher_classrooms','/dashboard/marks')"> Edit students marks</a></div>
 
-              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#" @click="showPopUp('classroomList','/dashboard/report_form')"> Assessment sheets</a></div>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1 truncate" href="#" @click="showPopUp('classroomList','/dashboard/report_form')"> Assessment sheets</a></div>
 
             </template>
           </LeftSideMenu>
@@ -96,13 +96,13 @@
                 </svg>
             </template>
             <template v-slot:menu>
-              <p class="pt-1">Generate Students Reports</p>
+              <p class="pt-1 truncate">Generate Students Reports</p>
             </template>
             <template v-slot:submenu>
               
-              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#" @click="showPopUp('classroomList','/dashboard/attendance')"> Student Attendance</a></div>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1 truncate" href="#" @click="showPopUp('classroomList','/dashboard/attendance')"> Student Attendance</a></div>
 
-              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#" @click="showPopUp('classroomList','/dashboard/report_form')"> Student report forms</a></div>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1 truncate" href="#" @click="showPopUp('classroomList','/dashboard/report_form')"> Student report forms</a></div>
 
             </template>
           </LeftSideMenu>
@@ -114,12 +114,12 @@
               </svg>
             </template>
             <template v-slot:menu>
-              <p class="pt-1">Manage Classrooms</p>
+              <p class="pt-1 truncate">Manage Classrooms</p>
             </template>
             <template v-slot:submenu>
-              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#" @click="showPopUp('createClassroom')"> Add classroom</a></div>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1 truncate" href="#" @click="showPopUp('createClassroom')"> Add classroom</a></div>
               
-              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><router-link to="/dashboard/classrooms/list" class="pt-1"> Manage classroom</router-link></div>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><router-link to="/dashboard/classrooms/list" class="pt-1 truncate"> Manage classroom</router-link></div>
             </template>
           </LeftSideMenu>
 
@@ -131,12 +131,12 @@
                 </svg>
             </template>
             <template v-slot:menu>
-              <p class="pt-1">Manage Courses</p>
+              <p class="pt-1 truncate">Manage Courses</p>
             </template>
             <template v-slot:submenu>
-              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#" @click="showPopUp('createCourses')"> Add new course</a></div>
-              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><router-link to="/dashboard/courses/list" class="pt-1"> Manage courses</router-link></div>
-              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><router-link to="/dashboard/courses/assign" class="pt-1"> Assign courses</router-link></div>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1 truncate" href="#" @click="showPopUp('createCourses')"> Add new course</a></div>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><router-link to="/dashboard/courses/list" class="pt-1 truncate"> Manage courses</router-link></div>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><router-link to="/dashboard/courses/assign" class="pt-1 truncate"> Assign courses</router-link></div>
             </template>
           </LeftSideMenu>
 
@@ -147,11 +147,11 @@
               </svg>
             </template>
             <template v-slot:menu>
-              <p class="pt-1">Manage Users</p>
+              <p class="pt-1 truncate">Manage Users</p>
             </template>
             <template v-slot:submenu>
-              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1" href="#" @click="showPopUp('newUsers')"> Invite new user</a></div>
-              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><router-link to="/dashboard/users/list" class="pt-1"> Manage users</router-link></div>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><a class="pt-1 truncate" href="#" @click="showPopUp('newUsers')"> Invite new user</a></div>
+              <div class="flex py-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 13H8V5H6v9a1 1 0 0 0 1 1h7v3l5-4-5-4v3z"></path></svg><router-link to="/dashboard/users/list" class="pt-1 truncate"> Manage users</router-link></div>
             </template>
           </LeftSideMenu>
           <LeftSideMenu v-if="getUsers.authentications?.includes('manage_reports')">
@@ -172,7 +172,7 @@
               </svg>
             </template>
             <template v-slot:menu>
-              <p class="pt-1 w-full">Manage Cloud Storage </p>
+              <p class="pt-1 w-full truncate">Manage Cloud Storage </p>
             </template>
           </LeftSideMenu>
 
@@ -183,7 +183,7 @@
                 </svg>
             </template>
             <template v-slot:menu>
-              <p class="pt-1 w-[40%]">Send SMS</p>
+              <p class="pt-1 w-full truncate">Send SMS</p>
             </template>
           </LeftSideMenu>
 

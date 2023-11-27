@@ -71,10 +71,10 @@
           <table class="w-full text-xs md:text-sm text-left text-gray-500 dark:text-gray-400" :class="colsToShow.some(obj => obj.key === 'authentications') ?'w-[115%]':''">
             <thead class=" text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
               <tr>
-                  <th scope="col" class="px-4 md:px-6 py-3">
+                  <th scope="col" class="px-4 md:px-6 py-3 border">
                       #
                   </th>
-                  <th scope="col" class="px-4 md:px-6 py-3 " v-for="col in colsToShow" :class="col.key == 'name' || col.key == 'account_enabled' ?'flex':''">
+                  <th scope="col" class="px-4 md:px-6 py-3 border " v-for="col in colsToShow" :class="col.key == 'name' || col.key == 'account_enabled' ?'flex':''">
                    {{ col.value }}
                       <button v-if="col.key == 'name' || col.key == 'account_enabled'" type="button" @click="sortRecords(col.key == 'name' ? 'users.name':'users.account_enabled')" class="flex ml-2 pl-2 colToHide">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4" :class="isSorted ? 'text-red-500':''">
@@ -84,7 +84,7 @@
                      </svg>
                     </button>
                   </th>
-                  <th scope="col" class="px-4 md:px-6 py-3  colToHide">
+                  <th scope="col" class="px-4 md:px-6 py-3 colToHide border">
                       Action
                   </th>
               </tr>
@@ -95,10 +95,10 @@
               <tr v-for="(user,i) in getUsersList.authentication" :key="user.id" class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                   <input v-if="i==0" type="hidden" v-set="firstItem = (i + getUsersList.offset) +1">
                   <input  type="hidden" v-set="lastItem = (i + getUsersList.offset) +1">
-                  <td class="px-4 md:px-6 py-4">
+                  <td class="px-4 md:px-6 py-4 border">
                      {{ i+getUsersList.offset+1}}
                   </td>
-                  <td class=" px-4 md:px-6 py-4 flex-wrap"  v-for="col in colsToShow">
+                  <td class=" px-4 md:px-6 py-4 flex-wrap border"  v-for="col in colsToShow">
                     <template  v-if="col.key != 'profile_pic' && col.key != 'authentications' ">
                         {{ col.key == 'account_enabled' ? (user[col.key] == 1 ? 'ACTIVE' : (user[col.key] == 2 ? 'BLOCKED' : 'NOT VERIFIED')): user[col.key]  }}
                     </template> 
