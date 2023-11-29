@@ -81,11 +81,7 @@ class ClassroomController extends Controller
     public function index(Request $request)
     {
         //
-        $page = $request->page ?? 1;    
-        $limit=$request->limit ?? 10;
-        $sort_by = $request->sort_by ?? 'ASC';
-        $page=$page-1;
-        $offset=ceil($limit*$page);
+        
 
         if(!empty($request->school_id) && empty($request->class_id))
         {
@@ -93,6 +89,13 @@ class ClassroomController extends Controller
         ->where('school_id', '=', $request->school_id)
         ->get()
         ->count();
+        $limit=$request->limit ?? 10;
+        $limit = $limit == 'none' ? $total_classrooms : $limit;
+        $page = $request->page ?? 1;    
+        $sort_by = $request->sort_by ?? 'ASC';
+        $page=$page-1;
+        $offset=ceil($limit*$page);
+
 
         $classrooms = classrooms::select('classrooms.*','name')
         ->leftjoin('users','users.account_id','=','classrooms.classroom_representative')

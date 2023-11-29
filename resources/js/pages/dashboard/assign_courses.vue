@@ -256,8 +256,9 @@
           setTimeout(function (){
             checkAuth()
             currentUser.value = store.userDetails
-            console.log(currentUser.value)
-            classroomStores.getClassroomList(store.userDetails.school_id)
+            let page = 1
+            let limit = 'none'
+            classroomStores.getClassroomList(store.userDetails.school_id,page,limit)
             getDesignatedTeachers()
           },1000);
           

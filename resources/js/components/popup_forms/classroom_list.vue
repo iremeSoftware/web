@@ -71,7 +71,10 @@ export default {
             if(userStore.getUserData())
             {
                 setTimeout(function (){
-                    classroomstore.getClassroomList(userStore.userDetails.school_id)
+                    let school_id = userStore.userDetails.school_id
+                    let page = 1
+                    let limit = 'none'
+                    classroomstore.getClassroomList(school_id,page,limit)
                 },1000);
             }
          })

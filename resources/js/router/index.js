@@ -13,6 +13,7 @@ import coursesList from '../pages/dashboard/course_list.vue'
 import classroomsList from '../pages/dashboard/classrooms_list.vue'
 import usersList from '../pages/dashboard/users_list.vue'
 import studentsMarks from '../pages/dashboard/students_marks.vue'
+import studentMarksReport from '../pages/dashboard/student_marks_report.vue'
 
 
 
@@ -88,6 +89,10 @@ const routes = [
       {
         path: 'marks/:class_id',
         component:studentsMarks
+      },
+      {
+        path:'marks/:class_id/report',
+        component:studentMarksReport
       }
     ],
 

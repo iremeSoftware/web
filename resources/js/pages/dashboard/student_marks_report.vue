@@ -16,10 +16,18 @@
             <p class="flex text-16px md:text-2xl font-semibold">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mt-1">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
-                </svg> &nbsp;&nbsp;Manage Students Points
+                </svg> &nbsp;&nbsp;Students Marks Points
                  ({{ classroomDetails!=undefined ? classroomDetails.classroom_name : '' }} - {{ getCoursesList?.filter((el) => el.course_id  == formData.course_id)[0].course_name }})
   
             </p>
+        </div>
+        <div class="absolute flex text-xs md:text-sm space-x-4 ml-[300px] mt-20" @mousemove="hideCols(true)" >
+            <router-link class="w-44 h-8 pt-2 md:h-10 text-xs md:text-sm rounded-md ring-2 ring-black shadow-lg hover:scale-x-105" :to="`/dashboard/marks/${formData.class_id}`"><p class="flex pl-2  space-x-2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"></path>
+              </svg>              
+              <font class="pt-1">Edit Points</font></p>
+            </router-link>
         </div>
         <DataTable>
 
@@ -30,32 +38,7 @@
               </svg>
               </p></button>
           </template>
-          <template v-slot:columnsToShow>
 
-            <div class="flex overflow-x-auto">
-            <button class="w-48 h-8 text-xs md:text-sm rounded-lg text-white bg-[#000000]" @click="showPopUp('set_maximum_points','','','',formData)" ><p class="flex pl-2">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-              <dt class="md:pl-3 pt-1 truncate">Set Maximum Points </dt></p>
-            </button>
-            <button class="ml-2 w-44 h-8 text-xs md:text-sm rounded-lg text-white bg-[#000000]" @click="showPopUp('convert_maximum_points','','','',formData)"><p class="flex pl-2">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
-              </svg>
-              <dt class="md:pl-3 pt-1 truncate">Convert Points </dt></p>
-            </button>
-            <button class="ml-2 w-48 h-8 text-xs md:text-sm rounded-lg text-white bg-[#000000]" :disabled="isLoading" @click="importStudents"><p class="flex pl-2">
-              <svg v-if="isLoading==false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-              </svg>
-              <svg v-else class="animate-spin text-black h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" ></circle><path class="opacity-75" fill="currentColor"
-                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              <dt class="md:pl-3 pt-1 truncate">Import Students</dt></p>
-            </button>
-          </div>
-          </template>
           <template v-slot:table>
             <div class="flex overflow-x-auto h-14">
             <p class="text-sm md:text-md font-semibold text-left mt-2 pr-2">Show:</p>
@@ -86,53 +69,95 @@
                     <option v-for="sort in sortList" :value="sort.sort">{{ sort.sort_name }}</option>
           </select>
           </div>
+            
 <!-- 
           <input type="hidden" v-set="firstItem = 0">
           <input type="hidden" v-set="lastItem = 0"> -->
          <template v-if="studentsMarks.Marks?.length">
-           <div class="md:flex md:flex-wrap">
-            <StudentPointsCard v-for="student,i in studentsMarks.Marks">
-            <template v-slot:rank>
-              <!-- <input v-if="i==0" type="hidden" v-set="firstItem = (i + studentsMarks.offset) +1">
-              <input  type="hidden" v-set="lastItem = (i + studentsMarks.offset) +1"> -->
-              <dt v-if="formData.term ==1">{{ student.rank_term1 }}/{{ studentsMarks.no_of_students  }}  </dt>
-              <dt v-else-if="formData.term ==2">{{ student.rank_term2 }}/{{ studentsMarks.no_of_students  }}</dt>
-              <dt v-else="formData.term ==1">{{ student.rank_term3 }}/{{ studentsMarks.no_of_students  }}</dt>
+           <div class="md:flex md:flex-wrap mt-4">
+            <div class="w-full overflow-x-auto shadow-md sm:rounded-lg" id="dataTable" >
+        <table class="w-full text-xs md:text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead class=" text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-4 md:px-6 py-3 border">
+                    #
+                </th>
+                <th scope="col" class="px-4 md:px-6 py-3 border">
+                    Student Names
+                </th>
+                <th scope="col" class="px-4 md:px-6 py-3 border">
+                    CAT Marks
+                </th>
+                <th scope="col" class="px-4 md:px-6 py-3 border">
+                   Exam Marks
+                </th>
+                <th scope="col" class="px-4 md:px-6 py-3 border">
+                   Total
+                </th>
+                <th scope="col" class="px-4 md:px-6 py-3 border">
+                   Percentage
+                </th>
+                <th scope="col" class="px-4 md:px-6 py-3 border">
+                   Rank
+                </th>
+            </tr>
+        </thead>
+        <tbody v-if="studentsMarks.Marks?.length">
+                <input type="hidden" :set="grand_total_term1_quiz = 0">
+                <input type="hidden" :set="grand_total_term2_quiz = 0">
+                <input type="hidden" :set="grand_total_term3_quiz = 0">
 
-            </template>
-            <template v-slot:student_name>
-              <dt class="truncate">{{ (i + studentsMarks.offset)+1 }}. {{ student.name }}</dt></template>
-            <template v-slot:quiz_points>
-              <input type='number' class='w-20 h-10 ml-4 md:ml-2 ring-1 ring-[#000000]  enabled:p-2' :class="inputQuizError[i]"  v-model="quiz_marks[i]" @input="validateInput('quiz',i,student)"  />
-                  <p class="pl-2 pt-2 h-10 text-lg font-bold"> <dt v-if="getQuizMaximum">/ {{ getQuizMaximum }}</dt></p>
-            </template>
-            <template v-slot:exam_points>
-                  <input type='number' class='w-20 h-10 ml-3 md:ml-2 ring-1 ring-[#000000]  enabled:p-2'  v-model="exam_marks[i]" @input="validateInput('exam',i,student)" :class="inputExamError[i]"   />
-                  <p v-if="formData.term ==1" class="pl-4 pt-2 h-10 text-lg font-bold"> / {{ maximumPoints.Out_of_marks?.term1_exam }}</p>
-                  <p v-else-if="formData.term ==2" class="pl-4 pt-2 h-10 text-lg font-bold"> / {{ maximumPoints.Out_of_marks?.term2_exam }}</p>
-                  <p v-else class="pl-4 pt-2 h-10 text-lg font-bold"> / {{ maximumPoints.Out_of_marks?.term3_exam }}</p>
+                <input type="hidden" :set="grand_maximumPoints_term1_quiz = 0">
+                <input type="hidden" :set="grand_maximumPoints_term2_quiz = 0">
+                <input type="hidden" :set="grand_maximumPoints_term3_quiz = 0">
 
-                  <button @click="updateStudentMarks(i,student)" class="absolute w-8 md:w-12 h-8  md:h-12 rounded-full bg-black text-white text-center pl-2 md:pl-3 text-2xl md:mt-2 ml-[60%] md:ml-[13%]">
-                    <p class="flex md:pl-1 text-2xl font-bold">
-                      +
-                    </p>
-                  </button>
-          </template>
-           
-          <template v-slot:total_quiz_points>Total CAT Points: 
-            <template  v-if="formData.term ==1">
+                <input type="hidden" :set="grand_total_term1_exam = 0">
+                <input type="hidden" :set="grand_total_term2_exam = 0">
+                <input type="hidden" :set="grand_total_term3_exam = 0">
+
+                <input type="hidden" :set="grand_maximumPoints_term1_exam = 0">
+                <input type="hidden" :set="grand_maximumPoints_term2_exam = 0">
+                <input type="hidden" :set="grand_maximumPoints_term3_exam = 0">
+
+
+          <tr v-for="student,i in studentsMarks.Marks">
+
+            <input type="hidden" :set="grand_total_term1_quiz += student.term1_quiz">
+            <input type="hidden" :set="grand_total_term2_quiz += student.term2_quiz">
+            <input type="hidden" :set="grand_total_term3_quiz += student.term3_quiz">
+
+            <input type="hidden" :set="grand_maximumPoints_term1_quiz += maximumPoints.Out_of_marks?.term1_quiz">
+            <input type="hidden" :set="grand_maximumPoints_term2_quiz += maximumPoints.Out_of_marks?.term2_quiz">
+            <input type="hidden" :set="grand_maximumPoints_term3_quiz += maximumPoints.Out_of_marks?.term3_quiz">
+
+            <input type="hidden" :set="grand_total_term1_exam += student.term1_exam">
+            <input type="hidden" :set="grand_total_term2_exam += student.term2_exam">
+            <input type="hidden" :set="grand_total_term3_exam += student.term3_exam">
+
+            <input type="hidden" :set="grand_maximumPoints_term1_exam += maximumPoints.Out_of_marks?.term1_exam">
+            <input type="hidden" :set="grand_maximumPoints_term2_exam += maximumPoints.Out_of_marks?.term2_exam">
+            <input type="hidden" :set="grand_maximumPoints_term3_exam += maximumPoints.Out_of_marks?.term3_exam">
+
+
+            <td class="px-4 md:px-6 py-4 border">
+                     {{ i+studentsMarks.offset+1}}
+            </td>
+            <td class="px-4 md:px-6 py-4 border">
+                     {{ student.name }}
+            </td>
+            <td class="px-4 md:px-6 py-4 border">
+              <template  v-if="formData.term ==1">
                 {{ student.term1_quiz }} / {{ maximumPoints.Out_of_marks?.term1_quiz }}
-            </template> 
-            <template  v-else-if="formData.term ==2">
-                {{ student.term2_quiz }} / {{ maximumPoints.Out_of_marks?.term2_quiz }}
-            </template> 
-            <template  v-else>
-                {{ student.term3_quiz }} / {{ maximumPoints.Out_of_marks?.term3_quiz }}
-            </template> 
-          </template>
-
-          <template v-slot:total_exam_points>Total Exam Points:  
-            <template  v-if="formData.term ==1">
+              </template> 
+              <template  v-else-if="formData.term ==2">
+                  {{ student.term2_quiz }} / {{ maximumPoints.Out_of_marks?.term2_quiz }}
+              </template> 
+              <template  v-else>
+                  {{ student.term3_quiz }} / {{ maximumPoints.Out_of_marks?.term3_quiz }}
+              </template>
+            </td>
+            <td class="px-4 md:px-6 py-4 border">
+              <template  v-if="formData.term ==1">
               {{ student.term1_exam }} /  {{ maximumPoints.Out_of_marks?.term1_exam }}
             </template>
             <template v-else-if="formData.term ==2">
@@ -141,10 +166,68 @@
             <template  v-else>
               {{ student.term3_exam }} / {{ maximumPoints.Out_of_marks?.term3_exam }}
             </template>
-          </template>
-        </StudentPointsCard>
+            </td>
+            <td class="px-4 md:px-6 py-4 border">
+                <input type="hidden" :set="total_maximum_term1 = maximumPoints.Out_of_marks?.term1_quiz + maximumPoints.Out_of_marks?.term1_exam ">
+                <input type="hidden" :set="total_maximum_term2 = maximumPoints.Out_of_marks?.term2_quiz + maximumPoints.Out_of_marks?.term2_exam ">
+                <input type="hidden" :set="total_maximum_term3 = maximumPoints.Out_of_marks?.term3_quiz + maximumPoints.Out_of_marks?.term3_exam ">
+              <template  v-if="formData.term ==1">
+              {{ student.term1_total_marks }} /  {{ total_maximum_term1 }}
+            </template>
+            <template v-else-if="formData.term ==2">
+              {{ student.term2_total_marks }} / {{ total_maximum_term2 }}
+            </template>
+            <template  v-else>
+              {{ student.term3_total_marks }} / {{ total_maximum_term3 }}
+            </template>
+            </td>
+            <td class="px-4 md:px-6 py-4 border">
+                <input type="hidden" :set="percentage_term1 = Math.round((student.term1_total_marks / total_maximum_term1) * 100)">
+                <input type="hidden" :set="percentage_term2 = Math.round((student.term2_total_marks / total_maximum_term2) * 100 )">
+                <input type="hidden" :set="percentage_term3 = Math.round((student.term3_total_marks / total_maximum_term3) * 100)">
+            <template  v-if="formData.term==1">
+              {{ percentage_term1 }} %
+            </template>
+            <template v-else-if="formData.term==2">
+              {{ percentage_term2 }} %
+            </template>
+            <template  v-else>
+              {{ percentage_term3 }} %
+            </template>
+            </td>
+            <td class="px-4 md:px-6 py-4 border">
+              <dt v-if="formData.term ==1">{{ student.rank_term1 }}/{{ studentsMarks.no_of_students  }}  </dt>
+              <dt v-else-if="formData.term ==2">{{ student.rank_term2 }}/{{ studentsMarks.no_of_students  }}</dt>
+              <dt v-else="formData.term ==1">{{ student.rank_term3 }}/{{ studentsMarks.no_of_students  }}</dt>
+            </td>
 
-           </div>
+
+          </tr>
+
+        </tbody>
+        <thead class=" text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" colspan="2" class="px-4 md:px-6 py-3 border text-center">
+                    AVERAGE
+                </th>
+                <th scope="col" class="px-4 md:px-6 py-3 border">
+                  <dt v-if="formData.term ==1">{{ Math.round(grand_total_term1_quiz / grand_maximumPoints_term1_quiz * 100,1) }} % </dt>
+                  <dt v-if="formData.term ==2">{{ Math.round(grand_total_term2_quiz / grand_maximumPoints_term2_quiz * 100,1) }} % </dt>
+                  <dt v-if="formData.term ==3">{{ Math.round(grand_total_term3_quiz / grand_maximumPoints_term3_quiz * 100,1) }} % </dt>
+                </th>
+                <th scope="col" class="px-4 md:px-6 py-3 border">
+                  <dt v-if="formData.term ==1">{{ Math.round(grand_total_term1_exam / grand_maximumPoints_term1_exam * 100,1) }} % </dt>
+                  <dt v-if="formData.term ==2">{{ Math.round(grand_total_term2_exam / grand_maximumPoints_term2_exam * 100,1) }} % </dt>
+                  <dt v-if="formData.term ==3">{{ Math.round(grand_total_term3_exam / grand_maximumPoints_term3_exam * 100,1) }} % </dt>
+                </th>
+                <th scope="col" colspan="3" class="px-4 md:px-6 py-3 border">
+                  
+                </th>
+            </tr>
+        </thead>
+        </table>
+        </div>
+      </div>
         
       </template>
       <template v-else >
@@ -153,14 +236,16 @@
 
 </template>
 <template v-slot:printBtns>
-  <div class="flex text-xs md:text-sm space-x-4">
-          <router-link :to="`/dashboard/marks/${formData.class_id}/report`" class="w-44 h-8 md:h-10 text-xs md:text-sm rounded-md ring-2 ring-black mb-4 pt-2 shadow-lg hover:scale-x-105" ><p class="flex pl-2  space-x-2">
-            <font class="pt-1">Go to Marks Report</font><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="w-6 h-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path>
-            </svg>
-            </p>
-          </router-link>
-        </div>
+    <div class="flex text-xs md:text-sm space-x-4" @mousemove="hideCols(true)" >
+            <button class="w-44 h-8 md:h-10 text-xs md:text-sm rounded-md ring-2 ring-black shadow-lg hover:scale-x-105" @click="print_pdf"><p class="flex pl-2  space-x-2">
+              <svg viewBox="0 0 384 512" class="w-6 h-6 bg-white" xmlns="http://www.w3.org/2000/svg"><path  d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48zm250.2-143.7c-12.2-12-47-8.7-64.4-6.5-17.2-10.5-28.7-25-36.8-46.3 3.9-16.1 10.1-40.6 5.4-56-4.2-26.2-37.8-23.6-42.6-5.9-4.4 16.1-.4 38.5 7 67.1-10 23.9-24.9 56-35.4 74.4-20 10.3-47 26.2-51 46.2-3.3 15.8 26 55.2 76.1-31.2 22.4-7.4 46.8-16.5 68.4-20.1 18.9 10.2 41 17 55.8 17 25.5 0 28-28.2 17.5-38.7zm-198.1 77.8c5.1-13.7 24.5-29.5 30.4-35-19 30.3-30.4 35.7-30.4 35zm81.6-190.6c7.4 0 6.7 32.1 1.8 40.8-4.4-13.9-4.3-40.8-1.8-40.8zm-24.4 136.6c9.7-16.9 18-37 24.7-54.7 8.3 15.1 18.9 27.2 30.1 35.5-20.8 4.3-38.9 13.1-54.8 19.2zm131.6-5s-5 6-37.3-7.8c35.1-2.6 40.9 5.4 37.3 7.8z"/></svg>
+              <font class="pt-1">Print PDF</font></p>
+            </button>
+  
+            <button class="w-44 h-8 md:h-10 text-xs md:text-sm rounded-md  bg-transparent ring-2 ring-black shadow-lg hover:scale-x-105"  @click="print_ms('ms-excel')"><p class="flex pl-2  space-x-2">
+              <svg viewBox="0 0 384 512" class="w-6 h-6 bg-white" xmlns="http://www.w3.org/2000/svg"><path d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48zm212-240h-28.8c-4.4 0-8.4 2.4-10.5 6.3-18 33.1-22.2 42.4-28.6 57.7-13.9-29.1-6.9-17.3-28.6-57.7-2.1-3.9-6.2-6.3-10.6-6.3H124c-9.3 0-15 10-10.4 18l46.3 78-46.3 78c-4.7 8 1.1 18 10.4 18h28.9c4.4 0 8.4-2.4 10.5-6.3 21.7-40 23-45 28.6-57.7 14.9 30.2 5.9 15.9 28.6 57.7 2.1 3.9 6.2 6.3 10.6 6.3H260c9.3 0 15-10 10.4-18L224 320c.7-1.1 30.3-50.5 46.3-78 4.7-8-1.1-18-10.3-18z"/></svg><font class="pt-1">Print Excel File</font></p>
+            </button>
+    </div>
   </template>
   <template v-slot:entries>
     <!-- Show {{ firstItem }} to {{ lastItem }} of {{ studentsMarks?.no_of_students }} students -->
@@ -201,7 +286,7 @@
   import Header2 from '../../components/header2.vue'
   import sidebarVue from '../../components/sidebar.vue'
   import { useUserStore } from '../../stores/auth'
-  import { onMounted,ref,computed,watch,inject } from 'vue'
+  import { onMounted,ref,computed,watch } from 'vue'
   import { useRoute,useRouter } from 'vue-router'
   import { classroomStore } from '../../stores/classroom'
   import { studentsStore } from '../../stores/students'
@@ -214,7 +299,7 @@
   import {studentsMarksStore} from '../../stores/student_marks'
 
   export default {
-      name:"studentsMarks",
+      name:"studentsMarksReport",
       components:{
         Alert,
         Header2,
@@ -224,7 +309,6 @@
         StudentPointsCard
      },
     setup() {
-      const swal = inject('$swal')
       const store = useUserStore()
       const uiStore = uiChangesStore();
       const currentUser = ref([])
@@ -382,6 +466,7 @@
             }
         }
 
+
         function getCoursesOfTeacherInClass(data){
            return coursesstores.getCoursesOfTeacherInClass(data)
         }
@@ -482,11 +567,7 @@
             return studentsMarksStores.updateStudentMarks(formData.value)
           }
           else {
-            swal({
-              icon: 'error',
-              title: 'Oops...',
-              text: hasValidationError.value[index],
-            });
+            alert(hasValidationError.value[index])
           }
         }
 
@@ -498,7 +579,6 @@
           getStudentMarks()
       }
       
-
       function validateInput(type,index,student){
         if(type =='quiz')
         {
@@ -536,10 +616,62 @@
       }
 
 
+      function print_pdf() {
+                  var tableData = document.getElementById('dataTable').innerHTML;
+          var tag = document.getElementsByTagName('head')[0].innerHTML;
+        var cssHead = 
+          tag + `
+            <img src='/school_logo/` + store.userDetails.logo + `' width=100 height=100>
+            <br>` + store.userDetails.school_name 
+            + `<br>` + store.userDetails.school_phone_number 
+            + `<br>` + store.userDetails.school_sector 
+            +`, `+ store.userDetails.school_district
+            +`<br><br>
+            <center>
+              <h3 class='text-2xl'>Student Marks Report (Term ${formData.value.term} - ${classroomDetails.value!=undefined ? classroomDetails.value.classroom_name : '' } - ${getCoursesList.value?.filter((el) => el.course_id  == formData.value.course_id)[0].course_name })</h3>
+              <hr>
+              <br><br>
+            </center>`;
+                  var data = cssHead + tableData;
+                  let myWindow = window.open('', '', 'width=1000px,height=1000px');
+                  myWindow.innerWidth = screen.width;
+                  myWindow.innerHeight = screen.height;
+                  myWindow.screenX = 300;
+                  myWindow.screenY = 100;
+                  myWindow.document.write(data);
+                  myWindow.focus();
+                  setTimeout(() => {
+                      myWindow.print();
+                  }, 2000);
+              }
+
+    function print_ms(type) {
+          var tag = document.getElementsByTagName('head')[0].innerHTML;
+          var tableData = document.getElementById('dataTable').innerHTML;
+                  var contents = tag 
+            + store.userDetails.school_name + `<br>` 
+            + store.userDetails.school_phone_number 
+            + `<br>` + store.userDetails.school_sector 
+            +`, `+ store.userDetails.school_district
+            + `<br><br>
+            <center>
+              <h3 class='text-2xl'>Student Marks Report (Term ${formData.value.term} - ${classroomDetails.value!=undefined ? classroomDetails.value.classroom_name : '' } - ${getCoursesList.value?.filter((el) => el.course_id  == formData.value.course_id)[0].course_name })</h3>
+              <hr>
+              <br><br>
+            </center>
+             <hr>
+             <br>
+             <br>`;
+                  contents += tableData;
+                  window.open('data:application/vnd.' + type + ',' + encodeURIComponent(contents));
+                  e.preventDefault();
+              }
+
+
 
         
       onMounted(() => {
-        setPageTitle(`Students POints (${classroomStores.classroomDetails.classroom_name})`)
+        setPageTitle(`Students Points (${classroomStores.classroomDetails.classroom_name})`)
         if(store.getUserData())
         {
           setTimeout(function (){
@@ -561,7 +693,7 @@
         }
       });
   
-      return {currentUser,getUsers,classroomDetails,studentsList,setNumberOfRecords,formData,isLoading,selectPage,currentPage,searchStudents,clearSearch,isSorted,showPopUp,deleteAction,popupDetails,popup_type,getCoursesList,setCourse,importStudents,studentsMarks,maximumPoints,errorStatus,successStatus,closeFeedback,successFeedbackStatus,errorFeedbackStatus,termList,getQuizMaximum,setCurrentTerm,updateStudentMarks,quiz_marks,exam_marks,sortList,sortRecords,validateInput,inputQuizError,inputExamError,hasValidationError}
+      return {currentUser,getUsers,classroomDetails,studentsList,setNumberOfRecords,formData,isLoading,selectPage,currentPage,searchStudents,clearSearch,isSorted,showPopUp,deleteAction,popupDetails,popup_type,getCoursesList,setCourse,importStudents,studentsMarks,maximumPoints,errorStatus,successStatus,closeFeedback,successFeedbackStatus,errorFeedbackStatus,termList,getQuizMaximum,setCurrentTerm,updateStudentMarks,quiz_marks,exam_marks,sortList,sortRecords,validateInput,inputQuizError,inputExamError,hasValidationError,print_pdf,print_ms}
     }
   }
   </script>
