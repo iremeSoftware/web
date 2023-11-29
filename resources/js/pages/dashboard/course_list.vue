@@ -43,8 +43,7 @@
         </template>
         <template v-slot:table>
           <div class="flex" @mousemove="hideCols(false)">
-          <div class="hidden md:block md:w-[25%]"></div>
-        <div class="overflow-x-auto shadow-md sm:rounded-lg" id="dataTable" >
+        <div class="w-full overflow-x-auto shadow-md sm:rounded-lg" id="dataTable" >
         <table class="w-full text-xs md:text-sm text-left text-gray-500 dark:text-gray-400">
           <thead class=" text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
             <tr>

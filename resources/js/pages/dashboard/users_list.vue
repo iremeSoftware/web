@@ -57,8 +57,8 @@
           <option value="profile_pic">User Profile Picture</option>
         </select>
 
-        <div class="flex flex-wrap pl-4 pt-2 md:pt-0 space-x-2 space-y-1 h-auto ">
-          <button class="w-auto h-6 md:h-8 text-xs md:text-sm rounded-2xl text-white bg-[#000000]" v-for="col,i in colsToShow" @click="removeCol(i)"><p class="flex pl-8  space-x-2">
+        <div class="flex overflow-x-auto md:overflow-x-0 pl-4 pt-2 md:pt-0 space-x-2 space-y-1 h-auto ">
+          <button class="w-auto h-6 md:h-8 text-xs md:text-sm rounded-2xl text-white bg-[#000000]" v-for="col,i in colsToShow" @click="removeCol(i)"><p class="flex pl-8  space-x-2 truncate">
             <font>{{ col.value }}</font><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-5 h-5 ml-2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg></p>

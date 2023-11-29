@@ -1,8 +1,8 @@
 <template>
-  <div class="w-full fixed block md:hidden text-center h-10  mt-0 pl-[33%] bg-[#ffffff]">
+  <!-- <div class="w-full fixed block md:hidden text-center h-10  mt-0 pl-[33%] bg-[#ffffff]">
     <img class="w-[80px] h-[40px]" src="https://www.iremeapp.com/logo/logo.png" />
-  </div>
-    <div class=" w-full  pt-3 md:pl-14 flex fixed top-10 md:top-0  bg-[#ffffff] shadow-lg z-10 ">
+  </div> -->
+    <div class=" w-full  pt-3 md:pl-14 flex fixed  md:top-0  bg-[#ffffff] shadow-lg z-10 ">
         <div class=" w-1/12 ">
             <router-link to="/" href="#home" v-smooth-scroll class="hidden pb-2 md:block">
                 <img class=" w-[80px] h-[40px] " src="https://www.iremeapp.com/logo/logo.png" />

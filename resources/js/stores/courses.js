@@ -55,6 +55,7 @@ export const coursesStore = defineStore("courses", {
             await axios.post(`course/update/${school_id}`,data).then(function (response) {
               self.successMessage = response.data.message
               self.loadingUI.isLoading = false
+              self.getcoursesList(data.school_id)
             }).catch(function(err){
               self.coursesList = []
               self.errorMessage = err.response.data

@@ -809,7 +809,7 @@ class AuthController extends Controller
         ->select('classrooms.class_id','classrooms.classroom_name')
        ->join('classrooms', 'classrooms.classroom_representative', '=', 'users.account_id')
        ->where('users.account_id','=',$user->account_id)
-       ->first();
+       ->get();
        }
        else
        {

@@ -49,7 +49,6 @@
                     </svg>
                     <dt class="md:pl-2 pt-1">Set </dt></p>
                 </button>
-
                 </div>    
                 <div class="flex">
                     <p v-if="popupDetails.popup_data.term ==1" class="text-lg font-bold">Total Maximum Points:/{{ popupDetails.popup_data.maximumPoints?.term1_exam ?? 0 }}</p>
@@ -131,7 +130,7 @@ export default {
         });
 
         function setMaximumPoints(){
-             formData.value.term_quiz >0 ? localStorage.setItem('quiz_maximum',formData.value.term_quiz) :""
+             formData.value.term_quiz>0 ? localStorage.setItem('quiz_maximum',formData.value.term_quiz) :""
              studentsMarksStores.quiz_maximum = localStorage.getItem('quiz_maximum')
              studentsMarksStores.updateMaximumPoints(formData.value)
              getMaximum()
