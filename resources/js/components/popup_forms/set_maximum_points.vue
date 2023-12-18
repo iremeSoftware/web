@@ -20,7 +20,7 @@
                 <!-- {{ maximumPoints }} -->
                <template v-if="selected == 'quiz'">
                 <div class="flex">
-                    <p class="text-sm font-semibold text-left mt-2">Quiz Maximum Points: </p>
+                    <p class="text-sm font-semibold text-left mt-2">CAT Maximum Points: </p>
                     <p class="text-sm font-semibold text-left mt-2 ml-4">/</p>
                     <input type='number' class='w-20 h-10 ml-3 md:ml-2 ring-1 ring-[#000000]  enabled:p-2' v-model="formData.term_quiz"  />
                 <button class="w-20 h-8 text-xs md:text-sm rounded-lg text-white bg-[#000000] ml-4 mt-1" @click="setMaximumPoints()" ><p class="flex pl-2">
@@ -88,6 +88,39 @@ export default {
         const studentsMarksStores = studentsMarksStore()
         const selected = ref('quiz');
 
+        const gradeLists = ref([
+            {
+            'from':100,
+            'to':70
+            },
+            {
+            'from':69,
+            'to':65
+            },
+            {
+            'from':64,
+            'to':60
+            },
+            {
+            'from':59,
+            'to':50
+            },
+            {
+            'from':49,
+            'to':40
+            },
+            {
+            'from':39,
+            'to':20
+            },
+            {
+            'from':19,
+            'to':0
+            },
+
+
+        ])
+
         const formData = ref({
               school_id:uiStore.popupDetails.popup_data?.school_id,
               class_id:uiStore.popupDetails.popup_data?.class_id,
@@ -98,7 +131,28 @@ export default {
               sort:'ASC',
               term:uiStore.popupDetails.popup_data?.term,
               term_quiz:0,
-              term_exam:0
+              term_exam:0,
+
+              gradeA_from:gradeLists.value[0].from,
+              gradeA_to:gradeLists.value[0].to,
+
+              gradeB_from:gradeLists.value[1].from,
+              gradeB_to:gradeLists.value[1].to,
+              
+              gradeC_from:gradeLists.value[2].from,
+              gradeC_to:gradeLists.value[2].to,
+
+              gradeD_from:gradeLists.value[3].from,
+              gradeD_to:gradeLists.value[3].to,
+
+              gradeE_from:gradeLists.value[4].from,
+              gradeE_to:gradeLists.value[4].to,
+
+              gradeS_from:gradeLists.value[5].from,
+              gradeS_to:gradeLists.value[5].to,
+
+              gradeF_from:gradeLists.value[6].from,
+              gradeF_to:gradeLists.value[6].to,
         });
 
 

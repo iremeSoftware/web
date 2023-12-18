@@ -9,6 +9,7 @@ export const useUserStore = defineStore("auth", {
         errorMessage : "",
         confirmAccountErrorMessage : "",
         device_id : "",
+        class_teacher:[],
         loadingUI :{
           isLoading:false
         },
@@ -54,7 +55,8 @@ export const useUserStore = defineStore("auth", {
               
               const response = (await axios.post("current_user",data)).data;
               if (response) {
-                this.userDetails= response.user_info;
+                this.userDetails= response.user_info
+                this.class_teacher = response.class_teacher
               }
             },
 

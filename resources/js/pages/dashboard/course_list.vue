@@ -190,7 +190,7 @@ export default {
 
     const formData = ref({
         search_query:"",
-        school_id:"",
+        school_id:localStorage.getItem("school_id") ?? "",
         class_id:ref(route.params.class_id),
         student_id:'null',
         page:1,
@@ -298,9 +298,8 @@ export default {
     const popupDetails = computed(() => uiStore.popupDetails)
 
     function deleteAction(){
-      let school_id = userStore.userDetails.school_id
       uiStore.openPopUpFunc() // Close popup
-      return coursesstores.deleteCourse(school_id,formData.value)
+      return coursesstores.deleteCourse(formData.value)
     }
 
     function print_pdf() {

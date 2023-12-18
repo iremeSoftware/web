@@ -16,29 +16,13 @@
             <p class="flex text-16px md:text-2xl font-semibold">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mt-1">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
-                </svg> &nbsp;&nbsp;Students Marks Report
-                 ({{ classroomDetails!=undefined ? classroomDetails.classroom_name : '' }} - {{ getCoursesList?.filter((el) => el.course_id  == formData.course_id)[0]?.course_name }})
+                </svg> &nbsp;&nbsp;Classroom Marks Assessment Report
+                 ({{ classroomDetails!=undefined ? classroomDetails.classroom_name : '' }} )
   
             </p>
         </div>
-        <div class="absolute flex text-xs md:text-sm space-x-4 ml-1 md:ml-[300px] mt-16 md:mt-20" @mousemove="hideCols(true)" >
-            <router-link class="md:w-44 h-8 pt-1 md:pt-2 md:h-10 text-xs md:text-sm rounded-md ring-2 ring-black shadow-lg hover:scale-x-105" :to="`/dashboard/marks/${formData.class_id}`"><p class="flex pl-2  space-x-2">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"></path>
-              </svg>              
-              <font class="pt-1">Edit Marks</font></p>
-            </router-link>
-        </div>
+
         <DataTable>
-
-          <template v-slot:searchInput>
-            <input type="text" class="w-full mt-1 h-[28px] md:h-10 ring-1 ring-[#000000] rounded-tl rounded-bl placeholder:p-1 placeholder:font-light  enabled:p-2" @keyup="clearSearch()" placeholder="Search student here" v-model="formData.student_name">
-            <button @click="searchStudents()" class="w-12 h-[30px] md:h-[42px] mt-[3px] text-sm text-white bg-[#000000] rounded-tr rounded-br"><p class="flex pl-2 pt-[1px]"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-              </svg>
-              </p></button>
-          </template>
-
           <template v-slot:table>
             <div class="flex overflow-x-auto h-14">
             <p class="text-sm md:text-md font-semibold text-left mt-2 pr-2">Show:</p>
@@ -48,6 +32,7 @@
               <option>50</option>
               <option>100</option>
             </select>
+
           <p class="text-sm md:text-md font-semibold text-left mt-2 pl-2">entries</p>
           <div class="hidden md:block border-l-[4px] -mt-1 ml-8 mr-14"></div>
           <p class="ml-10 md:ml-2 text-sm md:text-md font-semibold text-left mt-2 pr-2">Select Term:</p>
@@ -57,11 +42,6 @@
             </option>
           </select>
 
-          <div class="hidden md:block border-l-[4px] -mt-1 ml-8 mr-14"></div>
-          <p class="ml-10 md:ml-2 text-sm md:text-md font-semibold text-left mt-2 pr-2">Select Course:</p>
-          <select  name='select_user_role'  class="h-6 md:h-9  rounded-lg  bg-transparent ring-1 ring-[#000000]  md:enabled:p-2 enabled:font-light mt-1 md:ml-4 "  v-model="formData.course_id" @change="setCourse()">
-                    <option v-for="course in getCoursesList" :value="course.course_id">{{ course.course_name }}</option>
-          </select>
 
           <div class="hidden md:block border-l-[4px] -mt-1 ml-8 mr-14"></div>
           <p class="ml-10 md:ml-2 text-sm md:text-md font-semibold text-left mt-2 pr-2">Sort Records:</p>
@@ -69,10 +49,13 @@
                     <option v-for="sort in sortList" :value="sort.sort">{{ sort.sort_name }}</option>
           </select>
           </div>
+
             
 <!-- 
           <input type="hidden" v-set="firstItem = 0">
           <input type="hidden" v-set="lastItem = 0"> -->
+
+          
 
          <template v-if="studentsMarks.Marks?.length">
            <div class="md:flex md:flex-wrap mt-4">
@@ -86,23 +69,32 @@
                 <th scope="col" class="px-4 md:px-6 py-3 border">
                     Student Names
                 </th>
+                <input type="hidden" :set="total_maximum1 = 0">
+                <input type="hidden" :set="total_maximum2 = 0">
+                <input type="hidden" :set="total_maximum3 = 0">
+
+                <th scope="col" class="px-4 md:px-6 py-3 border" v-for="course in getCoursesList">
+                    {{ course.course_name }} 
+                      <input type="hidden" :set="total_maximum1 +=(course.maximum['term1_quiz'] + course.maximum['term1_exam'])">
+                      <input type="hidden" :set="total_maximum2 +=(course.maximum['term2_quiz'] + course.maximum['term2_exam'])">
+                      <input type="hidden" :set="total_maximum3 +=(course.maximum['term3_quiz'] + course.maximum['term3_exam'])">
+                   
+                      <font v-if="formData.term==1">
+                        (/{{  course.maximum['term1_quiz'] + course.maximum['term1_exam']  }})
+                    </font>
+                    <font v-else-if="formData.term==2">
+                        (/{{  course.maximum['term2_quiz'] + course.maximum['term2_exam']  }})
+                    </font>
+                    <font v-else>
+                        (/{{  course.maximum['term3_quiz'] + course.maximum['term3_exam']  }})
+                    </font>
+                 </th>
                 <th scope="col" class="px-4 md:px-6 py-3 border">
-                    CAT Marks
+                  Total (/{{ formData.value ==1 ? total_maximum1 : (formData.value ==2 ? total_maximum2 : total_maximum3)   }})
+
                 </th>
                 <th scope="col" class="px-4 md:px-6 py-3 border">
-                   Exam Marks
-                </th>
-                <th scope="col" class="px-4 md:px-6 py-3 border">
-                   Total
-                </th>
-                <th scope="col" class="px-4 md:px-6 py-3 border">
-                   Percentage
-                </th>
-                <th scope="col" class="px-4 md:px-6 py-3 border">
-                   Grade
-                </th>
-                <th scope="col" class="px-4 md:px-6 py-3 border">
-                   Aggregate
+                   %
                 </th>
                 <th scope="col" class="px-4 md:px-6 py-3 border">
                    Rank
@@ -110,41 +102,9 @@
             </tr>
         </thead>
         <tbody v-if="studentsMarks.Marks?.length">
-                <input type="hidden" :set="grand_total_term1_quiz = 0">
-                <input type="hidden" :set="grand_total_term2_quiz = 0">
-                <input type="hidden" :set="grand_total_term3_quiz = 0">
-
-                <input type="hidden" :set="grand_maximumPoints_term1_quiz = 0">
-                <input type="hidden" :set="grand_maximumPoints_term2_quiz = 0">
-                <input type="hidden" :set="grand_maximumPoints_term3_quiz = 0">
-
-                <input type="hidden" :set="grand_total_term1_exam = 0">
-                <input type="hidden" :set="grand_total_term2_exam = 0">
-                <input type="hidden" :set="grand_total_term3_exam = 0">
-
-                <input type="hidden" :set="grand_maximumPoints_term1_exam = 0">
-                <input type="hidden" :set="grand_maximumPoints_term2_exam = 0">
-                <input type="hidden" :set="grand_maximumPoints_term3_exam = 0">
-
+         
 
           <tr v-for="student,i in studentsMarks.Marks">
-
-            <input type="hidden" :set="grand_total_term1_quiz += student.term1_quiz">
-            <input type="hidden" :set="grand_total_term2_quiz += student.term2_quiz">
-            <input type="hidden" :set="grand_total_term3_quiz += student.term3_quiz">
-
-            <input type="hidden" :set="grand_maximumPoints_term1_quiz += maximumPoints.Out_of_marks?.term1_quiz">
-            <input type="hidden" :set="grand_maximumPoints_term2_quiz += maximumPoints.Out_of_marks?.term2_quiz">
-            <input type="hidden" :set="grand_maximumPoints_term3_quiz += maximumPoints.Out_of_marks?.term3_quiz">
-
-            <input type="hidden" :set="grand_total_term1_exam += student.term1_exam">
-            <input type="hidden" :set="grand_total_term2_exam += student.term2_exam">
-            <input type="hidden" :set="grand_total_term3_exam += student.term3_exam">
-
-            <input type="hidden" :set="grand_maximumPoints_term1_exam += maximumPoints.Out_of_marks?.term1_exam">
-            <input type="hidden" :set="grand_maximumPoints_term2_exam += maximumPoints.Out_of_marks?.term2_exam">
-            <input type="hidden" :set="grand_maximumPoints_term3_exam += maximumPoints.Out_of_marks?.term3_exam">
-
 
             <td class="px-4 md:px-6 py-4 border">
                      {{ i+studentsMarks.offset+1}}
@@ -152,65 +112,38 @@
             <td class="px-4 md:px-6 py-4 border">
                      {{ student.name }}
             </td>
-            <td class="px-4 md:px-6 py-4 border">
-              <template  v-if="formData.term ==1">
-                {{ student.term1_quiz }} / {{ maximumPoints.Out_of_marks?.term1_quiz }}
-              </template> 
-              <template  v-else-if="formData.term ==2">
-                  {{ student.term2_quiz }} / {{ maximumPoints.Out_of_marks?.term2_quiz }}
-              </template> 
-              <template  v-else>
-                  {{ student.term3_quiz }} / {{ maximumPoints.Out_of_marks?.term3_quiz }}
-              </template>
-            </td>
-            <td class="px-4 md:px-6 py-4 border">
-              <template  v-if="formData.term ==1">
-              {{ student.term1_exam }} /  {{ maximumPoints.Out_of_marks?.term1_exam }}
-            </template>
-            <template v-else-if="formData.term ==2">
-              {{ student.term2_exam }} / {{ maximumPoints.Out_of_marks?.term2_exam }}
-            </template>
-            <template  v-else>
-              {{ student.term3_exam }} / {{ maximumPoints.Out_of_marks?.term3_exam }}
-            </template>
-            </td>
-            <td class="px-4 md:px-6 py-4 border">
-                <input type="hidden" :set="total_maximum_term1 = maximumPoints.Out_of_marks?.term1_quiz + maximumPoints.Out_of_marks?.term1_exam ">
-                <input type="hidden" :set="total_maximum_term2 = maximumPoints.Out_of_marks?.term2_quiz + maximumPoints.Out_of_marks?.term2_exam ">
-                <input type="hidden" :set="total_maximum_term3 = maximumPoints.Out_of_marks?.term3_quiz + maximumPoints.Out_of_marks?.term3_exam ">
-              <template  v-if="formData.term ==1">
-              {{ student.term1_total_marks }} /  {{ total_maximum_term1 }}
-            </template>
-            <template v-else-if="formData.term ==2">
-              {{ student.term2_total_marks }} / {{ total_maximum_term2 }}
-            </template>
-            <template  v-else>
-              {{ student.term3_total_marks }} / {{ total_maximum_term3 }}
-            </template>
-            </td>
-            <td class="px-4 md:px-6 py-4 border">
-                <input type="hidden" :set="percentage_term1 = ((student.term1_total_marks / total_maximum_term1) * 100).toFixed(1)">
-                <input type="hidden" :set="percentage_term2 = ((student.term2_total_marks / total_maximum_term2) * 100 ).toFixed(1)">
-                <input type="hidden" :set="percentage_term3 = ((student.term3_total_marks / total_maximum_term3) * 100).toFixed(1)">
+            <input type="hidden" :set="total_quiz_exam1 = 0">
+            <input type="hidden" :set="total_quiz_exam2 = 0">
+            <input type="hidden" :set="total_quiz_exam3 = 0">
+
+            <td class="px-4 md:px-6 py-4 border" v-for="course,i in student.courses">
+              <input type="hidden" :set="total_quiz_exam1 +=course.term1_total_marks ">
+              <input type="hidden" :set="total_quiz_exam2 +=course.term2_total_marks ">
+              <input type="hidden" :set="total_quiz_exam3 +=course.term3_total_marks ">
+
+              <input type="hidden" :set="total_percentage1 = (total_quiz_exam1 / total_maximum1) * 100">
+              <input type="hidden" :set="total_percentage2 = (total_quiz_exam2 / total_maximum2) * 100 ">
+              <input type="hidden" :set="total_percentage3 = (total_quiz_exam3 / total_maximum3) * 100 ">
+              
             <template  v-if="formData.term==1">
-              {{ percentage_term1 }} %
+              {{ course.term1_total_marks }} 
             </template>
             <template v-else-if="formData.term==2">
-              {{ percentage_term2 }} %
+                {{ course.term2_total_marks }} 
             </template>
             <template  v-else>
-              {{ percentage_term3 }} %
+                {{ course.term3_total_marks }} 
             </template>
             </td>
             <td class="px-4 md:px-6 py-4 border">
-              <dt v-if="formData.term ==1">{{ generateGrades(percentage_term1,grades?.points_ranges).grade }}</dt>
-              <dt v-if="formData.term ==2">{{ generateGrades(percentage_term2,grades?.points_ranges).grade }}</dt>
-              <dt v-if="formData.term ==3">{{ generateGrades(percentage_term3,grades?.points_ranges).grade }}</dt>
+              <dt v-if="formData.term ==1">{{ total_quiz_exam1  }}  </dt>
+              <dt v-else-if="formData.term ==2">{{ total_quiz_exam2  }}</dt>
+              <dt v-else="formData.term ==1">{{ total_quiz_exam3  }}</dt>
             </td>
             <td class="px-4 md:px-6 py-4 border">
-              <dt v-if="formData.term ==1">{{ generateGrades(percentage_term1,grades?.points_ranges).value }}</dt>
-              <dt v-if="formData.term ==2">{{ generateGrades(percentage_term2,grades?.points_ranges).value }}</dt>
-              <dt v-if="formData.term ==3">{{ generateGrades(percentage_term3,grades?.points_ranges).value }}</dt>
+              <dt v-if="formData.term ==1">{{ total_percentage1.toFixed(1)  }}%  </dt>
+              <dt v-else-if="formData.term ==2">{{ total_percentage2.toFixed(1)  }}%</dt>
+              <dt v-else="formData.term ==3">{{ total_percentage3.toFixed(1) }}%</dt>
             </td>
             <td class="px-4 md:px-6 py-4 border">
               <dt v-if="formData.term ==1">{{ student.rank_term1 }}/{{ studentsMarks.no_of_students  }}  </dt>
@@ -218,30 +151,10 @@
               <dt v-else="formData.term ==1">{{ student.rank_term3 }}/{{ studentsMarks.no_of_students  }}</dt>
             </td>
 
-
           </tr>
 
         </tbody>
-        <thead class=" text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" colspan="2" class="px-4 md:px-6 py-3 border text-center">
-                    AVERAGE
-                </th>
-                <th scope="col" class="px-4 md:px-6 py-3 border">
-                  <dt v-if="formData.term ==1">{{ (grand_total_term1_quiz / grand_maximumPoints_term1_quiz * 100).toFixed(1) }} % </dt>
-                  <dt v-if="formData.term ==2">{{ (grand_total_term2_quiz / grand_maximumPoints_term2_quiz * 100).toFixed(1) }} % </dt>
-                  <dt v-if="formData.term ==3">{{ (grand_total_term3_quiz / grand_maximumPoints_term3_quiz * 100).toFixed(1) }} % </dt>
-                </th>
-                <th scope="col" class="px-4 md:px-6 py-3 border">
-                  <dt v-if="formData.term ==1">{{ (grand_total_term1_exam / grand_maximumPoints_term1_exam * 100).toFixed(1) }} % </dt>
-                  <dt v-if="formData.term ==2">{{ (grand_total_term2_exam / grand_maximumPoints_term2_exam * 100).toFixed(1) }} % </dt>
-                  <dt v-if="formData.term ==3">{{ (grand_total_term3_exam / grand_maximumPoints_term3_exam * 100).toFixed(1) }} % </dt>
-                </th>
-                <th scope="col" colspan="4" class="px-4 md:px-6 py-3 border">
-                  
-                </th>
-            </tr>
-        </thead>
+
         </table>
         </div>
       </div>
@@ -297,8 +210,7 @@
          </div>
     </div>
     </template>
-  
-  <script>
+<script>
   import Alert from '../../components/alert.vue'
   import Header2 from '../../components/header2.vue'
   import sidebarVue from '../../components/sidebar.vue'
@@ -314,10 +226,9 @@
   import {setPageTitle} from '../../helpers/set_page_title'
   import { coursesStore } from '../../stores/courses'
   import {studentsMarksStore} from '../../stores/student_marks'
-  import {generateGrades} from '../../helpers/generate_grades'
 
   export default {
-      name:"studentsMarksReport",
+      name:"studentsMarksAssessmentReport",
       components:{
         Alert,
         Header2,
@@ -395,16 +306,16 @@
               account_id:"",
               course_id:uiStore.popupDetails.course_id ?? localStorage.getItem('course_id'),
               limit:localStorage.getItem('numRows') ?? 10,
-              sort_by:'name',
-              sort:'ASC',
+              sort_by:'ASC',
+              sort:'name',
               term:localStorage.getItem('selectedTerm') ?? termList.value[0].term_no,
               term_quiz:0,
               term_exam:0,
               sort_records:sortList.value[0].sort,
               maximumPoints:{
-
               }
       });
+
 
       let quiz_marks = ref([])
       let exam_marks = ref([])
@@ -429,19 +340,15 @@
       })
   
       watch(route,() => {
-        formData.value.account_id = store.userDetails.account_id
-        formData.value.course_id = localStorage.getItem('course_id') 
-        getClassTeacherByClass()
-        getCoursesOfTeacherInClass(formData.value)
-        getStudentMarks()
-        getMaximum()
+        formData.value.class_id = route.params.class_id
+        getStudentMarksAssessment()
+        courseList()
        });
   
        function getClassTeacherByClass(){
          return classroomStores.getClassTeacherByClass(currentUser.value.school_id,route.params.class_id)
        }
 
-      let isMenuClicked = computed(() => uiStore.isMenuClicked);
   
       const popup_type = computed(() => uiStore.popup_type);
   
@@ -451,15 +358,10 @@
           'popup_message':popup_message,
           'popup_data':popup_data,
         }
-        //toggleSideBar()
         return uiStore.openPopUpFunc(popup_type,to,popup_records);    
       }
   
-      function toggleSideBar(){
-          isMenuClicked =! isMenuClicked
-          return uiStore.isLeftMenuSelected(isMenuClicked)         
-      }
-  
+   
       popupDetails = computed(() => {
         return uiStore.popupDetails
       })
@@ -484,29 +386,15 @@
             }
         }
 
-
         function getCoursesOfTeacherInClass(data){
            return coursesstores.getCoursesOfTeacherInClass(data)
-        }
-
-        const getCoursesList = computed(() => {
-            return coursesstores.coursesList.courses
-        });
-
-        function setCourse(){
-          let course_id=event.target.value;
-          localStorage.setItem('course_id',course_id)
-          localStorage.removeItem('quiz_maximum')
-         // getQuizMaximum.value.quiz_maximum = 0
-          formData.value.course_id = course_id
-          getStudentMarks()
-          getMaximum()
         }
 
           
        function setNumberOfRecords(){
           localStorage.setItem('numRows',formData.value.limit)
-          getStudentMarks()
+          getStudentMarksAssessment()
+          courseList()
        }
 
        function selectPage(num,noOfPages){
@@ -514,16 +402,12 @@
           {
             formData.value.page = num
             currentPage.value = num
-            getStudentMarks()
+            getStudentMarksAssessment()
           }
        }
 
         function importStudents(){
             return studentsMarksStores.importStudentMarks(formData.value);
-        }
-
-        function getStudentMarks(){
-          return studentsMarksStores.getStudentMarks(formData.value);
         }
 
         function getMaximum(){
@@ -563,7 +447,7 @@
         function clearSearch(){
            if(event.which == 8)
            {
-             return getStudentMarks()
+             return getStudentMarksAssessment()
            }
         }
 
@@ -571,69 +455,21 @@
           formData.value.term = event.target.value
           localStorage.setItem('selectedTerm',formData.value.term)
           getCoursesOfTeacherInClass(formData.value)
-          getStudentMarks()
-          getClassTeacherByClass()
-          getMaximum()
-        }
-
-        function updateStudentMarks(index,student){
-          if(hasValidationError.value[index] =="")
-          {
-            formData.value.term_quiz = quiz_marks.value[index] ?? 0
-            formData.value.term_exam = exam_marks.value[index] ?? (formData.value.term ==1 ? student.term1_exam : (formData.value.term ==2 ? student.term2_exam : student.term3_exam))
-            formData.value.student_id = student.student_id
-            return studentsMarksStores.updateStudentMarks(formData.value)
-          }
-          else {
-            alert(hasValidationError.value[index])
-          }
+          getStudentMarksAssessment()
+          courseList()
         }
 
         function sortRecords(){
           let currentSort = event.target.value
-          formData.value.sort = currentSort.split('-')[1]
-          formData.value.sort_by = currentSort.split('-')[0] =='rank_term'?currentSort.split('-')[0]+formData.value.term:currentSort.split('-')[0]
+          formData.value.sort = currentSort.split('-')[0] =='rank_term'?currentSort.split('-')[0]+formData.value.term:currentSort.split('-')[0] 
+          formData.value.sort_by = currentSort.split('-')[1] 
           localStorage.setItem('currentSort',currentSort)
-          getStudentMarks()
+          getStudentMarksAssessment()
+          courseList()
       }
+
       
-      function validateInput(type,index,student){
-        if(type =='quiz')
-        {
-
-            let summation = parseFloat(formData.value.term ==1 ? student.term1_quiz : (formData.value.term ==2 ? student.term2_quiz:student.term3_quiz)) + parseFloat(quiz_marks.value[index])
-            if((summation / studentsMarksStores?.maximumPoints.Out_of_marks[
-            formData.value.term ==1 ? 'term1_quiz': (formData.value.term ==2 ? 'term2_quiz':'term3_quiz')]) > 1)
-            {
-              inputQuizError.value[index] = 'w-20 h-10 ml-4 md:ml-2 ring-1 ring-[#ef4444]  enabled:p-2'
-              hasValidationError.value[index] = "Error : " + summation+" / "+ studentsMarksStores?.maximumPoints.Out_of_marks[
-            formData.value.term ==1 ? 'term1_quiz':(formData.value.term ==2 ? 'term2_quiz':'term3_quiz')]
-            }
-            else {
-              inputQuizError.value[index] = 'w-20 h-10 ml-4 md:ml-2 ring-1 ring-[#000000]'
-              hasValidationError.value[index] = ""
-            }
-        }
-        else if(type =='exam')
-        {
-
-            let summation = exam_marks.value[index]
-            if((summation / studentsMarksStores?.maximumPoints.Out_of_marks[
-            formData.value.term ==1 ? 'term1_exam': (formData.value.term ==2 ? 'term2_exam':'term3_exam')]) > 1)
-            {
-              inputExamError.value[index] = 'w-20 h-10 ml-4 md:ml-2 ring-1 ring-[#ef4444]  enabled:p-2'
-              hasValidationError.value[index] = "Error : " + summation+" / "+ studentsMarksStores?.maximumPoints.Out_of_marks[
-            formData.value.term ==1 ? 'term1_exam':(formData.value.term ==2 ? 'term2_exam':'term3_exam')]
-            }
-            else {
-              inputExamError.value[index] = 'w-20 h-10 ml-4 md:ml-2 ring-1 ring-[#000000]'
-              hasValidationError.value[index] = ""
-            }
-        }
-
-      }
-
-
+      
       function print_pdf() {
                   var tableData = document.getElementById('dataTable').innerHTML;
           var tag = document.getElementsByTagName('head')[0].innerHTML;
@@ -647,7 +483,7 @@
             +`, `+ store.userDetails.school_district
             +`<br><br>
             <center>
-              <h3 class='text-2xl'>Student Marks Report (Term ${formData.value.term} - ${classroomDetails.value!=undefined ? classroomDetails.value.classroom_name : '' } - ${getCoursesList.value?.filter((el) => el.course_id  == formData.value.course_id)[0].course_name })</h3>
+              <h3 class='text-2xl'>Student Marks Assessment Report (${classroomDetails.value!=undefined ? classroomDetails.value.classroom_name : '' } - Term ${formData.value.term})</h3>
               <hr>
               <br><br>
             </center>`;
@@ -675,7 +511,7 @@
             +`, `+ store.userDetails.school_district
             + `<br><br>
             <center>
-              <h3 class='text-2xl'>Student Marks Report (Term ${formData.value.term} - ${classroomDetails.value!=undefined ? classroomDetails.value.classroom_name : '' } - ${getCoursesList.value?.filter((el) => el.course_id  == formData.value.course_id)[0].course_name })</h3>
+                <h3 class='text-2xl'>Student Marks Assessment Report (${classroomDetails.value!=undefined ? classroomDetails.value.classroom_name : '' } - Term ${formData.value.term})</h3>
               <hr>
               <br><br>
             </center>
@@ -687,18 +523,25 @@
                   e.preventDefault();
               }
 
+        function courseList(){
+            let school_id = store.userDetails.school_id
+            let page = formData.value.page
+            let class_id = route.params.class_id;
+            let limit = 'none'
+            return coursesstores.getcoursesList(school_id,class_id,page,limit)
+        }
 
-          function getRanges(){
-            return studentsMarksStores.getPointsRanges(formData.value)
-          }   
-          
-          let grades = computed(()=>studentsMarksStores.ranges)
+        function getStudentMarksAssessment(){
+          console.log(formData.value)
+            return studentsMarksStores.getStudentMarksAssessment(formData.value)
+        }
 
-
-
-        
+        const getCoursesList = computed(() => {
+            return coursesstores.coursesList.Courses
+        });
+  
       onMounted(() => {
-        setPageTitle(`Students Points (${classroomStores.classroomDetails.classroom_name})`)
+        setPageTitle(`Students Assessment sheet`)
         if(store.getUserData())
         {
           setTimeout(function (){
@@ -707,20 +550,17 @@
             formData.value.course_id = localStorage.getItem('course_id')
             let currentSort = localStorage.getItem('currentSort') ?? 'name-ASC'
             formData.value.sort_records = currentSort
-            formData.value.sort = currentSort.split('-')[1]
-            formData.value.sort_by = currentSort.split('-')[0] =='rank_term'?currentSort.split('-')[0]+formData.value.term:currentSort.split('-')[0]
             checkAuth()
-            getCoursesOfTeacherInClass(formData.value)
-            getStudentMarks()
             getClassTeacherByClass()
             getMaximum()
-            getRanges()
+            courseList()
+            getStudentMarksAssessment()
           },500);
           
         }
       });
   
-      return {currentUser,getUsers,classroomDetails,studentsList,setNumberOfRecords,formData,isLoading,selectPage,currentPage,searchStudents,clearSearch,isSorted,showPopUp,deleteAction,popupDetails,popup_type,getCoursesList,setCourse,importStudents,studentsMarks,maximumPoints,errorStatus,successStatus,closeFeedback,successFeedbackStatus,errorFeedbackStatus,termList,getQuizMaximum,setCurrentTerm,updateStudentMarks,quiz_marks,exam_marks,sortList,sortRecords,validateInput,inputQuizError,inputExamError,hasValidationError,print_pdf,print_ms,grades,generateGrades}
+      return {currentUser,getUsers,classroomDetails,studentsList,setNumberOfRecords,formData,isLoading,selectPage,currentPage,searchStudents,clearSearch,isSorted,showPopUp,deleteAction,popupDetails,popup_type,getCoursesList,importStudents,studentsMarks,maximumPoints,errorStatus,successStatus,closeFeedback,successFeedbackStatus,errorFeedbackStatus,termList,getQuizMaximum,setCurrentTerm,quiz_marks,exam_marks,sortList,sortRecords,inputQuizError,inputExamError,hasValidationError,print_pdf,print_ms,courseList}
     }
   }
   </script>

@@ -24,8 +24,7 @@
           </button>
           </div>
 
-
-          <div class="w-full text-right space-x-4 pr-2">
+          <div class="w-[90%] bg-white text-right space-x-4 pr-2 -ml-1">
             <button class=" h-8 w-8  text-center pl-2" @click="toggleNotification()">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
@@ -44,7 +43,7 @@
 
         </div>
       <div class="z-10 absolute md:ml-[59%] mt-2  w-full md:w-[40%] h-[300px] rounded-xl bg-[#ffffff] border-[2px] border-[#0673c3]  shadow-2xl" :class="notification==true?'block':'hidden'">
-          <div class="hidden md:block z-20 w-4 h-4 bg-[#ffffff]  rotate-45 -mt-2 ml-[69%] border-t-[2px] border-l-[2px] border-[#0673c3] "></div>
+          <div class="hidden md:block z-20 w-4 h-4 bg-[#ffffff]  rotate-45 -mt-2 ml-[72%] border-t-[2px] border-l-[2px] border-[#0673c3] "></div>
         </div>
       </div>
      
@@ -96,6 +95,15 @@
       <template v-else-if="popup_type == 'convert_maximum_points'">
         <convertMaximumPoints/>
       </template>
+      <template v-else-if="popup_type == 'assessment_sheet'">
+        <assessment_sheet/>
+      </template>
+      <template v-else-if="popup_type == 'set_grades'">
+        <set_grades />
+      </template>
+      <template v-else-if="popup_type == 'generate_report_form'">
+        <generateReportFormPopup />
+      </template>
 </template>
 
 <script>
@@ -119,6 +127,10 @@ import switchSchoolsPopup from './popup_forms/switch_schools.vue'
 import teacher_classrooms from './popup_forms/teacher_classrooms.vue'
 import setMaximumPoints from './popup_forms/set_maximum_points.vue'
 import convertMaximumPoints from './popup_forms/convert_points.vue'
+import assessment_sheet from './popup_forms/assessment_sheet.vue'
+import set_grades from './popup_forms/set_grades.vue'
+import generateReportFormPopup from './popup_forms/generate_report_form.vue'
+
 export default{
     name:"Header2",
     components:{
@@ -137,7 +149,10 @@ export default{
       switchSchoolsPopup,
       teacher_classrooms,
       setMaximumPoints,
-      convertMaximumPoints
+      convertMaximumPoints,
+      assessment_sheet,
+      set_grades,
+      generateReportFormPopup
    },
     setup() {
 

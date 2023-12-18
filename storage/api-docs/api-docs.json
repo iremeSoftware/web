@@ -3587,6 +3587,11 @@
                         "description": "Limit"
                     },
                     {
+                        "name": "term",
+                        "in": "query",
+                        "description": "Term"
+                    },
+                    {
                         "name": "page",
                         "in": "query",
                         "description": "Page"
@@ -3708,6 +3713,11 @@
                         "name": "class_id",
                         "in": "path",
                         "description": "Class ID"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page"
                     },
                     {
                         "name": "limit",
@@ -4497,15 +4507,20 @@
                                     "teacher_id",
                                     "term",
                                     "class_id",
-                                    "division1",
-                                    "division2",
-                                    "division3",
-                                    "division4",
-                                    "division5",
-                                    "division6",
-                                    "division7",
-                                    "division8",
-                                    "division9"
+                                    "gradeA_from",
+                                    "gradeA_to",
+                                    "gradeB_from",
+                                    "gradeB_to",
+                                    "gradeC_from",
+                                    "gradeC_to",
+                                    "gradeD_from",
+                                    "gradeD_to",
+                                    "gradeE_from",
+                                    "gradeE_to",
+                                    "gradeS_from",
+                                    "gradeS_to",
+                                    "gradeF_from",
+                                    "gradeF_to"
                                 ],
                                 "properties": {
                                     "school_id": {
@@ -4523,31 +4538,46 @@
                                     "class_id": {
                                         "type": "number"
                                     },
-                                    "division1": {
+                                    "gradeA_from": {
                                         "type": "number"
                                     },
-                                    "division2": {
+                                    "gradeA_to": {
                                         "type": "number"
                                     },
-                                    "division3": {
+                                    "gradeB_from": {
                                         "type": "number"
                                     },
-                                    "division4": {
+                                    "gradeB_to": {
                                         "type": "number"
                                     },
-                                    "division5": {
+                                    "gradeC_from": {
                                         "type": "number"
                                     },
-                                    "division6": {
+                                    "gradeC_to": {
                                         "type": "number"
                                     },
-                                    "division7": {
+                                    "gradeD_from": {
                                         "type": "number"
                                     },
-                                    "division8": {
+                                    "gradeD_to": {
                                         "type": "number"
                                     },
-                                    "division9": {
+                                    "gradeE_from": {
+                                        "type": "number"
+                                    },
+                                    "gradeE_to": {
+                                        "type": "number"
+                                    },
+                                    "gradeS_from": {
+                                        "type": "number"
+                                    },
+                                    "gradeS_to": {
+                                        "type": "number"
+                                    },
+                                    "gradeF_from": {
+                                        "type": "number"
+                                    },
+                                    "gradeF_to": {
                                         "type": "number"
                                     }
                                 },
@@ -4561,7 +4591,7 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Maximum points is successfully created",
+                        "description": "Grade ranges are successfully created",
                         "content": {
                             "application/json": {
                                 "schema": {}
@@ -4606,15 +4636,20 @@
                                     "teacher_id",
                                     "term",
                                     "class_id",
-                                    "division1",
-                                    "division2",
-                                    "division3",
-                                    "division4",
-                                    "division5",
-                                    "division6",
-                                    "division7",
-                                    "division8",
-                                    "division9"
+                                    "gradeA_from",
+                                    "gradeA_to",
+                                    "gradeB_from",
+                                    "gradeB_to",
+                                    "gradeC_from",
+                                    "gradeC_to",
+                                    "gradeD_from",
+                                    "gradeD_to",
+                                    "gradeE_from",
+                                    "gradeE_to",
+                                    "gradeS_from",
+                                    "gradeS_to",
+                                    "gradeF_from",
+                                    "gradeF_to"
                                 ],
                                 "properties": {
                                     "school_id": {
@@ -4632,31 +4667,46 @@
                                     "class_id": {
                                         "type": "number"
                                     },
-                                    "division1": {
+                                    "gradeA_from": {
                                         "type": "number"
                                     },
-                                    "division2": {
+                                    "gradeA_to": {
                                         "type": "number"
                                     },
-                                    "division3": {
+                                    "gradeB_from": {
                                         "type": "number"
                                     },
-                                    "division4": {
+                                    "gradeB_to": {
                                         "type": "number"
                                     },
-                                    "division5": {
+                                    "gradeC_from": {
                                         "type": "number"
                                     },
-                                    "division6": {
+                                    "gradeC_to": {
                                         "type": "number"
                                     },
-                                    "division7": {
+                                    "gradeD_from": {
                                         "type": "number"
                                     },
-                                    "division8": {
+                                    "gradeD_to": {
                                         "type": "number"
                                     },
-                                    "division9": {
+                                    "gradeE_from": {
+                                        "type": "number"
+                                    },
+                                    "gradeE_to": {
+                                        "type": "number"
+                                    },
+                                    "gradeS_from": {
+                                        "type": "number"
+                                    },
+                                    "gradeS_to": {
+                                        "type": "number"
+                                    },
+                                    "gradeF_from": {
+                                        "type": "number"
+                                    },
+                                    "gradeF_to": {
                                         "type": "number"
                                     }
                                 },

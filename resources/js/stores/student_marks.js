@@ -8,6 +8,7 @@ export const studentsMarksStore = defineStore("students_marks", {
         maximumPoints:{},
         successMessage:"",
         successMessageArr:[],
+        ranges:[],
         errorMessage : "",
         quiz_maximum:localStorage.getItem('quiz_maximum') ?? 0,
         loadingUI :{
@@ -96,11 +97,13 @@ export const studentsMarksStore = defineStore("students_marks", {
             await axios.post('marks',data).then(function (response) {
               self.successMessage = response.data.message
               self.loadingUI.isLoading = false
+              self.getStudentMarks(data)
             }).catch(function(err){
               self.errorMessage = err.response.data
               self.loadingUI.isLoading = false
             })
           },
+          
           async updateStudentMarks(data) {  
             let self = this
             self.errorMessage = ""
@@ -164,6 +167,45 @@ export const studentsMarksStore = defineStore("students_marks", {
               self.loadingUI.isLoading = false
               self.getMaximumPoints(data)
               self.getStudentMarks(data)
+            }).catch(function(err){
+              self.errorMessage = err.response.data
+              self.loadingUI.isLoading = false
+            })
+          },
+          async savePointsRanges(data) {  
+            let self = this
+            self.errorMessage = ""
+            self.loadingUI.isLoading = true
+            data.school_id = localStorage.getItem('school_id') ?? ""
+            await axios.post(`pointsRanges/post`,data).then(function (response) {
+              self.successMessage = response.data.message
+              self.loadingUI.isLoading = false
+            }).catch(function(err){
+              self.errorMessage = err.response.data
+              self.loadingUI.isLoading = false
+            })
+          },
+          async getPointsRanges(data) {  
+            let self = this
+            self.errorMessage = ""
+            self.loadingUI.isLoading = true
+            data.school_id = localStorage.getItem('school_id') ?? ""
+            await axios.post(`pointsRanges/get`,data).then(function (response) {
+              self.ranges = response.data
+              self.loadingUI.isLoading = false
+            }).catch(function(err){
+              self.errorMessage = err.response.data
+              self.loadingUI.isLoading = false
+            })
+          },
+          async updatePointsRanges(data) {  
+            let self = this
+            self.errorMessage = ""
+            self.loadingUI.isLoading = true
+            data.school_id = localStorage.getItem('school_id') ?? ""
+            await axios.post(`pointsRanges/update`,data).then(function (response) {
+              self.successMessage = response.data.message
+              self.loadingUI.isLoading = false
             }).catch(function(err){
               self.errorMessage = err.response.data
               self.loadingUI.isLoading = false

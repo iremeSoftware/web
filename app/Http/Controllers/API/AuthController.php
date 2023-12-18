@@ -810,6 +810,7 @@ class AuthController extends Controller
        ->join('classrooms', 'classrooms.classroom_representative', '=', 'users.account_id')
        ->where('users.account_id','=',$user->account_id)
        ->get();
+
        }
        else
        {

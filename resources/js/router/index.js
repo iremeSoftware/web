@@ -14,6 +14,9 @@ import classroomsList from '../pages/dashboard/classrooms_list.vue'
 import usersList from '../pages/dashboard/users_list.vue'
 import studentsMarks from '../pages/dashboard/students_marks.vue'
 import studentMarksReport from '../pages/dashboard/student_marks_report.vue'
+import studentsMarksAssessmentReport from '../pages/dashboard/student_marks_assessment.vue'
+import generateReportForm from '../pages/dashboard/generate_report_form.vue'
+import viewStudentReportForm from '../pages/dashboard/view_student_report_form.vue'
 
 
 
@@ -93,6 +96,18 @@ const routes = [
       {
         path:'marks/:class_id/report',
         component:studentMarksReport
+      },
+      {
+        path: 'marks/assessment/:class_id',
+        component:studentsMarksAssessmentReport
+      },
+      {
+        path: 'report_form/:class_id',
+        component:generateReportForm,
+      },
+      {
+        path: 'report_form/:class_id/:student_id/:term',
+        component:viewStudentReportForm,
       }
     ],
 
