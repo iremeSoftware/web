@@ -44,8 +44,7 @@
             <a href="#" class="inline-flex items-center justify-center p-4 border-b-[3px]  rounded-t-lg group" :class="isCSVTabSelected?'text-black border-black border-b-[3px]':''" aria-current="page">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-            </svg>&nbsp;&nbsp;Import from CSV file
-            </a>
+            </svg>&nbsp;&nbsp;Import CSV</a>
         </li>
     </ul>
 </div>
@@ -248,7 +247,7 @@
 
 </template>
 <script>
-import { ref, useSlots,computed, onMounted } from 'vue'
+import { ref, useSlots,computed, onMounted,inject } from 'vue'
 import { uiChangesStore } from '../../stores/ui_changes'
 import { classroomStore } from '../../stores/classroom'
 import { useUserStore } from '../../stores/auth'
@@ -270,6 +269,7 @@ export default {
       Alert
       },
       setup() {
+        const swal = inject('$swal')
         const slots = useSlots()
         const slotData = ref(slots)
         const uiStore = uiChangesStore()
@@ -492,7 +492,11 @@ export default {
         function onChange(e) {
             if(e.target.files[0].type !='text/csv')
             {
-                alert('Only CSV file allowed')
+                swal({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: "Only CSV file allowed",
+                });
             }
             else {
                 console.log(e.target.files[0])
@@ -512,7 +516,11 @@ export default {
         function drop(e) {
             if(e.dataTransfer.files[0].type !='text/csv')
             {
-                alert('Only CSV file allowed')
+                swal({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: "Only CSV file allowed",
+                });
             }
             else {
                 files.value = e.dataTransfer.files[0]
@@ -528,7 +536,11 @@ export default {
         function importStudent(){
             if(formData.value.classroom=="" || files.value=="")
             {
-                alert('Classroom & CSV file are required')
+                swal({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: "Classroom & CSV file are required",
+                });
                 return false
             }
             let frmData= new FormData()

@@ -172,28 +172,28 @@ class OutOfMarksController extends Controller
                                 ['class_id', '=', $request->class_id],
                                 ['school_id','=',$request->school_id]
         ])->first();
+
+         $request->teacher_id = $request->account_id;
          $data= array(
             'school_id' => $request->school_id,
             'class_id' => $request->class_id,
             'course_id' => $request->course_id,
-            'teacher_id' => $request->account_id,
+            'teacher_id' => $request->teacher_id,
             'term' => $request->term,
-            'division1' => '90-100',
-            'division2' => '80-89',
-            'division3' => '70-79',
-            'division4' => '60-69',
-            'division5' => '50-59',
-            'division6' => '40-49',
-            'division7' => '30-39',
-            'division8' => '20-29',
-            'division9' => '0-19',
+            'gradeA' => $request->gradeA_from.','.$request->gradeA_to,
+            'gradeB' => $request->gradeB_from.','.$request->gradeB_to,
+            'gradeC' => $request->gradeC_from.','.$request->gradeC_to,
+            'gradeD' => $request->gradeD_from.','.$request->gradeD_to,
+            'gradeE' => $request->gradeE_from.','.$request->gradeE_to,
+            'gradeS' => $request->gradeS_from.','.$request->gradeS_to,
+            'gradeF' => $request->gradeF_from.','.$request->gradeF_to,
             'created_at' => Helper::now(),
             'updated_at' => Helper::now()
          );
           $data1= array(
-            'pointsranges.school_id' => $request->school_id,
-            'pointsranges.class_id' => $request->class_id,
-            'pointsranges.course_id' => $request->course_id,
+            'marks_grades.school_id' => $request->school_id,
+            'marks_grades.class_id' => $request->class_id,
+            'marks_grades.course_id' => $request->course_id,
             'term'=> $request->term,
            );
             $count=PointsRanges::countData($data1);
@@ -208,9 +208,9 @@ class OutOfMarksController extends Controller
             if($today>=$term1_from && $today<=$term3_to)
             {
              $data1= array(
-            'pointsranges.school_id' => $request->school_id,
-            'pointsranges.class_id' => $request->class_id,
-            'pointsranges.course_id' => $request->course_id,
+            'marks_grades.school_id' => $request->school_id,
+            'marks_grades.class_id' => $request->class_id,
+            'marks_grades.course_id' => $request->course_id,
             'term'=> $request->term,
            );
            if(PointsRanges::getData($data1)==null)

@@ -60,6 +60,11 @@ class MarksController extends Controller
         *         description="Limit",
         *      ),
         *      @OA\Parameter(
+        *         name="term",
+        *         in="query",
+        *         description="Term",
+        *      ),
+        *      @OA\Parameter(
         *         name="page",
         *         in="query",
         *         description="Page",
@@ -300,8 +305,8 @@ class MarksController extends Controller
                 ->get();
 
             $data = [
-                "pointsranges.school_id" => $request->school_id,
-                "pointsranges.class_id" => $request->class_id,
+                "marks_grades.school_id" => $request->school_id,
+                "marks_grades.class_id" => $request->class_id,
                 "term" => $request->term,
             ];
 
@@ -681,6 +686,11 @@ class MarksController extends Controller
         *         name="class_id",
         *         in="path",
         *         description="Class ID",
+        *      ),
+        *      @OA\Parameter(
+        *         name="page",
+        *         in="query",
+        *         description="Page",
         *      ),
         *      @OA\Parameter(
         *         name="limit",
@@ -1469,24 +1479,22 @@ class MarksController extends Controller
                         ->where("student_id", $student_id)
                         ->first();
 
-                    $update = DB::table("marks")
-                        ->where([
-                            ["student_id", "=", $student_id],
-                            ["teacher_id", "=", $teacher_id],
-                            ["course_id", "=", $course_id],
-                            ["class_id", "=", $class_id],
-                            ["school_id", "=", $school_id],
-                        ])
-                        ->update([
-                            "term1_quiz" =>
-                                $student_marks->term1_quiz +
-                                $request->term_quiz,
-                            "term1_exam" => $request->term_exam,
-                            "term1_total_marks" =>
-                                $student_marks->term1_quiz +
-                                ($request->term_quiz + $request->term_exam),
-                            "updated_at" => $now,
-                        ]);
+                    $marks =   Marks::select("*")
+                    ->where([
+                        ["student_id", "=", $student_id],
+                        ["teacher_id", "=", $teacher_id],
+                        ["course_id", "=", $course_id],
+                        ["class_id", "=", $class_id],
+                        ["school_id", "=", $school_id],
+                    ])
+                    ->first();
+
+                     $marks->term1_quiz = $student_marks->term1_quiz + $request->term_quiz;
+                     $marks->term1_exam = $request->term_exam;
+                     $marks->term1_total_marks = $student_marks->term1_quiz + ($request->term_quiz + $request->term_exam);
+                     $marks->updated_at = $now;
+                     $marks->save();
+                        
 
                     $this->update_report_form(
                         $school_id,
@@ -1507,24 +1515,21 @@ class MarksController extends Controller
                 }
             } elseif ($request->term == 2) {
                 if ($today >= $term2_from && $today <= $term3_to) {
-                    $update = DB::table("marks")
-                        ->where([
-                            ["student_id", "=", $student_id],
-                            ["teacher_id", "=", $teacher_id],
-                            ["course_id", "=", $course_id],
-                            ["class_id", "=", $class_id],
-                            ["school_id", "=", $school_id],
-                        ])
-                        ->update([
-                            "term2_quiz" =>
-                                $student_marks->term2_quiz +
-                                $request->term_quiz,
-                            "term2_exam" => $request->term_exam,
-                            "term2_total_marks" =>
-                                $student_marks->term2_quiz +
-                                ($request->term_quiz + $request->term_exam),
-                            "updated_at" => $now,
-                        ]);
+                    $marks =   Marks::select("*")
+                    ->where([
+                        ["student_id", "=", $student_id],
+                        ["teacher_id", "=", $teacher_id],
+                        ["course_id", "=", $course_id],
+                        ["class_id", "=", $class_id],
+                        ["school_id", "=", $school_id],
+                    ])
+                    ->first();
+
+                     $marks->term2_quiz = $student_marks->term2_quiz + $request->term_quiz;
+                     $marks->term2_exam = $request->term_exam;
+                     $marks->term2_total_marks = $student_marks->term2_quiz + ($request->term_quiz + $request->term_exam);
+                     $marks->updated_at = $now;
+                     $marks->save();
 
                     return response()->json(
                         ["message" => "Updated successfully"],
@@ -1538,24 +1543,21 @@ class MarksController extends Controller
                 }
             } elseif ($request->term == 3) {
                 if ($today >= $term3_from && $today <= $term3_to) {
-                    $update = DB::table("marks")
-                        ->where([
-                            ["student_id", "=", $student_id],
-                            ["teacher_id", "=", $teacher_id],
-                            ["course_id", "=", $course_id],
-                            ["class_id", "=", $class_id],
-                            ["school_id", "=", $school_id],
-                        ])
-                        ->update([
-                            "term3_quiz" =>
-                                $student_marks->term3_quiz +
-                                $request->term_quiz,
-                            "term3_exam" => $request->term_exam,
-                            "term3_total_marks" =>
-                                $student_marks->term3_quiz +
-                                ($request->term_quiz + $request->term_exam),
-                            "updated_at" => $now,
-                        ]);
+                    $marks =   Marks::select("*")
+                    ->where([
+                        ["student_id", "=", $student_id],
+                        ["teacher_id", "=", $teacher_id],
+                        ["course_id", "=", $course_id],
+                        ["class_id", "=", $class_id],
+                        ["school_id", "=", $school_id],
+                    ])
+                    ->first();
+
+                     $marks->term3_quiz = $student_marks->term3_quiz + $request->term_quiz;
+                     $marks->term3_exam = $request->term_exam;
+                     $marks->term3_total_marks = $student_marks->term3_quiz + ($request->term_quiz + $request->term_exam);
+                     $marks->updated_at = $now;
+                     $marks->save();
 
                     return response()->json(
                         ["message" => "Updated successfully"],

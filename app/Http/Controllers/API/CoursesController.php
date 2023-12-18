@@ -80,11 +80,7 @@ class CoursesController extends Controller
     
     public function index(Request $request)
     {
-            $page = $request->page ?? 1;    
-            $limit=$request->limit ?? 10;
-            $sort_by = $request->sort_by ?? 'ASC';
-            $page=$page-1;
-            $offset=ceil($limit*$page);
+
             if(!empty($request->school_id) && empty($request->class_id))
             {
             //
@@ -92,6 +88,13 @@ class CoursesController extends Controller
                 $Count_courses = Courses::select('*')->where('school_id', '=', $request->school_id)
                 ->get()
                 ->count();
+
+                $limit=$request->limit ?? 10;
+                $limit = $limit == 'none' ? $Count_courses : $limit;
+                $page = $request->page ?? 1;    
+                $sort_by = $request->sort_by ?? 'ASC';
+                $page=$page-1;
+                $offset=ceil($limit*$page);
 
                 $Courses = Courses::select('*')->where('school_id', '=', $request->school_id)
                 ->offset($offset)
@@ -102,12 +105,21 @@ class CoursesController extends Controller
             }
             else if(!empty($request->school_id) && !empty($request->class_id))
             {
-                $Count_courses = Courses::select('*')->where([
+                $Count_courses = Courses::select('*')
+                ->join('designated_teachers','designated_teachers.course_id','=','courses.course_id')
+                ->where([
                     ['courses.school_id', '=', $request->school_id],
                     ['designated_teachers.class_id', '=', $request->class_id]
                 ])
                 ->get()
                 ->count();
+
+                $limit=$request->limit ?? 10;
+                $limit = $limit == 'none' ? $Count_courses : $limit;
+                $page = $request->page ?? 1;    
+                $sort_by = $request->sort_by ?? 'ASC';
+                $page=$page-1;
+                $offset=ceil($limit*$page);
 
                 $Courses = Courses::select('courses.course_name','courses.course_id','designated_teachers.teacher_id')
                 ->join('designated_teachers','designated_teachers.course_id','=','courses.course_id')
@@ -433,6 +445,6 @@ class CoursesController extends Controller
 
          
             
-        return response()->json(['message'=>'Deleted successfully'],200);
+        return response()->json(['school_id'=>$request->school_id,'course_id'=>$request->course_id,'message'=>'Deleted successfully'],200);
     }
 }

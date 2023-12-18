@@ -78,15 +78,14 @@ export const coursesStore = defineStore("courses", {
             })
           },
 
-          async deleteCourse(school_id,data) {  
+          async deleteCourse(data) {  
             let self = this;
             self.errorMessage = ""
             self.loadingUI.isLoading = false
-            school_id = localStorage.getItem("school_id") ?? ""
-            await axios.post(`course/destroy/${school_id}`,data).then(function (response) {
+            await axios.post(`course/destroy/${data.school_id}`,data).then(function (response) {
               self.successMessage = response.data.status
               self.loadingUI.isLoading = false
-              self.getcoursesList(school_id)
+              self.getcoursesList(data.school_id)
             }).catch(function(err){
               self.coursesList = []
               self.errorMessage = err.response.data

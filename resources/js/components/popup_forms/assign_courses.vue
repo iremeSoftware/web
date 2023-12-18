@@ -66,7 +66,7 @@ import { uiChangesStore } from '../../stores/ui_changes'
 import { classroomStore } from '../../stores/classroom'
 
 export default {
-      name:"assignassignCourse",
+      name:"assignCourse",
       components:{
       ModalPopUp,
       Alert
@@ -148,7 +148,7 @@ export default {
         });
 
         function courseList (school_id,class_id){
-            return coursesstores.getcoursesList(school_id,class_id)
+            return coursesstores.getcoursesList(school_id,class_id,1,'none')
         }
 
         const getCoursesList = computed(() => {

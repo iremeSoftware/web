@@ -20,4 +20,5 @@ deleted default value = 0
 
 4. Classroom table
 -> Add new column 'classroom_alias'
+5. Create new table marks_grades
 

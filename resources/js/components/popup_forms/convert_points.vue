@@ -20,7 +20,7 @@
                 <!-- {{ maximumPoints }} -->
                <template v-if="selected == 'quiz'">
                 <div class="flex">
-                    <p class="text-sm md:text-md font-semibold text-left mt-2">Convert quiz maximum points from 
+                    <p class="text-sm md:text-md font-semibold text-left mt-2">Convert CAT maximum points from 
                         <template v-if="popupDetails.popup_data.term ==1">{{ popupDetails.popup_data.maximumPoints?.term1_quiz ?? 0 }}</template>
                         <template v-else-if="popupDetails.popup_data.term ==2">{{ popupDetails.popup_data.maximumPoints?.term2_quiz ?? 0 }}</template>
                         <template v-else>{{ popupDetails.popup_data.maximumPoints?.term3_quiz ?? 0 }}</template> to: </p>
@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { ref, useSlots,computed, onMounted } from 'vue'
+import { ref, useSlots,computed, onMounted,inject } from 'vue'
 import Alert from '../../components/alert.vue'
 import ModalPopUp from './../ModalPopUp.vue'
 import { useUserStore } from '../../stores/auth'
@@ -81,6 +81,7 @@ export default {
       Alert
    },
       setup() {
+        const swal = inject('$swal')
         const slots = useSlots()
         const slotData = ref(slots)
         const successFeedbackStatus = ref(false)
@@ -135,7 +136,15 @@ export default {
         });
 
         function convertMaximumPoints(){
-             return studentsMarksStores.convertMaximumPoints(formData.value)
+            if(formData.value.term_quiz >0 || formData.value.term_exam >0)
+                   return studentsMarksStores.convertMaximumPoints(formData.value)
+            else
+                    swal({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: "Marks less than 1 point not allowed",
+                    });
+                    
         }
 
         onMounted(() => {

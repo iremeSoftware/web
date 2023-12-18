@@ -33,7 +33,16 @@
           <template v-slot:columnsToShow>
 
             <div class="flex overflow-x-auto">
-            <button class="w-48 h-8 text-xs md:text-sm rounded-lg text-white bg-[#000000]" @click="showPopUp('set_maximum_points','','','',formData)" ><p class="flex pl-2">
+              <button class="ml-2 w-48 h-8 text-xs md:text-sm rounded-lg text-white bg-[#000000]" :disabled="isLoading" @click="importStudents"><p class="flex pl-2">
+              <svg v-if="isLoading==false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+              </svg>
+              <svg v-else class="animate-spin text-black h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" ></circle><path class="opacity-75" fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <dt class="md:pl-3 pt-1 truncate">Import Students</dt></p>
+            </button>
+            <button class="ml-2 w-48 h-8 text-xs md:text-sm rounded-lg text-white bg-[#000000]" @click="showPopUp('set_maximum_points','','','',formData)" ><p class="flex pl-2">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
@@ -45,15 +54,13 @@
               </svg>
               <dt class="md:pl-3 pt-1 truncate">Convert Points </dt></p>
             </button>
-            <button class="ml-2 w-48 h-8 text-xs md:text-sm rounded-lg text-white bg-[#000000]" :disabled="isLoading" @click="importStudents"><p class="flex pl-2">
-              <svg v-if="isLoading==false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+            <button class="ml-2 w-44 h-8 text-xs md:text-sm rounded-lg text-white bg-[#000000]" @click="showPopUp('set_grades','','','',formData)"><p class="flex pl-2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
               </svg>
-              <svg v-else class="animate-spin text-black h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" ></circle><path class="opacity-75" fill="currentColor"
-                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              <dt class="md:pl-3 pt-1 truncate">Import Students</dt></p>
+              <dt class="md:pl-3 pt-1 truncate">Set Grades</dt></p>
             </button>
+  
           </div>
           </template>
           <template v-slot:table>
@@ -101,9 +108,9 @@
 
             </template>
             <template v-slot:student_name>
-              <dt class="truncate">{{ (i + studentsMarks.offset)+1 }}. {{ student.name }}</dt></template>
+              <p class="truncate">{{ (i + studentsMarks.offset)+1 }}. {{ student.name }}</p></template>
             <template v-slot:quiz_points>
-              <input type='number' class='w-20 h-10 ml-4 md:ml-2 ring-1 ring-[#000000]  enabled:p-2' :class="inputQuizError[i]"  v-model="quiz_marks[i]" @input="validateInput('quiz',i,student)"  />
+              <input type='number' class='w-20 h-10 ml-5 md:ml-2 ring-1 ring-[#000000]  enabled:p-2' :class="inputQuizError[i]"  v-model="quiz_marks[i]" @input="validateInput('quiz',i,student)"  />
                   <p class="pl-2 pt-2 h-10 text-lg font-bold"> <dt v-if="getQuizMaximum">/ {{ getQuizMaximum }}</dt></p>
             </template>
             <template v-slot:exam_points>
@@ -112,7 +119,7 @@
                   <p v-else-if="formData.term ==2" class="pl-4 pt-2 h-10 text-lg font-bold"> / {{ maximumPoints.Out_of_marks?.term2_exam }}</p>
                   <p v-else class="pl-4 pt-2 h-10 text-lg font-bold"> / {{ maximumPoints.Out_of_marks?.term3_exam }}</p>
 
-                  <button @click="updateStudentMarks(i,student)" class="absolute w-8 md:w-12 h-8  md:h-12 rounded-full bg-black text-white text-center pl-2 md:pl-3 text-2xl md:mt-2 ml-[60%] md:ml-[13%]">
+                  <button @click="updateStudentMarks(i,student)" class="absolute w-8 md:w-12 h-8  md:h-12 rounded-full bg-black text-white text-center pl-2 md:pl-3 text-2xl md:mt-2 ml-[63%] md:ml-[13%]">
                     <p class="flex md:pl-1 text-2xl font-bold">
                       +
                     </p>
@@ -155,7 +162,7 @@
 <template v-slot:printBtns>
   <div class="flex text-xs md:text-sm space-x-4">
           <router-link :to="`/dashboard/marks/${formData.class_id}/report`" class="w-44 h-8 md:h-10 text-xs md:text-sm rounded-md ring-2 ring-black mb-4 pt-2 shadow-lg hover:scale-x-105" ><p class="flex pl-2  space-x-2">
-            <font class="pt-1">Go to Marks Report</font><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="w-6 h-6">
+            <font class="md:pt-1">Go to Marks Report</font><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="w-6 h-6">
               <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path>
             </svg>
             </p>
@@ -338,8 +345,6 @@
        function getClassTeacherByClass(){
          return classroomStores.getClassTeacherByClass(currentUser.value.school_id,route.params.class_id)
        }
-
-      let isMenuClicked = computed(() => uiStore.isMenuClicked);
   
       const popup_type = computed(() => uiStore.popup_type);
   
@@ -349,13 +354,7 @@
           'popup_message':popup_message,
           'popup_data':popup_data,
         }
-        //toggleSideBar()
         return uiStore.openPopUpFunc(popup_type,to,popup_records);    
-      }
-  
-      function toggleSideBar(){
-          isMenuClicked =! isMenuClicked
-          return uiStore.isLeftMenuSelected(isMenuClicked)         
       }
   
       popupDetails = computed(() => {
@@ -394,7 +393,6 @@
           let course_id=event.target.value;
           localStorage.setItem('course_id',course_id)
           localStorage.removeItem('quiz_maximum')
-         // getQuizMaximum.value.quiz_maximum = 0
           formData.value.course_id = course_id
           getStudentMarks()
           getMaximum()
@@ -479,7 +477,13 @@
             formData.value.term_quiz = quiz_marks.value[index] ?? 0
             formData.value.term_exam = exam_marks.value[index] ?? (formData.value.term ==1 ? student.term1_exam : (formData.value.term ==2 ? student.term2_exam : student.term3_exam))
             formData.value.student_id = student.student_id
-            return studentsMarksStores.updateStudentMarks(formData.value)
+            if(studentsMarksStores.updateStudentMarks(formData.value))
+            {
+              quiz_marks.value[index] = ""
+              exam_marks.value[index] = ""
+              formData.value.sort_records = sortList.value[0].sort
+              
+            }
           }
           else {
             swal({
@@ -525,7 +529,7 @@
             {
               inputExamError.value[index] = 'w-20 h-10 ml-4 md:ml-2 ring-1 ring-[#ef4444]  enabled:p-2'
               hasValidationError.value[index] = "Error : " + summation+" / "+ studentsMarksStores?.maximumPoints.Out_of_marks[
-            formData.value.term ==1 ? 'term1_exam':(formData.value.term ==2 ? 'term2_exam':'term3_exam')]
+              formData.value.term ==1 ? 'term1_exam':(formData.value.term ==2 ? 'term2_exam':'term3_exam')]
             }
             else {
               inputExamError.value[index] = 'w-20 h-10 ml-4 md:ml-2 ring-1 ring-[#000000]'
@@ -535,11 +539,8 @@
 
       }
 
-
-
-        
       onMounted(() => {
-        setPageTitle(`Students POints (${classroomStores.classroomDetails.classroom_name})`)
+        setPageTitle(`Students Points (${classroomStores.classroomDetails.classroom_name})`)
         if(store.getUserData())
         {
           setTimeout(function (){

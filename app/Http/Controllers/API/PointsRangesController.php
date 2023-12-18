@@ -60,9 +60,9 @@ class PointsRangesController extends Controller
     {
         //
         $data= array(
-            'pointsranges.school_id' => $request->school_id,
-            'pointsranges.class_id' => $request->class_id,
-            'pointsranges.course_id' => $request->course_id,
+            'marks_grades.school_id' => $request->school_id,
+            'marks_grades.class_id' => $request->class_id,
+            'marks_grades.course_id' => $request->course_id,
             'term'=> $request->term,
          );
 
@@ -92,27 +92,32 @@ class PointsRangesController extends Controller
         *            mediaType="multipart/form-data",
         *            @OA\Schema(
         *               type="object",
-        *               required={"school_id","course_id","teacher_id","term","class_id","division1","division2","division3","division4","division5","division6","division7","division8","division9"},
+        *               required={"school_id","course_id","teacher_id","term","class_id","gradeA_from","gradeA_to","gradeB_from","gradeB_to","gradeC_from","gradeC_to","gradeD_from","gradeD_to","gradeE_from","gradeE_to","gradeS_from","gradeS_to","gradeF_from","gradeF_to"},
         *               @OA\Property(property="school_id", type="text"),
         *               @OA\Property(property="teacher_id", type="text"),
         *               @OA\Property(property="course_id", type="number"),
         *               @OA\Property(property="term", type="number"),
         *               @OA\Property(property="class_id", type="number"),
-        *               @OA\Property(property="division1", type="number"),
-        *               @OA\Property(property="division2", type="number"),
-        *               @OA\Property(property="division3", type="number"),
-        *               @OA\Property(property="division4", type="number"),
-        *               @OA\Property(property="division5", type="number"),
-        *               @OA\Property(property="division6", type="number"),
-        *               @OA\Property(property="division7", type="number"),
-        *               @OA\Property(property="division8", type="number"),
-        *               @OA\Property(property="division9", type="number"),
+        *               @OA\Property(property="gradeA_from", type="number"),
+        *               @OA\Property(property="gradeA_to", type="number"),
+        *               @OA\Property(property="gradeB_from", type="number"),
+        *               @OA\Property(property="gradeB_to", type="number"),
+        *               @OA\Property(property="gradeC_from", type="number"),
+        *               @OA\Property(property="gradeC_to", type="number"),
+        *               @OA\Property(property="gradeD_from", type="number"),
+        *               @OA\Property(property="gradeD_to", type="number"),
+        *               @OA\Property(property="gradeE_from", type="number"),
+        *               @OA\Property(property="gradeE_to", type="number"),
+        *               @OA\Property(property="gradeS_from", type="number"),
+        *               @OA\Property(property="gradeS_to", type="number"),
+        *               @OA\Property(property="gradeF_from", type="number"),
+        *               @OA\Property(property="gradeF_to", type="number"),
         *            ),
         *        ),
         *    ),
         *      @OA\Response(
         *          response=201,
-        *          description="Maximum points is successfully created",
+        *          description="Grade ranges are successfully created",
         *          @OA\JsonContent()
         *       ),
         *      @OA\Response(
@@ -133,23 +138,21 @@ class PointsRangesController extends Controller
             'course_id' => $request->course_id,
             'teacher_id' => $request->teacher_id,
             'term' => $request->term,
-            'division1' => $request->division1,
-            'division2' => $request->division2,
-            'division3' => $request->division3,
-            'division4' => $request->division4,
-            'division5' => $request->division5,
-            'division6' => $request->division6,
-            'division7' => $request->division7,
-            'division8' => $request->division8,
-            'division9' => $request->division9,
+            'gradeA' => $request->gradeA_from.','.$request->gradeA_to,
+            'gradeB' => $request->gradeB_from.','.$request->gradeB_to,
+            'gradeC' => $request->gradeC_from.','.$request->gradeC_to,
+            'gradeD' => $request->gradeD_from.','.$request->gradeD_to,
+            'gradeE' => $request->gradeE_from.','.$request->gradeE_to,
+            'gradeS' => $request->gradeS_from.','.$request->gradeS_to,
+            'gradeF' => $request->gradeF_from.','.$request->gradeF_to,
             'created_at' => Helper::now(),
             'updated_at' => Helper::now()
          );
 
          $where_conditions= array(
-            'pointsranges.school_id' => $request->school_id,
-            'pointsranges.class_id' => $request->class_id,
-            'pointsranges.course_id' => $request->course_id,
+            'marks_grades.school_id' => $request->school_id,
+            'marks_grades.class_id' => $request->class_id,
+            'marks_grades.course_id' => $request->course_id,
             'term'=> $request->term,
          );
 
@@ -208,21 +211,26 @@ class PointsRangesController extends Controller
         *            mediaType="multipart/form-data",
         *            @OA\Schema(
         *               type="object",
-        *               required={"school_id","course_id","teacher_id","term","class_id","division1","division2","division3","division4","division5","division6","division7","division8","division9"},
+        *               required={"school_id","course_id","teacher_id","term","class_id","gradeA_from","gradeA_to","gradeB_from","gradeB_to","gradeC_from","gradeC_to","gradeD_from","gradeD_to","gradeE_from","gradeE_to","gradeS_from","gradeS_to","gradeF_from","gradeF_to"},
         *               @OA\Property(property="school_id", type="text"),
         *               @OA\Property(property="teacher_id", type="text"),
         *               @OA\Property(property="course_id", type="number"),
         *               @OA\Property(property="term", type="number"),
         *               @OA\Property(property="class_id", type="number"),
-        *               @OA\Property(property="division1", type="number"),
-        *               @OA\Property(property="division2", type="number"),
-        *               @OA\Property(property="division3", type="number"),
-        *               @OA\Property(property="division4", type="number"),
-        *               @OA\Property(property="division5", type="number"),
-        *               @OA\Property(property="division6", type="number"),
-        *               @OA\Property(property="division7", type="number"),
-        *               @OA\Property(property="division8", type="number"),
-        *               @OA\Property(property="division9", type="number"),
+         *              @OA\Property(property="gradeA_from", type="number"),
+        *               @OA\Property(property="gradeA_to", type="number"),
+        *               @OA\Property(property="gradeB_from", type="number"),
+        *               @OA\Property(property="gradeB_to", type="number"),
+        *               @OA\Property(property="gradeC_from", type="number"),
+        *               @OA\Property(property="gradeC_to", type="number"),
+        *               @OA\Property(property="gradeD_from", type="number"),
+        *               @OA\Property(property="gradeD_to", type="number"),
+        *               @OA\Property(property="gradeE_from", type="number"),
+        *               @OA\Property(property="gradeE_to", type="number"),
+        *               @OA\Property(property="gradeS_from", type="number"),
+        *               @OA\Property(property="gradeS_to", type="number"),
+        *               @OA\Property(property="gradeF_from", type="number"),
+        *               @OA\Property(property="gradeF_to", type="number"),
         *            ),
         *        ),
         *    ),
@@ -242,20 +250,20 @@ class PointsRangesController extends Controller
         */
     public function update(Request $request)
     {
-        $validate = Validator::make($request->all(), [
-            'division1'      => 'required',
-            'division2'     => 'required',
-            'division3'      => 'required',
-            'division4'     => 'required',
-            'division5'      => 'required',
-            'division6'     => 'required',
-            'division7'      => 'required',
-            'division8'     => 'required',
-            'division9'      => 'required',
-        ]);        
-         if ($validate->fails()) {
-            return response()->json($validate->errors(), 422);
-        }  
+        // $validate = Validator::make($request->all(), [
+        //     'division1'      => 'required',
+        //     'division2'     => 'required',
+        //     'division3'      => 'required',
+        //     'division4'     => 'required',
+        //     'division5'      => 'required',
+        //     'division6'     => 'required',
+        //     'division7'      => 'required',
+        //     'division8'     => 'required',
+        //     'division9'      => 'required',
+        // ]);        
+        //  if ($validate->fails()) {
+        //     return response()->json($validate->errors(), 422);
+        // }  
         //
         $ids=array(
             'school_id' => $request->school_id,
@@ -266,15 +274,13 @@ class PointsRangesController extends Controller
         );
 
         $data= array(
-            'division1' => $request->division1,
-            'division2' => $request->division2,
-            'division3' => $request->division3,
-            'division4' => $request->division4,
-            'division5' => $request->division5,
-            'division6' => $request->division6,
-            'division7' => $request->division7,
-            'division8' => $request->division8,
-            'division9' => $request->divisionU,
+            'gradeA' => $request->gradeA_from.','.$request->gradeA_to,
+            'gradeB' => $request->gradeB_from.','.$request->gradeB_to,
+            'gradeC' => $request->gradeC_from.','.$request->gradeC_to,
+            'gradeD' => $request->gradeD_from.','.$request->gradeD_to,
+            'gradeE' => $request->gradeE_from.','.$request->gradeE_to,
+            'gradeS' => $request->gradeS_from.','.$request->gradeS_to,
+            'gradeF' => $request->gradeF_from.','.$request->gradeF_to,
             'updated_at' => Helper::now()
          );
 
