@@ -10,7 +10,9 @@ use App\Models\academic_year;
 use App\Models\Courses;
 use App\Models\classrooms;
 use App\Models\license_keys;
+use App\Models\Designated_teachers;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 use DB;
 
@@ -102,6 +104,13 @@ class MarksController extends Controller
                 ? "course_name"
                 : $request->sort_by;
             $sort = empty($request->sort) ? "ASC" : $request->sort;
+            $today = strtotime(date("Y-m-d"));
+            $academic_year = academic_year::get();
+            $from = strtotime($academic_year[0]->term1_from);
+            $to = strtotime($academic_year[0]->term3_to);
+            if ($today >= $from && $today <= $to) {
+                $academic_year = date("Y") . "-" . (date("Y") + 1);
+            }
 
             //***********************************UPDATE COURSE RANKS********************* */
             $courses = DB::table("courses")
@@ -303,14 +312,49 @@ class MarksController extends Controller
                 ])
                 ->orderBy($sort_by, $sort)
                 ->get();
+            foreach($Marks as $key=>$mrk_course)
+            {
+                $data= array(
+                    'marks_grades.school_id' => $request->school_id,
+                    'marks_grades.class_id' => $request->class_id,
+                    'marks_grades.course_id' => $mrk_course->course_id,
+                    'term'=> $request->term,
+                    );
+                $ranges=PointsRanges::getData($data);
+                $Marks[$key]->ranges = $ranges;
 
-            $data = [
-                "marks_grades.school_id" => $request->school_id,
-                "marks_grades.class_id" => $request->class_id,
-                "term" => $request->term,
-            ];
 
-            $PointsRanges = PointsRanges::getData($data);
+
+                $average_marks = DB::table("marks")
+                ->selectRaw("SUM(`marks`.`term1_quiz`) as term1_quiz")
+                ->selectRaw("SUM(`marks`.`term2_quiz`) as term2_quiz")
+                ->selectRaw("SUM(`marks`.`term3_quiz`) as term3_quiz")
+                ->selectRaw("SUM(`marks`.`term1_total_marks`) as total_term1")
+                ->selectRaw("SUM(`marks`.`term2_total_marks`) as total_term2")
+                ->selectRaw("SUM(`marks`.`term3_total_marks`) as total_term3")
+                ->join("courses", "courses.course_id", "=", "marks.course_id")
+                ->join("users", "users.account_id", "=", "marks.teacher_id")
+                ->where([
+                    ["marks.school_id", "=", $request->school_id],
+                    ["marks.class_id", "=", $request->class_id],
+                    ["marks.course_id", "=", $mrk_course->course_id],
+                ])
+                ->orderBy("courses.course_name")
+                ->groupBy("marks.course_id","users.name","courses.course_name")
+                ->first();
+                
+                $Marks[$key]->average = $average_marks;
+
+                $Designated_teachers = Designated_teachers::select('users.name','users.email')
+                ->join("users", "users.account_id", "=", "designated_teachers.teacher_id")
+                ->where('users.school_id', '=', $request->school_id)
+                ->where('course_id', '=', $mrk_course->course_id)
+                ->where('class_id', '=', $request->class_id)
+                ->first();
+
+                $Marks[$key]->teacher = $Designated_teachers;
+            }
+            
 
             $classroom = classrooms::select("classroom_name")
                 ->where([["class_id", "=", $request->class_id]])
@@ -323,7 +367,6 @@ class MarksController extends Controller
 
             return response()->json(
                 [
-                    "Ranges" => $PointsRanges,
                     "Marks" => $Marks,
                     "Ranks" => $my_ranks,
                     "discipline" => $disciplines,
@@ -332,6 +375,7 @@ class MarksController extends Controller
                     "offset" => $offset,
                     "course" => $course,
                     "classroom" => $classroom->classroom_name,
+                    "academic_year"=>$academic_year,
                     "message" => "Retrieved successfully",
                 ],
                 200
@@ -490,6 +534,12 @@ class MarksController extends Controller
         //$limit=$request->limit;
         //$page=$request->page-1;
         //$offset=ceil($limit*$page);
+        $academic_year = academic_year::get();
+        $from = strtotime($academic_year[0]->term1_from);
+        $to = strtotime($academic_year[0]->term3_to);
+        if ($today >= $from && $today <= $to) {
+            $academic_year = date("Y") . "-" . (date("Y") + 1);
+        }
         $no_of_students = DB::table("students")
             ->select("*")
             ->where([
@@ -661,6 +711,7 @@ class MarksController extends Controller
                 "no_of_students" => $no_of_students,
                 "offset" => 0,
                 "course" => $course,
+                "academic_year" => $academic_year,
                 "classroom" => $classroom->classroom_name,
                 "message" => "Retrieved successfully",
             ],
