@@ -16,8 +16,8 @@
             <p class="flex text-16px md:text-2xl font-semibold">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
-                </svg> &nbsp;&nbsp;Generate Report Form
-                 ({{ classroomDetails!=undefined ? classroomDetails.classroom_name : '' }} )
+                </svg> &nbsp;&nbsp;Generate Report Form - {{ getStudentRanks?.Ranks?.name }} - 
+                 {{ classroomDetails!=undefined ? classroomDetails.classroom_name : '' }} 
   
             </p>
         </div>
@@ -26,7 +26,15 @@
 
         <DataTable>
           <template v-slot:table>
+            
             <div class="flex overflow-x-auto h-14">
+              <!-- <button class="ml-2 mt-1 md:w-44 h-6 pt-1 md:pt-1 md:h-10 text-xs md:text-sm rounded-lg ring-2 ring-black bg-black shadow-lg hover:scale-x-105"  onclick="history.back()"><p class="flex pl-2  space-x-2 text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"></path>
+              </svg>              
+              <font class="pt-1">Back </font></p>
+            </button> -->
+
             <p class="text-sm md:text-md font-semibold text-left mt-2 pr-2">Choose format:</p>
             <select @change="setReportFormat()"  name='select_user_role' v-model="formData.limit" class="h-6 md:h-9  rounded-lg bg-transparent ring-1 ring-[#000000] mt-1  md:enabled:p-2 enabled:font-light " id="formData.select_user_role">
               <option>Advanced Report</option>
@@ -44,14 +52,121 @@
 
           <div class="hidden md:block border-l-[4px] -mt-1 ml-8 mr-14"></div>
           <p class="ml-10 md:ml-2 text-sm md:text-md font-semibold text-left mt-2 pr-2">Publishing date:</p>
-          <input type="date" class="h-6 md:h-9  rounded-lg  bg-transparent ring-1 ring-[#000000] mt-1  md:enabled:p-2 enabled:font-light md:ml-4 ">
+          <input type="date" class="h-6 md:h-9  rounded-lg  bg-transparent ring-1 ring-[#000000] mt-1  md:enabled:p-2 enabled:font-light md:ml-4 " @change="changeDate">
           </div>
-<!-- 
-          <input type="hidden" v-set="firstItem = 0">
-          <input type="hidden" v-set="lastItem = 0"> -->
-          {{ getStudentRanks }}
+
+          <div class="flex overflow-x-auto h-14 mb-6">
+              <button class="ml-2 mt-1 md:w-44 h-6 pt-1 md:pt-1 md:h-10 text-xs md:text-sm rounded-lg ring-2 ring-black bg-black shadow-lg hover:scale-x-105"  @click="goToNext(-1)"><p class="flex pl-1  space-x-2 text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" data-slot="icon" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+              </svg>
+              <font class="pt-1">PREVIOUS STUDENT </font></p>
+            </button>
+
+           <p class='ml-8 mt-4'>{{ 1 }} of {{getStudentRanks?.no_of_students }}</p>
+
+            <button class="ml-14 mt-1 md:w-44 h-6 pt-1 pl-4 md:h-10 text-xs md:text-sm rounded-lg ring-2 ring-black bg-black shadow-lg hover:scale-x-105"  @click="goToNext(1)"><p class="flex pl-2  space-x-2 text-white">             
+              <font class="pt-1">NEXT STUDENT</font>
+               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" data-slot="icon" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+              </svg>
+             </p>
+            </button>
+
+          </div>
+
           
 
+          <div class="overflow-x-auto" id="dataTable">
+             <table class="w-full text-[10px] text-left text-gray-500 dark:text-gray-400">
+                <tbody class="border">
+                    <tr class="bg-white  dark:bg-gray-900 dark:border-gray-700">
+                    <td class="px-3 py-4">
+                      <img :src="`/school_logo/${currentUser.logo}`" width=100 height=100>
+                    </td>
+                    </tr>
+                    <tr class="bg-white dark:bg-gray-900 dark:border-gray-700">
+                    <td class="px-4 md:px-6 py-2">
+                     School name: <b>{{ currentUser.school_name }}</b><br>
+                     Motto: <b>{{ currentUser.school_motto }}</b><br>
+                     Location: <b>{{ currentUser.school_sector }}, {{ currentUser.school_district }}</b><br>
+                     Phone number: <b>{{ currentUser.phone_number }}</b><br>
+                     Contact Email: <b>{{ currentUser.school_email }}</b><br>
+                     Trimestre: <b>{{ formData.term ==1?'First Term':(formData.term ==2?'Second Term':'Third Term') }}</b><br>
+                    </td>
+                     </tr>
+                     <tr class="bg-white dark:bg-gray-900 dark:border-gray-700">
+                       <td colspan="2" class="px-4 md:px-6 py-4 text-center">
+                        <h3 class="text-2xl font-semibold">STUDENT REPORT FORM</h3>
+                       </td>
+                     </tr>
+                     <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 ">
+                      <td class="px-6 py-4 border">
+                       NAMES : <b>{{ getStudentRanks?.Ranks?.name }}</b>
+                       </td>
+                       <td class="px-6 py-4 border">
+                       ACADEMIC YEAR : <b>{{ getStudentRanks?.academic_year }}</b>
+                       </td>
+                     </tr>
+                     <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 ">
+                      <td class="px-6 py-4 border">
+                       CLASS : <b>{{ getStudentRanks?.classroom }}</b>
+                       </td>
+                       <td class="px-6 py-4 border">
+                       STUDENT ID : <b>{{ getStudentRanks?.Ranks?.my_id }}</b>
+                       </td>
+                     </tr>
+                </tbody>
+                </table>
+
+                <FirstTermSingleReport v-if="formData.term ==1" :getStudentRanks="getStudentRanks" />
+
+                <SecondTermSingleReport v-if="formData.term ==2" :getStudentRanks="getStudentRanks" />
+
+                <ThirdTermSingleReport v-if="formData.term ==3" :getStudentRanks="getStudentRanks" />
+
+            <table class="mt-3 w-full  text-[10px] text-left text-gray-500 dark:text-gray-400">
+                <tbody class=" mt-2">
+                  <tr class="bg-white dark:bg-gray-900 dark:border-gray-700 ">
+                        <td>
+                          <b>SCAN FOR VERIFICATION</b>
+                        </td>
+                        <td class="px-6 py-4">
+                          <b>TEACHER'S REMARKS & SIGNATURE</b>
+                        </td>
+                        <td class="px-6 py-4">
+                          <b>PARENT'S REMARKS & SIGNATURE</b>
+                        </td>
+                        <td class="px-6 py-6">
+                          <b>AUTHORISED SIGNATURE AND STAMP</b>
+                          <br>
+                          Done on <b>{{ selectedDate }}</b>
+                        </td>
+                  </tr>
+                  <tr class="bg-white dark:bg-gray-900 dark:border-gray-700 ">
+                        <td>
+                          <div class="h-20 w-20 mb-4">
+                            <vue-qrcode
+                            :value="dataUrl"
+                            @change="onDataUrlChange"
+                          />
+                          </div>
+                        </td>
+                        <td>
+                          <p class="flex-wrap w-20"></p>
+                         
+                          <hr class="mt-10">
+                        </td>
+                        <td>
+                          <hr class="ml-6 mt-10">
+                        </td>
+                        <td>
+                          <hr class="ml-6 mt-10">
+                        </td>
+                  </tr>
+                </tbody>
+            </table>
+          </div>
 </template>
 <template v-slot:printBtns>
     <div class="flex text-xs md:text-sm space-x-4" @mousemove="hideCols(true)" >
@@ -94,6 +209,13 @@
   import StudentPointsCard from '../../components/StudentPointsCard.vue'
   import {setPageTitle} from '../../helpers/set_page_title'
   import {studentsMarksStore} from '../../stores/student_marks'
+  import VueQrcode from 'vue-qrcode'
+  import FirstTermSingleReport from '../../components/report_form/first_term_single_report.vue'
+  import SecondTermSingleReport from '../../components/report_form/second_term_single_report.vue'
+  import ThirdTermSingleReport from '../../components/report_form/third_term_single_report.vue'
+
+
+
 
   export default {
       name:"viewStudentReportForm",
@@ -103,7 +225,11 @@
         sidebarVue,
         confirmationPrompt,
         DataTable,
-        StudentPointsCard
+        StudentPointsCard,
+        VueQrcode,
+        FirstTermSingleReport,
+        SecondTermSingleReport,
+        ThirdTermSingleReport
      },
     setup() {
       const store = useUserStore()
@@ -147,6 +273,14 @@
       const inputExamError = ref([])
       const hasValidationError = ref([])
       let errorStatus =ref("")
+      const dataUrl = ref (window.location.href)
+      var options = {
+         weekday: 'long',
+         year: 'numeric', 
+         month: 'long',
+         day: 'numeric' 
+        }
+      const selectedDate = ref(new Date().toLocaleDateString("en-US", options))
 
       const formData = ref({
               student_name:"",
@@ -159,7 +293,7 @@
               limit:localStorage.getItem('numRows') ?? 10,
               sort_by:'name',
               sort:'ASC',
-              term:localStorage.getItem('selectedTerm') ?? termList.value[0].term_no,
+              term:ref(route.params.term),
               term_quiz:0,
               term_exam:0,
               sort_records:localStorage.getItem('currentSort') ?? sortList.value[0].sort,
@@ -190,6 +324,7 @@
   
       watch(route,() => {
         formData.value.class_id = route.params.class_id
+        dataUrl.value = window.location.href
         getStudentsRanks()
        });
   
@@ -208,6 +343,9 @@
             }
         }
 
+        function onDataUrlChange(url) {
+            dataUrl.value = window.location.href
+        }
 
         errorStatus = computed(() => {
             errorFeedbackStatus.value = false
@@ -228,26 +366,16 @@
         function setCurrentTerm(){
           formData.value.term = event.target.value
           localStorage.setItem('selectedTerm',formData.value.term)
+          router.push(`/dashboard/report_form/${formData.value.class_id}/${formData.value.student_id}/${formData.value.term}`);
+
           getStudentsRanks()
         }
 
       function print_pdf() {
-                  var tableData = document.getElementById('dataTable').innerHTML;
+          var tableData = document.getElementById('dataTable').innerHTML;
           var tag = document.getElementsByTagName('head')[0].innerHTML;
-        var cssHead = 
-          tag + `
-            <img src='/school_logo/` + store.userDetails.logo + `' width=100 height=100>
-            <br>` + store.userDetails.school_name 
-            + `<br>` + store.userDetails.school_phone_number 
-            + `<br>` + store.userDetails.school_email 
-            + `<br>` + store.userDetails.school_sector 
-            +`, `+ store.userDetails.school_district
-            +`<br><br>
-            <center>
-              <h3 class='text-2xl'>Student Marks Assessment Report (${classroomDetails.value!=undefined ? classroomDetails.value.classroom_name : '' } - Term ${formData.value.term})</h3>
-              <hr>
-              <br><br>
-            </center>`;
+          var cssHead = 
+          tag;
                   var data = cssHead + tableData;
                   let myWindow = window.open('', '', 'width=1000px,height=1000px');
                   myWindow.innerWidth = screen.width;
@@ -258,7 +386,7 @@
                   myWindow.focus();
                   setTimeout(() => {
                       myWindow.print();
-                  }, 2000);
+                  }, 500);
               }
         
         const getStudentRanks = computed(() => {
@@ -267,12 +395,18 @@
 
 
         function getStudentsRanks(){
-            console.log(formData.value);
             return studentsMarksStores.getStudentMarks(formData.value)
         }
+
+        function changeDate(){
+          let selected_Date = event.target.value
+          selectedDate.value = new Date(selected_Date).toLocaleDateString("en-US", options)
+        }
+
+        
   
       onMounted(() => {
-        setPageTitle(`Generate report form`)
+        setPageTitle(`Generate report form - ${studentsMarksStores?.studentsMarks?.Ranks?.name}`)
         if(store.getUserData())
         {
           setTimeout(function (){
@@ -286,7 +420,7 @@
         }
       });
   
-      return {currentUser,getUsers,classroomDetails,studentsList,formData,isLoading,studentsMarks,errorStatus,successStatus,closeFeedback,successFeedbackStatus,errorFeedbackStatus,termList,setCurrentTerm,quiz_marks,exam_marks,sortList,inputQuizError,inputExamError,hasValidationError,print_pdf,getStudentRanks}
+      return {currentUser,getUsers,classroomDetails,studentsList,formData,isLoading,studentsMarks,errorStatus,successStatus,closeFeedback,successFeedbackStatus,errorFeedbackStatus,termList,setCurrentTerm,quiz_marks,exam_marks,sortList,inputQuizError,inputExamError,hasValidationError,print_pdf,getStudentRanks,onDataUrlChange,dataUrl,changeDate,selectedDate}
     }
   }
   </script>

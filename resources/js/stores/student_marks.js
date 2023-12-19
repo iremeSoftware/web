@@ -24,7 +24,7 @@ export const studentsMarksStore = defineStore("students_marks", {
             self.errorMessage = ""
             self.loadingUI.isLoading = true
             data.school_id = localStorage.getItem('school_id') ?? ""
-            await axios.get(`marks/${data.school_id}/${data.class_id}/${data.course_id}/${data.student_id}?page=${data.page}&limit=${data.limit}&sort=${data.sort}&sort_by=${data.sort_by}`,{}).then(function (response) {
+            await axios.get(`marks/${data.school_id}/${data.class_id}/${data.course_id}/${data.student_id}?term=${data.term}&page=${data.page}&limit=${data.limit}&sort=${data.sort}&sort_by=${data.sort_by}`,{}).then(function (response) {
               self.studentsMarks = response.data
               self.loadingUI.isLoading = false
             }).catch(function(err){
