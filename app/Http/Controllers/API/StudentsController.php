@@ -129,18 +129,18 @@ class StudentsController extends Controller
         if(!empty($request->school_id) && !empty($request->class_id) && $request->student_id =='null')
         {
           
-        $page = $request->page ?? 1;    
-        $limit=$request->limit ?? 10;
-        $sort_by = $request->sort_by ?? 'ASC';
-        $page=$page-1;
-        $offset=ceil($limit*$page);
-
         $all_students = Students::select('*')
          ->where([
         ['school_id', '=', $request->school_id],
         ['classroom','=',$request->class_id]
         ])->get();
 
+        $page = $request->page ?? 1;  
+        $limit=$request->limit ?? 10;  
+        $limit = $limit == 'none' ? $all_students->count() : $limit;
+        $sort_by = $request->sort_by ?? 'ASC';
+        $page=$page-1;
+        $offset=ceil($limit*$page);
 
          $students = Students::select('*')
          ->where([
