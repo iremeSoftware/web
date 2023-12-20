@@ -1,10 +1,27 @@
 <template>
-   <table class="mt-3 w-full  text-[11px] text-left text-gray-500 dark:text-gray-400">
+   <table class="mt-3 w-full  text-xs text-left text-gray-500 dark:text-gray-400">
                 <tbody class="border mt-2">
                      
                      <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 ">
-                      <td rowspan="2" class="px-6 py-4 border">
+                      <td rowspan="3" class="px-6 py-4 border">
                        <b>SUBJECTS</b>
+                       </td>
+                       <td colspan="3" class="px-6 py-4 border text-center">
+                       <b>FIRST TERM</b>
+                       </td>
+                       <td colspan="8" class="px-6 py-4 border text-center">
+                       <b>SECOND TERM</b>
+                       </td>
+                     </tr>
+                     <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 ">
+                       <td class="px-6 py-4 border">
+                       <b>MID</b>
+                       </td>
+                       <td class="px-6 py-4 border">
+                       <b>EOT</b>
+                       </td>
+                       <td class="px-6 py-4 border text-center">
+                       <b>TOTAL</b>
                        </td>
                        <td class="px-6 py-4 border">
                        <b>MID</b>
@@ -15,15 +32,18 @@
                        <td colspan="4" class="px-6 py-4 border text-center">
                        <b>TOTAL</b>
                        </td>
-                       <td rowspan="2" class="px-6 py-4 border text-center">
-                        <b>CA (%)</b>
-                       </td>
-                       <td rowspan="2" class="px-6 py-4 border text-center">
-                        <b>Teacher Initials</b>
-                       </td>
                      </tr>
                      <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 ">
                       <td class="px-6 py-4 border">
+                       <b>Mks</b>
+                       </td>
+                       <td class="px-6 py-4 border">
+                       <b>Mks</b>
+                       </td>
+                       <td class="px-6 py-4 border">
+                       <b>Mks</b>
+                       </td>
+                       <td class="px-6 py-4 border">
                        <b>Mks</b>
                        </td>
                        <td class="px-6 py-4 border">
@@ -44,27 +64,36 @@
                      </tr>
                       <input type="hidden" :set="general_CAT_total_marks_term1 = 0">
                       <input type="hidden" :set="general_CAT_total_maximum_term1 = 0">
-
                       <input type="hidden" :set="general_EXAM_total_marks_term1 = 0">
                       <input type="hidden" :set="general_EXAM_total_maximum_term1 = 0">
 
-                      <input type="hidden" :set="total_aggregate = 0">
+                      <input type="hidden" :set="general_CAT_total_marks_term2 = 0">
+                      <input type="hidden" :set="general_CAT_total_maximum_term2 = 0">
+                      <input type="hidden" :set="general_EXAM_total_marks_term2 = 0">
+                      <input type="hidden" :set="general_EXAM_total_maximum_term2 = 0">
 
+                      <input type="hidden" :set="total_aggregate = 0">
 
                      <tr v-for="marks in getStudentRanks?.Marks" class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 ">
                       <td class="px-6 py-4 border">
                        <p class="w-24 truncate">{{ marks.course_name }}</p>
                        </td>
-                       <td class="px-6 py-4 border">
                        <input type="hidden" :set="general_CAT_total_marks_term1 += marks.term1_quiz">
                        <input type="hidden" :set="general_CAT_total_maximum_term1 += marks.out_of_marks_quiz_term1">
+                       <input type="hidden" :set="general_EXAM_total_marks_term1 += marks.term1_exam">
+                       <input type="hidden" :set="general_EXAM_total_maximum_term1 += marks.out_of_marks_exam_term1">
 
-                       {{ marks.term1_quiz }}/{{ marks.out_of_marks_quiz_term1 }}
+                       <input type="hidden" :set="general_CAT_total_marks_term2 += marks.term2_quiz">
+                       <input type="hidden" :set="general_CAT_total_maximum_term2 += marks.out_of_marks_quiz_term2">
+                       <input type="hidden" :set="general_EXAM_total_marks_term2 += marks.term2_exam">
+                       <input type="hidden" :set="general_EXAM_total_maximum_term2 += marks.out_of_marks_exam_term2">
+
+                       <td class="px-6 py-4 border">
+                        {{ marks.term1_quiz }}/{{ marks.out_of_marks_quiz_term1 }}
                        </td>
                        <td class="px-6 py-4 border">
 
-                        <input type="hidden" :set="general_EXAM_total_marks_term1 += marks.term1_exam">
-                        <input type="hidden" :set="general_EXAM_total_maximum_term1 += marks.out_of_marks_exam_term1">
+                        
                         {{ marks.term1_exam }}/{{ marks.out_of_marks_exam_term1 }}
                        </td>
                        <td class="px-6 py-4 border">
@@ -76,24 +105,35 @@
                        {{ total_term1 }}/{{ total_maximum_term1 }}
                        </td>
                        <td class="px-6 py-4 border">
-                        {{ total_term1_percentage.toFixed(1) }}%
+                        {{ marks.term2_quiz }}/{{ marks.out_of_marks_quiz_term2 }}
                        </td>
                        <td class="px-6 py-4 border">
-                        {{ generateGrades(total_term1_percentage, marks?.ranges).value }}
-                        <input type="hidden" :set="total_aggregate += generateGrades(total_term1_percentage, marks?.ranges).value" />
+                        {{ marks.term2_exam }}/{{ marks.out_of_marks_exam_term2 }}
                        </td>
                        <td class="px-6 py-4 border">
-                        {{ marks.rank1 }}/{{  getStudentRanks?.no_of_students  }}
+                        <input type="hidden" :set="total_term2 = marks.term2_quiz + marks.term2_exam">
+                        <input type="hidden" :set="total_maximum_term2 = marks.out_of_marks_quiz_term2 + marks.out_of_marks_exam_term2">
+                        <input type="hidden" :set="total_term2_percentage = (total_term2 / total_maximum_term2) * 100 ">
+                        {{total_term2 }}/{{total_maximum_term2}}
                        </td>
                        <td class="px-6 py-4 border">
-                        <input type="hidden" :set="total_term1_class_maximum = total_maximum_term1 * getStudentRanks?.no_of_students ">
-                        <input type="hidden" :set="class_average_percentage = (marks?.average?.total_term1 / total_term1_class_maximum ) * 100">
+                        {{ total_term2_percentage.toFixed(1) }}%
+                       </td>
+                       <td class="px-6 py-4 border">
+                        {{ generateGrades(total_term2_percentage, marks?.ranges).value }}
+                        <input type="hidden" :set="total_aggregate += generateGrades(total_term2_percentage, marks?.ranges).value" />
+
+                       </td>
+                       <td class="px-6 py-4 border">
+                        {{ marks.rank2 }}/{{  getStudentRanks?.no_of_students  }}
+                       </td>
+                       <!-- <td class="px-6 py-4 border">
+                        <input type="hidden" :set="total_term2_class_maximum = total_maximum_term2 * getStudentRanks?.no_of_students ">
+                        <input type="hidden" :set="class_average_percentage = (marks.average.total_term2 / total_term2_class_maximum ) * 100">
 
                         {{class_average_percentage.toFixed(1) }} 
-                       </td>
-                       <td class="px-6 py-4 border">
-                          {{ teacherInitials(marks?.teacher?.name) }}
-                       </td>
+                       </td> -->
+                       
                      </tr>
                      <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 ">
                         <td class="px-6 py-4 border">
@@ -108,27 +148,42 @@
                        <td class="px-6 py-4 border">
                         <input type="hidden" :set="general_total_marks_CAT_EXAM = general_CAT_total_marks_term1 + general_EXAM_total_marks_term1">
                         <input type="hidden" :set="general_total_maximum_CAT_EXAM = general_CAT_total_maximum_term1 + general_EXAM_total_maximum_term1">
+
                         <b>{{ general_total_marks_CAT_EXAM }}/{{ general_total_maximum_CAT_EXAM }}</b>
                        </td>
                        <td class="px-6 py-4 border">
-                       <b>{{ ((general_total_marks_CAT_EXAM / general_total_maximum_CAT_EXAM) * 100).toFixed(1) }}%</b>
+                        <b>{{ general_CAT_total_marks_term2 }}/{{ general_CAT_total_maximum_term2 }}</b>
                        </td>
                        <td class="px-6 py-4 border">
-                       <b>{{ total_aggregate }}</b>
+                       <b>{{ general_EXAM_total_marks_term2 }}/{{ general_EXAM_total_maximum_term2 }}</b>
+                       </td>
+                       <td class="px-6 py-4 border">
+                        <input type="hidden" :set="general_total_marks_CAT_EXAM_term2 = general_CAT_total_marks_term2 + general_EXAM_total_marks_term2">
+                        <input type="hidden" :set="general_total_maximum_CAT_EXAM_term2 = general_CAT_total_maximum_term2 + general_EXAM_total_maximum_term2">
+                        <b>{{ general_total_marks_CAT_EXAM_term2 }}/{{ general_total_maximum_CAT_EXAM_term2 }}</b>
+                       </td>
+                       <td class="px-6 py-4 border">
+                       <b>{{ ((general_total_marks_CAT_EXAM_term2 / general_total_maximum_CAT_EXAM_term2) * 100).toFixed(1) }}%</b>
+                       </td>
+                       <td class="px-6 py-4 border">
+                        <b>{{ total_aggregate }}</b>
                        </td>
                      </tr>
                      <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 ">
                         <td class="px-6 py-4 border">
                           <b>RANK</b>
                        </td>
-                       <td colspan="8"  class="px-6 py-4 border text-center">
+                       <td colspan="3"  class="px-6 py-4 border text-center">
                         <b>{{ getStudentRanks?.Ranks?.rank_term1 }}/{{getStudentRanks?.no_of_students }}</b>
+                       </td>
+                       <td colspan="8"  class="px-6 py-4 border text-center">
+                        <b>{{ getStudentRanks?.Ranks?.rank_term2 }}/{{getStudentRanks?.no_of_students }}</b>
                        </td>
                        
                      </tr>
                 </tbody>
             </table>
-            <table class="mt-3 w-full  text-[11px] text-left text-gray-500 dark:text-gray-400">
+            <table class="mt-3 w-full  text-xs text-left text-gray-500 dark:text-gray-400">
                 <tbody class="border mt-2">
                   <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 ">
                         <td rowspan="2" class="px-6 py-4 border">
@@ -154,12 +209,12 @@
 </template>
 
 <script>
-  import {generateGrades} from '../../helpers/generate_grades'
-  import {teacherInitials} from '../../helpers/teacher_initials'
+  import {generateGrades} from '../../../helpers/generate_grades'
+  import {teacherInitials} from '../../../helpers/teacher_initials'
 
 
 export default {
-  name:"FirstTermSingleReport",
+  name:"SecondTermSingleReport",
   props: {
     getStudentRanks: Object,
   },

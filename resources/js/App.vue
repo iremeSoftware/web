@@ -26,4 +26,9 @@
     font-family: 'Rubik';
     src:  url("../../public/fonts/Rubik/Rubik-VariableFont_wght.ttf") format('truetype');
   }
+
+  @font-face {
+    font-family: 'Vardena';
+    src:  url("../../public/fonts/vardena-cufonfonts/VardenaPersonalUsed-z8vnw.ttf") format('truetype');
+  }
 </style>

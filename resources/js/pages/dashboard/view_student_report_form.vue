@@ -36,9 +36,16 @@
             </button> -->
 
             <p class="text-sm md:text-md font-semibold text-left mt-2 pr-2">Choose format:</p>
-            <select @change="setReportFormat()"  name='select_user_role' v-model="formData.limit" class="h-6 md:h-9  rounded-lg bg-transparent ring-1 ring-[#000000] mt-1  md:enabled:p-2 enabled:font-light " id="formData.select_user_role">
+            <select @change="setReportFormat()"  name='select_user_role' v-model="formData.report_type" class="h-6 md:h-9  rounded-lg bg-transparent ring-1 ring-[#000000] mt-1  md:enabled:p-2 enabled:font-light " id="formData.select_user_role">
               <option>Advanced Report</option>
               <option>MidTerm Report</option>
+            </select>
+
+            <p class="ml-10 text-sm md:text-md font-semibold text-left mt-4 pr-2">Choose Font Type:</p>
+            <select @change="setReportFont()" v-model="formData.font_type" class="h-6 md:h-9  rounded-lg bg-transparent ring-1 ring-[#000000] mt-1  md:enabled:p-2 enabled:font-light ">
+              <option v-for="font in fontList" :value="font.font_value">
+              {{ font.font_name }}
+            </option>
             </select>
 
 
@@ -63,7 +70,7 @@
               <font class="pt-1">PREVIOUS STUDENT </font></p>
             </button>
 
-           <p class='ml-8 mt-4'>{{ 1 }} of {{getStudentRanks?.no_of_students }}</p>
+           <p class='ml-8 mt-4'>{{ steps }} of {{getStudentRanks?.no_of_students }}</p>
 
             <button class="ml-14 mt-1 md:w-44 h-6 pt-1 pl-4 md:h-10 text-xs md:text-sm rounded-lg ring-2 ring-black bg-black shadow-lg hover:scale-x-105"  @click="goToNext(1)"><p class="flex pl-2  space-x-2 text-white">             
               <font class="pt-1">NEXT STUDENT</font>
@@ -73,12 +80,11 @@
              </p>
             </button>
 
+
+
           </div>
-
-          
-
-          <div class="overflow-x-auto" id="dataTable">
-             <table class="w-full text-[10px] text-left text-gray-500 dark:text-gray-400">
+          <div class="overflow-x-auto"  id="dataTable" >
+             <table class="w-full text-[10px] text-left text-gray-500 dark:text-gray-400" :style="formData.font_type">
                 <tbody class="border">
                     <tr class="bg-white  dark:bg-gray-900 dark:border-gray-700">
                     <td class="px-3 py-4">
@@ -125,7 +131,7 @@
 
                 <ThirdTermSingleReport v-if="formData.term ==3" :getStudentRanks="getStudentRanks" />
 
-            <table class="mt-3 w-full  text-[10px] text-left text-gray-500 dark:text-gray-400">
+            <table class="mt-2 w-full  text-[10px] text-left text-gray-500 dark:text-gray-400">
                 <tbody class=" mt-2">
                   <tr class="bg-white dark:bg-gray-900 dark:border-gray-700 ">
                         <td>
@@ -166,6 +172,25 @@
                   </tr>
                 </tbody>
             </table>
+          </div>
+          <div class="flex overflow-x-auto h-14 mb-6">
+              <button class="ml-2 mt-1 md:w-44 h-6 pt-1 md:pt-1 md:h-10 text-xs md:text-sm rounded-lg ring-2 ring-black bg-black shadow-lg hover:scale-x-105"  @click="goToNext(-1)"><p class="flex pl-1  space-x-2 text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" data-slot="icon" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+              </svg>
+              <font class="pt-1">PREVIOUS STUDENT </font></p>
+            </button>
+
+           <p class='ml-8 mt-4'>{{ steps }} of {{getStudentRanks?.no_of_students }}</p>
+
+            <button class="ml-14 mt-1 md:w-44 h-6 pt-1 pl-4 md:h-10 text-xs md:text-sm rounded-lg ring-2 ring-black bg-black shadow-lg hover:scale-x-105"  @click="goToNext(1)"><p class="flex pl-2  space-x-2 text-white">             
+              <font class="pt-1">NEXT STUDENT</font>
+               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" data-slot="icon" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+              </svg>
+             </p>
+            </button>
+
           </div>
 </template>
 <template v-slot:printBtns>
@@ -210,9 +235,11 @@
   import {setPageTitle} from '../../helpers/set_page_title'
   import {studentsMarksStore} from '../../stores/student_marks'
   import VueQrcode from 'vue-qrcode'
-  import FirstTermSingleReport from '../../components/report_form/first_term_single_report.vue'
-  import SecondTermSingleReport from '../../components/report_form/second_term_single_report.vue'
-  import ThirdTermSingleReport from '../../components/report_form/third_term_single_report.vue'
+  import FirstTermSingleReport from '../../components/report_form/advanced_reports/first_term_single_report.vue'
+  import SecondTermSingleReport from '../../components/report_form/advanced_reports/second_term_single_report.vue'
+  import ThirdTermSingleReport from '../../components/report_form/advanced_reports/third_term_single_report.vue'
+  import { studentsStore } from '../../stores/students'
+
 
 
 
@@ -233,7 +260,7 @@
      },
     setup() {
       const store = useUserStore()
-      const uiStore = uiChangesStore();
+      const studentsStores = studentsStore()
       const currentUser = ref([])
       const route = useRoute()
       const router = useRouter()
@@ -269,6 +296,31 @@
         }
       ])
 
+      let fontList = ref([
+        {
+          'font_name':'Rubik',
+          'font_value':"font-family: 'Rubik';"
+        },
+        {
+          'font_name':'Times New Roman',
+          'font_value':"font-family:Georgia, 'Times New Roman', Times, serif;"
+        },
+        {
+          'font_name':'Arial Narrow',
+          'font_value':"font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;"
+        },
+        {
+          'font_name':'Lucida Sans Regular',
+          'font_value':"font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;"
+        },
+        {
+          'font_name':'Verdana',
+          'font_value':"font-family: 'Vardena';"
+        },
+      ])
+
+      const steps = ref(1)
+
       const inputQuizError = ref([])
       const inputExamError = ref([])
       const hasValidationError = ref([])
@@ -297,6 +349,7 @@
               term_quiz:0,
               term_exam:0,
               sort_records:localStorage.getItem('currentSort') ?? sortList.value[0].sort,
+              font_type:fontList.value[0].font_value
       });
 
 
@@ -365,9 +418,11 @@
 
         function setCurrentTerm(){
           formData.value.term = event.target.value
+          formData.value.student_id = route.params.student_id
+          formData.value.sort_by='name'
+          formData.value.sort='ASC'
           localStorage.setItem('selectedTerm',formData.value.term)
           router.push(`/dashboard/report_form/${formData.value.class_id}/${formData.value.student_id}/${formData.value.term}`);
-
           getStudentsRanks()
         }
 
@@ -390,13 +445,18 @@
               }
         
         const getStudentRanks = computed(() => {
+            steps.value=studentsMarksStores?.studentsMarks?.Ranks?.my_id
             return studentsMarksStores.studentsMarks
         });
 
 
         function getStudentsRanks(){
+            formData.value.student_id = route.params.student_id
+            
             return studentsMarksStores.getStudentMarks(formData.value)
         }
+
+
 
         function changeDate(){
           let selected_Date = event.target.value
@@ -404,7 +464,43 @@
         }
 
         
-  
+        studentsList = computed (() => {
+          return studentsStores.studentsList
+       })
+
+       function goToNext(step)
+       {
+           if(steps.value + step >0 && steps.value + step <= studentsStores?.studentsList?.Students?.length)
+           {
+             if(steps.value>=1)
+              {
+                steps.value +=step
+                let student_id = studentsStores?.studentsList?.Students?.[steps.value-1].student_id
+                formData.value.sort_by='name'
+                formData.value.sort='ASC'
+                router.push(`/dashboard/report_form/${formData.value.class_id}/${student_id}/${formData.value.term}`);
+                getStudentsRanks()
+              }
+           }
+       }
+
+
+        function getStudentList(){
+          formData.value.school_id = currentUser.value.school_id
+          formData.value.class_id = route.params.class_id
+          formData.value.student_id = 'null'
+          formData.value.page = 1
+          formData.value.limit = 'none'
+          formData.value.sort_by='ASC'
+          formData.value.sort='name'
+          return studentsStores.getStudentList(formData.value)
+        }
+
+        function setReportFont(){
+           formData.report_type = event.target.value
+        }
+
+        
       onMounted(() => {
         setPageTitle(`Generate report form - ${studentsMarksStores?.studentsMarks?.Ranks?.name}`)
         if(store.getUserData())
@@ -415,12 +511,13 @@
             checkAuth()
             getClassTeacherByClass()
             getStudentsRanks()
+            getStudentList()
           },500);
           
         }
       });
   
-      return {currentUser,getUsers,classroomDetails,studentsList,formData,isLoading,studentsMarks,errorStatus,successStatus,closeFeedback,successFeedbackStatus,errorFeedbackStatus,termList,setCurrentTerm,quiz_marks,exam_marks,sortList,inputQuizError,inputExamError,hasValidationError,print_pdf,getStudentRanks,onDataUrlChange,dataUrl,changeDate,selectedDate}
+      return {currentUser,getUsers,classroomDetails,studentsList,formData,isLoading,studentsMarks,errorStatus,successStatus,closeFeedback,successFeedbackStatus,errorFeedbackStatus,termList,setCurrentTerm,quiz_marks,exam_marks,sortList,inputQuizError,inputExamError,hasValidationError,print_pdf,getStudentRanks,onDataUrlChange,dataUrl,changeDate,selectedDate,steps,goToNext,fontList,setReportFont}
     }
   }
   </script>
