@@ -1,0 +1,60 @@
+{
+  "public/fonts/Rubik/Rubik-Italic-VariableFont_wght.ttf": {
+    "file": "assets/Rubik-Italic-VariableFont_wght-c2495c34.ttf",
+    "src": "public/fonts/Rubik/Rubik-Italic-VariableFont_wght.ttf"
+  },
+  "public/fonts/Rubik/Rubik-VariableFont_wght.ttf": {
+    "file": "assets/Rubik-VariableFont_wght-5ed84298.ttf",
+    "src": "public/fonts/Rubik/Rubik-VariableFont_wght.ttf"
+  },
+  "public/fonts/vardena-cufonfonts/VardenaPersonalUsed-z8vnw.ttf": {
+    "file": "assets/VardenaPersonalUsed-z8vnw-bc4097fa.ttf",
+    "src": "public/fonts/vardena-cufonfonts/VardenaPersonalUsed-z8vnw.ttf"
+  },
+  "public/images/attendance.png": {
+    "file": "assets/attendance-6a402e09.png",
+    "src": "public/images/attendance.png"
+  },
+  "public/images/home.png": {
+    "file": "assets/home-07b17c4d.png",
+    "src": "public/images/home.png"
+  },
+  "public/images/marking.png": {
+    "file": "assets/marking-c0f65081.png",
+    "src": "public/images/marking.png"
+  },
+  "public/images/report_form.png": {
+    "file": "assets/report_form-b54ea90f.png",
+    "src": "public/images/report_form.png"
+  },
+  "public/images/storage.png": {
+    "file": "assets/storage-a4f1d356.png",
+    "src": "public/images/storage.png"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-f1fd9093.css",
+    "isEntry": true,
+    "src": "resources/css/app.css"
+  },
+  "resources/js/app.css": {
+    "file": "assets/app-43689887.css",
+    "src": "resources/js/app.css"
+  },
+  "resources/js/app.js": {
+    "assets": [
+      "assets/home-07b17c4d.png",
+      "assets/report_form-b54ea90f.png",
+      "assets/marking-c0f65081.png",
+      "assets/attendance-6a402e09.png",
+      "assets/storage-a4f1d356.png",
+      "assets/Rubik-VariableFont_wght-5ed84298.ttf",
+      "assets/VardenaPersonalUsed-z8vnw-bc4097fa.ttf"
+    ],
+    "css": [
+      "assets/app-43689887.css"
+    ],
+    "file": "assets/app-b3ac6c6a.js",
+    "isEntry": true,
+    "src": "resources/js/app.js"
+  }
+}

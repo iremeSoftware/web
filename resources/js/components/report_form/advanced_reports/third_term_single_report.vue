@@ -1,9 +1,9 @@
 <template>
-   <table class="mt-3 w-full  text-[11px] text-gray-500 dark:text-gray-400">
+   <table class="mt-3 w-full  text-[11px] text-gray-500 dark:text-gray-400" :style="selected_type">
                 <tbody class="border mt-2">
                      
                      <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 ">
-                      <td rowspan="3" class="px-2 py-5 border">
+                      <td rowspan="3" class="px-2 py-5 border"  :class="`px-[${padding_steps.px}px] py-[${padding_steps.py}px]`">
                        <b>SUBJECTS</b>
                        </td>
                        <td colspan="3" class="px-2 py-5 border text-center">
@@ -20,28 +20,28 @@
                        </td>
                      </tr>
                      <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 ">
-                       <td class="px-2 py-5 border">
+                       <td class="px-2 py-5 border"  :class="`px-[${padding_steps.px}px] py-[${padding_steps.py}px]`">
                        <b>MID</b>
                        </td>
-                       <td class="px-2 py-5 border">
+                       <td class="px-2 py-5 border"  :class="`px-[${padding_steps.px}px] py-[${padding_steps.py}px]`">
                        <b>EOT</b>
                        </td>
                        <td class="px-2 py-5 border text-center">
                        <b>TOTAL</b>
                        </td>
-                       <td class="px-2 py-5 border">
+                       <td class="px-2 py-5 border"  :class="`px-[${padding_steps.px}px] py-[${padding_steps.py}px]`">
                        <b>MID</b>
                        </td>
-                       <td class="px-2 py-5 border">
+                       <td class="px-2 py-5 border"  :class="`px-[${padding_steps.px}px] py-[${padding_steps.py}px]`">
                        <b>EOT</b>
                        </td>
                        <td class="px-2 py-5 border text-center">
                        <b>TOTAL</b>
                        </td>
-                       <td class="px-2 py-5 border">
+                       <td class="px-2 py-5 border"  :class="`px-[${padding_steps.px}px] py-[${padding_steps.py}px]`">
                        <b>MID</b>
                        </td>
-                       <td class="px-2 py-5 border">
+                       <td class="px-2 py-5 border"  :class="`px-[${padding_steps.px}px] py-[${padding_steps.py}px]`">
                        <b>EOT</b>
                        </td>
                        <td colspan="3" class="px-2 py-5 border text-center">
@@ -58,37 +58,37 @@
                        </td>
                      </tr>
                      <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 ">
-                      <td class="px-2 py-5 border">
+                      <td class="px-2 py-5 border"  :class="`px-[${padding_steps.px}px] py-[${padding_steps.py}px]`">
                        <b>Marks</b>
                        </td>
-                       <td class="px-2 py-5 border">
+                       <td class="px-2 py-5 border"  :class="`px-[${padding_steps.px}px] py-[${padding_steps.py}px]`">
                        <b>Marks</b>
                        </td>
-                       <td class="px-2 py-5 border">
+                       <td class="px-2 py-5 border"  :class="`px-[${padding_steps.px}px] py-[${padding_steps.py}px]`">
                        <b>Marks</b>
                        </td>
-                       <td class="px-2 py-5 border">
+                       <td class="px-2 py-5 border"  :class="`px-[${padding_steps.px}px] py-[${padding_steps.py}px]`">
                        <b>Marks</b>
                        </td>
-                       <td class="px-2 py-5 border">
+                       <td class="px-2 py-5 border"  :class="`px-[${padding_steps.px}px] py-[${padding_steps.py}px]`">
                        <b>Marks</b>
                        </td>
-                       <td class="px-2 py-5 border">
+                       <td class="px-2 py-5 border"  :class="`px-[${padding_steps.px}px] py-[${padding_steps.py}px]`">
                        <b>Marks</b>
                        </td>
-                       <td class="px-2 py-5 border">
+                       <td class="px-2 py-5 border"  :class="`px-[${padding_steps.px}px] py-[${padding_steps.py}px]`">
                        <b>Marks</b>
                        </td>
-                       <td class="px-2 py-5 border">
+                       <td class="px-2 py-5 border"  :class="`px-[${padding_steps.px}px] py-[${padding_steps.py}px]`">
                        <b>Marks</b>
                        </td>
-                       <td class="px-2 py-5 border">
+                       <td class="px-2 py-5 border"  :class="`px-[${padding_steps.px}px] py-[${padding_steps.py}px]`">
                        <b>Marks</b>
                        </td>
-                       <td class="px-2 py-5 border">
+                       <td class="px-2 py-5 border"  :class="`px-[${padding_steps.px}px] py-[${padding_steps.py}px]`">
                         <b>%</b>
                        </td>
-                       <td class="px-2 py-5 border">
+                       <td class="px-2 py-5 border"  :class="`px-[${padding_steps.px}px] py-[${padding_steps.py}px]`">
                         <b>Aggr</b>
                        </td>
                      </tr>
@@ -278,7 +278,7 @@
                      </tr>
                 </tbody>
             </table>
-            <table class="mt-3 w-full  text-[10px] text-left text-gray-500 dark:text-gray-400">
+            <table class="mt-3 w-full  text-[10px] text-left text-gray-500 dark:text-gray-400" :style="selected_type">
                 <tbody class="border mt-2">
                   <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 ">
                         <td rowspan="2" class="px-2 py-3 border">
@@ -301,7 +301,7 @@
                   </tr>
                 </tbody>
             </table>
-            <table class="mt-3 w-full  text-[10px] text-left text-gray-500 dark:text-gray-400">
+            <table class="mt-3 w-full  text-[10px] text-left text-gray-500 dark:text-gray-400" :style="selected_type">
                 <tbody class="border mt-2">
                   <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 ">
                         <td rowspan="2" class="px-2 py-3 border">
@@ -341,6 +341,8 @@ export default {
   name:"ThirdTermSingleReport",
   props: {
     getStudentRanks: Object,
+    selected_type:String,
+    padding_steps:Object
   },
   components:{
     generateGrades,
