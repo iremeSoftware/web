@@ -7,6 +7,18 @@
     "file": "assets/Rubik-VariableFont_wght-5ed84298.ttf",
     "src": "public/fonts/Rubik/Rubik-VariableFont_wght.ttf"
   },
+  "public/fonts/antique-gothic-font-1703121062-0/antiquegothic-light-trial.otf": {
+    "file": "assets/antiquegothic-light-trial-1b525f77.otf",
+    "src": "public/fonts/antique-gothic-font-1703121062-0/antiquegothic-light-trial.otf"
+  },
+  "public/fonts/first-love/First_Love.otf": {
+    "file": "assets/First_Love-46617617.otf",
+    "src": "public/fonts/first-love/First_Love.otf"
+  },
+  "public/fonts/morison/Fonts/morison-displaylight.otf": {
+    "file": "assets/morison-displaylight-7c9ba660.otf",
+    "src": "public/fonts/morison/Fonts/morison-displaylight.otf"
+  },
   "public/fonts/vardena-cufonfonts/VardenaPersonalUsed-z8vnw.ttf": {
     "file": "assets/VardenaPersonalUsed-z8vnw-bc4097fa.ttf",
     "src": "public/fonts/vardena-cufonfonts/VardenaPersonalUsed-z8vnw.ttf"
@@ -37,7 +49,7 @@
     "src": "resources/css/app.css"
   },
   "resources/js/app.css": {
-    "file": "assets/app-43689887.css",
+    "file": "assets/app-b468096b.css",
     "src": "resources/js/app.css"
   },
   "resources/js/app.js": {
@@ -48,12 +60,15 @@
       "assets/attendance-6a402e09.png",
       "assets/storage-a4f1d356.png",
       "assets/Rubik-VariableFont_wght-5ed84298.ttf",
-      "assets/VardenaPersonalUsed-z8vnw-bc4097fa.ttf"
+      "assets/VardenaPersonalUsed-z8vnw-bc4097fa.ttf",
+      "assets/First_Love-46617617.otf",
+      "assets/morison-displaylight-7c9ba660.otf",
+      "assets/antiquegothic-light-trial-1b525f77.otf"
     ],
     "css": [
-      "assets/app-43689887.css"
+      "assets/app-b468096b.css"
     ],
-    "file": "assets/app-b3ac6c6a.js",
+    "file": "assets/app-bf6022fa.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   }
