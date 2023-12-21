@@ -45,7 +45,7 @@
             </router-link>
           </div>
         </div>
-        <div class="w-[310px] h-auto text-left bg-[#f5f8fa] rounded-xl p-4 shadow-md text-center ">
+        <div class="w-[310px] h-auto text-left bg-[#f5f8fa] rounded-xl p-4 shadow-md text-center mt-4 ">
           <div class="ml-20">
             <img src="../../../public/images/marking.png" class="w-[130px] h-[100px]">
           </div>
@@ -61,7 +61,7 @@
             </router-link>
           </div>
         </div>
-        <div class="w-[310px] h-auto text-left bg-[#f5f8fa] rounded-xl p-4 shadow-md text-center ">
+        <div class="w-[310px] h-auto text-left bg-[#f5f8fa] rounded-xl p-4 shadow-md text-center mt-4">
           <div class="ml-20">
             <img src="../../../public/images/attendance.png" class="w-[100px] h-[100px]">
           </div>
@@ -77,7 +77,7 @@
             </router-link>
           </div>
         </div>
-        <div class="w-[300px] h-auto text-left bg-[#f5f8fa] rounded-xl p-4 shadow-md text-center ">
+        <div class="w-[300px] h-auto text-left bg-[#f5f8fa] rounded-xl p-4 shadow-md text-center mt-4">
           <div class="ml-20">
             <img src="../../../public/images/storage.png" class="w-[100px] h-[100px]">
           </div>
@@ -96,12 +96,12 @@
       </div>
     </div>
   </section>
-  <section class="w-full  p-10 " id="help">
+  <section class="w-full p-2 md:p-10 " id="help">
     <div class="pt-10"></div>
     <h1 class="text-[#0673c3] text-[40px] text-center text-transparent bg-clip-text bg-gradient-to-l from-[#8fcc53] to-[#0171c0]  font-extrabold pb-10">FAQ &amp; Support </h1>
     <div class="md:flex">
-      <div class="w-full md:w-1/2  m-4">
-        <p class="text-[#000000] text-[30px] pb-6"> Frequently Asked Questions (FAQs) </p>
+      <div class="w-full md:w-1/2  md:m-4">
+        <p class="text-[#000000] text-[30px] md:pb-6"> Frequently Asked Questions (FAQs) </p>
         <div class="w-full" v-for="(faq,i) in faqContents" :key="faq.header" @click="activeFaq(i)">
           <div class="w-full p-4 mt-4 rounded-xl bg-white shadow-lg cursor-pointer " :class="faq.isActive ? 'h-56':''">
             <div class="flex " :class="faq.isActive ? 'border-b-2 pb-4':''">
@@ -119,7 +119,7 @@
           </div>
         </div>
       </div>
-      <div class="w-full md:w-1/2 md:inline-flex pl-6">
+      <div class="w-full md:w-1/2 md:inline-flex md:pl-6">
         <!-- <Alert :feedback=feedbackStatus :message=feedbackMessage :type=feedbackType :closeMethod="closeFeedback" ></Alert> -->
         <div class="w-full">
           <p class="text-[#000000] text-[30px] pt-4"> Do you need support? </p>

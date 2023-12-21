@@ -14,7 +14,7 @@
        type="danger" :closeMethod="closeFeedback"/>
       <Alert v-if="successStatus !='' && successFeedbackStatus == false" :message="successStatus == 'success' ? 'Password is successfully updated':''"  type="success" :closeMethod="closeFeedback"/>
 
-      <div class=" w-[400px] bg-white pl-8 pt-4 pr-8 pb-4  rounded-3xl mt-[90px] ml-14 md:ml-[38%] text-center shadow-lg">
+      <div class="w-full md:w-[400px] bg-white pl-8 pt-4 pr-8 pb-4  rounded-3xl mt-[90px] ml-14 md:ml-[38%] shadow-lg">
         <p class=" text-lg font-bold"> Change Password
 </p>
         <p class=" pt-2 text-sm font-light"> In order to reset your password just enter your new password and confirm it</p>

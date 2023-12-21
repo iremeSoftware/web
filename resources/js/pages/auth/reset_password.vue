@@ -3,7 +3,7 @@
       <Alert  v-if="errorStatus !='' && feedbackStatus == false" :message="errorStatus" type="danger" :closeMethod="closeFeedback"/>
       <Alert v-if="successStatus !=''" :message="successStatus == 'success' ? 'Reset password link successfully sent':''"  type="success" :closeMethod="closeFeedback"/>
 
-      <div class=" w-[400px] bg-white pl-8 pt-4 pr-8 pb-4  rounded-3xl mt-[90px] ml-[2%] md:ml-[38%] text-center shadow-lg">
+      <div class="w-full md:w-[400px] bg-white pl-8 pt-4 pr-8 pb-4  rounded-3xl mt-[90px] ml-[0%] md:ml-[38%] shadow-lg">
         <p class=" text-lg font-bold"> Forgot Password?
 </p>
         <p class=" pt-2 text-sm font-light"> Just enter your email address below and we'll send you a link to reset your password!</p>

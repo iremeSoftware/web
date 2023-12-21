@@ -6,7 +6,7 @@
 
 
 
-      <div class=" w-[400px] bg-white p-8  rounded-3xl mt-[90px]  ml-[2%] md:ml-[38%] text-center shadow-lg">
+      <div class="w-full md:w-[400px]  bg-white p-8  rounded-3xl mt-[90px]  ml-[0%] md:ml-[38%] shadow-lg">
         <p class=" text-lg font-bold"> Send school registration request</p>
         <p class=" pt-2 text-sm font-light"> Are you ready to try our app, Don't hesitate to fill the form below 😂, We'll reach you as soon as possible.</p>
         <div class="pt-4 space-y-3">

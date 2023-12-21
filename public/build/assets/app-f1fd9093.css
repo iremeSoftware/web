@@ -1,0 +1,1 @@
+@tailwind base;@tailwind components;@tailwind utilities;@layer components{.textGradient{@apply text-transparent bg-clip-text bg-gradient-to-l from-[#8fcc53] to-[#0171c0];}}@font-face{font-family:Spotify_normal;src:url(/build/assets/Rubik-Italic-VariableFont_wght-c2495c34.ttf) format("truetype")}

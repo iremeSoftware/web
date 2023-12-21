@@ -27,7 +27,7 @@
         <DataTable>
           <template v-slot:table>
             
-            <div class="flex overflow-x-auto h-14">
+            <div class="flex truncate overflow-x-auto w-full h-14">
               <!-- <button class="ml-2 mt-1 md:w-44 h-6 pt-1 md:pt-1 md:h-10 text-xs md:text-sm rounded-lg ring-2 ring-black bg-black shadow-lg hover:scale-x-105"  onclick="history.back()"><p class="flex pl-2  space-x-2 text-white">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"></path>
@@ -60,6 +60,8 @@
           <div class="hidden md:block border-l-[4px] -mt-1 ml-8 mr-14"></div>
           <p class="ml-10 md:ml-2 text-sm md:text-md font-semibold text-left mt-2 pr-2">Publishing date:</p>
           <input type="date" class="h-6 md:h-9  rounded-lg  bg-transparent ring-1 ring-[#000000] mt-1  md:enabled:p-2 enabled:font-light md:ml-4 " @change="changeDate">
+
+            
           </div>
 
           <div class="flex overflow-x-auto h-14 mb-6">
@@ -82,7 +84,28 @@
 
 
 
+            
+
+
+
           </div>
+
+          <div class="fixed  mt-[15%] ml-[75%] w-20 space-y-6">
+            <button class="ml-2 mt-1 md:w-10 h-6 pt-1 md:h-10 text-xs md:text-sm rounded-lg ring-2 ring-black bg-black shadow-lg hover:scale-x-105"  @click="paddingSteps(0.5)"><p class="flex pl-2  space-x-2 text-white">             
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" data-slot="icon" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+              </svg>
+             </p>
+            </button>
+
+            <button class="ml-2 mt-1 md:w-10 h-6 pt-1 md:h-10 text-xs md:text-sm rounded-lg ring-2 ring-black bg-black shadow-lg hover:scale-x-105"  @click="paddingSteps(-0.5)"><p class="flex pl-2  space-x-2 text-white">             
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" data-slot="icon" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+              </svg>
+             </p>
+            </button>
+          </div>
+
           <div class="overflow-x-auto"  id="dataTable" >
              <table class="w-full text-[10px] text-left text-gray-500 dark:text-gray-400" :style="formData.font_type">
                 <tbody class="border">
@@ -92,7 +115,7 @@
                     </td>
                     </tr>
                     <tr class="bg-white dark:bg-gray-900 dark:border-gray-700">
-                    <td class="px-4 md:px-6 py-2">
+                    <td class="px-4 md:px-6 py-2" :class="`px-[${padding_steps.px}px] py-[${padding_steps.py}px]`">
                      School name: <b>{{ currentUser.school_name }}</b><br>
                      Motto: <b>{{ currentUser.school_motto }}</b><br>
                      Location: <b>{{ currentUser.school_sector }}, {{ currentUser.school_district }}</b><br>
@@ -102,36 +125,36 @@
                     </td>
                      </tr>
                      <tr class="bg-white dark:bg-gray-900 dark:border-gray-700">
-                       <td colspan="2" class="px-4 md:px-6 py-4 text-center">
+                       <td colspan="2" class="px-4 md:px-6 py-4 text-center" :class="`px-[${padding_steps.px}px] py-[${padding_steps.py}px]`">
                         <h3 class="text-2xl font-semibold">STUDENT REPORT FORM</h3>
                        </td>
                      </tr>
-                     <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 ">
-                      <td class="px-6 py-4 border">
+                     <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                      <td class="px-6 py-4 border" :class="`px-[${padding_steps.px}px] py-[${padding_steps.py}px]`" >
                        NAMES : <b>{{ getStudentRanks?.Ranks?.name }}</b>
                        </td>
-                       <td class="px-6 py-4 border">
+                       <td class="px-6 py-4 border" :class="`px-[${padding_steps.px}px] py-[${padding_steps.py}px]`">
                        ACADEMIC YEAR : <b>{{ getStudentRanks?.academic_year }}</b>
                        </td>
                      </tr>
                      <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 ">
-                      <td class="px-6 py-4 border">
+                      <td class="px-6 py-4 border" :class="`px-[${padding_steps.px}px] py-[${padding_steps.py}px]`">
                        CLASS : <b>{{ getStudentRanks?.classroom }}</b>
                        </td>
-                       <td class="px-6 py-4 border">
+                       <td class="px-6 py-4 border" :class="`px-[${padding_steps.px}px] py-[${padding_steps.py}px]`">
                        STUDENT ID : <b>{{ getStudentRanks?.Ranks?.my_id }}</b>
                        </td>
                      </tr>
                 </tbody>
                 </table>
 
-                <FirstTermSingleReport v-if="formData.term ==1" :getStudentRanks="getStudentRanks" />
+                <FirstTermSingleReport v-if="formData.term ==1" :getStudentRanks="getStudentRanks" :selected_type="formData.font_type" :padding_steps="padding_steps" />
 
-                <SecondTermSingleReport v-if="formData.term ==2" :getStudentRanks="getStudentRanks" />
+                <SecondTermSingleReport v-if="formData.term ==2" :getStudentRanks="getStudentRanks" :selected_type="formData.font_type" :padding_steps="padding_steps"/>
 
-                <ThirdTermSingleReport v-if="formData.term ==3" :getStudentRanks="getStudentRanks" />
+                <ThirdTermSingleReport v-if="formData.term ==3" :getStudentRanks="getStudentRanks" :selected_type="formData.font_type" :padding_steps="padding_steps"/>
 
-            <table class="mt-2 w-full  text-[10px] text-left text-gray-500 dark:text-gray-400">
+                <table class="mt-2 w-full  text-[10px] text-left text-gray-500 dark:text-gray-400" :style="formData.font_type" >
                 <tbody class=" mt-2">
                   <tr class="bg-white dark:bg-gray-900 dark:border-gray-700 ">
                         <td>
@@ -192,6 +215,8 @@
             </button>
 
           </div>
+
+          
 </template>
 <template v-slot:printBtns>
     <div class="flex text-xs md:text-sm space-x-4" @mousemove="hideCols(true)" >
@@ -200,6 +225,8 @@
               <font class="pt-1">Print PDF</font></p>
             </button>
     </div>
+
+    
   </template>
   <template v-slot:entries>
     <!-- Show {{ firstItem }} to {{ lastItem }} of {{ studentsMarks?.no_of_students }} students -->
@@ -228,7 +255,6 @@
   import { onMounted,ref,computed,watch } from 'vue'
   import { useRoute,useRouter } from 'vue-router'
   import { classroomStore } from '../../stores/classroom'
-  import { uiChangesStore } from '../../stores/ui_changes'
   import confirmationPrompt from '../../components/popup_forms/confirmation_prompt.vue'
   import DataTable from '../../components/DataTable.vue'
   import StudentPointsCard from '../../components/StudentPointsCard.vue'
@@ -305,10 +331,7 @@
           'font_name':'Times New Roman',
           'font_value':"font-family:Georgia, 'Times New Roman', Times, serif;"
         },
-        {
-          'font_name':'Arial Narrow',
-          'font_value':"font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;"
-        },
+
         {
           'font_name':'Lucida Sans Regular',
           'font_value':"font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;"
@@ -320,6 +343,11 @@
       ])
 
       const steps = ref(1)
+      const padding_steps = ref({
+        'px':5,
+        'py':16,
+        'font_size':12
+      })
 
       const inputQuizError = ref([])
       const inputExamError = ref([])
@@ -484,6 +512,18 @@
            }
        }
 
+       function paddingSteps(p_steps){
+        if(padding_steps.value.px + p_steps >= 1 && padding_steps.value.py + p_steps >= 1)
+        {
+           if(padding_steps.value.px >=1 && padding_steps.value.py >=1)
+           {
+              padding_steps.value.px +=p_steps
+              padding_steps.value.py +=p_steps
+              padding_steps.value.font_size +=p_steps
+           }
+        }
+       }
+
 
         function getStudentList(){
           formData.value.school_id = currentUser.value.school_id
@@ -517,7 +557,7 @@
         }
       });
   
-      return {currentUser,getUsers,classroomDetails,studentsList,formData,isLoading,studentsMarks,errorStatus,successStatus,closeFeedback,successFeedbackStatus,errorFeedbackStatus,termList,setCurrentTerm,quiz_marks,exam_marks,sortList,inputQuizError,inputExamError,hasValidationError,print_pdf,getStudentRanks,onDataUrlChange,dataUrl,changeDate,selectedDate,steps,goToNext,fontList,setReportFont}
+      return {currentUser,getUsers,classroomDetails,studentsList,formData,isLoading,studentsMarks,errorStatus,successStatus,closeFeedback,successFeedbackStatus,errorFeedbackStatus,termList,setCurrentTerm,quiz_marks,exam_marks,sortList,inputQuizError,inputExamError,hasValidationError,print_pdf,getStudentRanks,onDataUrlChange,dataUrl,changeDate,selectedDate,steps,goToNext,fontList,setReportFont,padding_steps,paddingSteps}
     }
   }
   </script>
