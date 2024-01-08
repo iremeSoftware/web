@@ -33,6 +33,20 @@ export const studentsMarksStore = defineStore("students_marks", {
               self.loadingUI.isLoading = false
             })
           },
+          async getAllStudentsMarks(data) {  
+            let self = this
+            self.errorMessage = ""
+            self.loadingUI.isLoading = true
+            data.school_id = localStorage.getItem('school_id') ?? ""
+            await axios.get(`get_marks/all_classes/${data.school_id}/${data.class_id}?term=${data.term}&page=${data.page}&limit=${data.limit}&sort_by=${data.sort_by}`,{}).then(function (response) {
+              self.studentsMarks = response.data
+              self.loadingUI.isLoading = false
+            }).catch(function(err){
+              self.studentsMarks = []
+              self.errorMessage = err.response.data
+              self.loadingUI.isLoading = false
+            })
+          },
           async getStudentMarksAssessment(data) {  
             let self = this
             self.errorMessage = ""

@@ -629,17 +629,17 @@ class AuthController extends Controller
         ])
         ->first();
         
+        if(isset($confirmed->account_enabled)):
+                if($confirmed->account_enabled==0)
+                {
+                return response()->json(['password'=>['Your account was not verified']], 401); 
 
-        if($confirmed->account_enabled==0)
-        {
-          return response()->json(['password'=>['Your account was not verified']], 401); 
-
-        }
-        else if($confirmed->account_enabled==2) 
-        {
-            return response()->json(['password'=>['Your account was disabled']], 401); 
-        }
-
+                }
+                else if($confirmed->account_enabled==2) 
+                {
+                    return response()->json(['password'=>['Your account was disabled']], 401); 
+                }
+            endif;
         if($request->loginWith=='Google')
         {
           $user=User::where([

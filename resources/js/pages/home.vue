@@ -24,7 +24,7 @@
       <div class="md:w-1/5 "></div>
     </div>
   </section>
-  <section id="solutions" class="w-full flex md:pt-10 pl-10 pb-10 md:mt-24 md:pl-20 md:pr-10 bg-white md:text-center">
+  <section id="solutions" class="w-full flex md:pt-10 pl-10 pb-10 md:mt-8 md:pl-20 md:pr-10 bg-white md:text-center">
     <div class=" w-full md:text-center">
       <h1 class="text-[#0673c3] text-[40px] text-transparent bg-clip-text bg-gradient-to-l from-[#8fcc53] to-[#0171c0] font-extrabold pb-6">Our services </h1>
       <p class="text-[18px]">Iremeapp is an advanced online school management system designed to streamline your school administration tasks and handle complex processes efficiently. It boasts an impressive array of customizable features, ensuring a powerful and tailored solution for your educational institution.</p>

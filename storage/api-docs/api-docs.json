@@ -3636,9 +3636,9 @@
         "/api/get_marks/all_classes/{school_id}/{class_id}": {
             "get": {
                 "tags": [
-                    "Get annual report form API"
+                    "Get Whole Class Report Form API"
                 ],
-                "operationId": "getAnnualReportForm",
+                "operationId": "getWholeClassReportForm",
                 "parameters": [
                     {
                         "name": "school_id",
@@ -3649,6 +3649,11 @@
                         "name": "class_id",
                         "in": "path",
                         "description": "Class ID"
+                    },
+                    {
+                        "name": "term",
+                        "in": "query",
+                        "description": "Term"
                     },
                     {
                         "name": "limit",

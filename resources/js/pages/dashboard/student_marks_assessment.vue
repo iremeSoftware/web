@@ -136,9 +136,9 @@
             </template>
             </td>
             <td class="px-4 md:px-6 py-4 border">
-              <dt v-if="formData.term ==1">{{ total_quiz_exam1  }}  </dt>
-              <dt v-else-if="formData.term ==2">{{ total_quiz_exam2  }}</dt>
-              <dt v-else="formData.term ==1">{{ total_quiz_exam3  }}</dt>
+              <dt v-if="formData.term ==1">{{ total_quiz_exam1.toFixed(1)  }}  </dt>
+              <dt v-else-if="formData.term ==2">{{ total_quiz_exam2.toFixed(1)  }}</dt>
+              <dt v-else="formData.term ==1">{{ total_quiz_exam3.toFixed(1)  }}</dt>
             </td>
             <td class="px-4 md:px-6 py-4 border">
               <dt v-if="formData.term ==1">{{ total_percentage1.toFixed(1)  }}%  </dt>
