@@ -37,15 +37,17 @@
 
             <p class="text-sm md:text-md font-semibold text-left mt-2 pr-2">Choose format:</p>
             <select @change="setReportFormat()"  name='select_user_role' v-model="formData.report_type" class="h-6 md:h-9  rounded-lg bg-transparent ring-1 ring-[#000000] mt-1  md:enabled:p-2 enabled:font-light " id="formData.select_user_role">
-              <option>Advanced Report</option>
-              <option>MidTerm Report</option>
+              <option v-for="report in reportFormList" :value="report.type">
+              {{ report.value }}
+              </option>
+            
             </select>
 
             <p class="ml-10 text-sm md:text-md font-semibold text-left mt-4 pr-2">Choose Font Type:</p>
             <select @change="setReportFont()" v-model="formData.font_type" class="h-6 md:h-9  rounded-lg bg-transparent ring-1 ring-[#000000] mt-1  md:enabled:p-2 enabled:font-light ">
               <option v-for="font in fontList" :value="font.font_value">
               {{ font.font_name }}
-            </option>
+              </option>
             </select>
 
 
@@ -81,13 +83,6 @@
               </svg>
              </p>
             </button>
-
-
-
-            
-
-
-
           </div>
 
           <div class="fixed  mt-[15%] ml-[75%] w-20 space-y-6">
@@ -104,8 +99,12 @@
               </svg>
              </p>
             </button>
-          </div>
 
+            <button class="ml-2 mt-1 md:w-10 h-6 pt-1 md:h-10 text-xs md:text-sm rounded-lg ring-2 ring-black bg-white shadow-lg hover:scale-x-105"  @click="print_pdf"><p class="flex pl-2  space-x-2 text-white">             
+                <svg viewBox="0 0 384 512" class="w-6 h-6 bg-white" xmlns="http://www.w3.org/2000/svg"><path  d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48zm250.2-143.7c-12.2-12-47-8.7-64.4-6.5-17.2-10.5-28.7-25-36.8-46.3 3.9-16.1 10.1-40.6 5.4-56-4.2-26.2-37.8-23.6-42.6-5.9-4.4 16.1-.4 38.5 7 67.1-10 23.9-24.9 56-35.4 74.4-20 10.3-47 26.2-51 46.2-3.3 15.8 26 55.2 76.1-31.2 22.4-7.4 46.8-16.5 68.4-20.1 18.9 10.2 41 17 55.8 17 25.5 0 28-28.2 17.5-38.7zm-198.1 77.8c5.1-13.7 24.5-29.5 30.4-35-19 30.3-30.4 35.7-30.4 35zm81.6-190.6c7.4 0 6.7 32.1 1.8 40.8-4.4-13.9-4.3-40.8-1.8-40.8zm-24.4 136.6c9.7-16.9 18-37 24.7-54.7 8.3 15.1 18.9 27.2 30.1 35.5-20.8 4.3-38.9 13.1-54.8 19.2zm131.6-5s-5 6-37.3-7.8c35.1-2.6 40.9 5.4 37.3 7.8z"/></svg>
+             </p>
+            </button>
+          </div>
           <div class="overflow-x-auto"  id="dataTable" >
              <table class="w-full text-[10px] text-left text-gray-500 dark:text-gray-400" :style="formData.font_type">
                 <tbody class="border">
@@ -126,7 +125,9 @@
                      </tr>
                      <tr class="bg-white dark:bg-gray-900 dark:border-gray-700">
                        <td colspan="2" class="px-4 md:px-6 py-4 text-center" :class="`px-[${padding_steps.px}px] py-[${padding_steps.py}px]`">
-                        <h3 class="text-2xl font-semibold">STUDENT REPORT FORM</h3>
+                        <h3 class="text-2xl font-semibold" v-if="formData.report_type == 'advanced_report'">STUDENT REPORT FORM</h3>
+                        <h3 class="text-2xl font-semibold" v-else-if="formData.report_type == 'mid_term_report'">CONTINUOUS ASSESSMENT TEST REPORT FORM</h3>
+
                        </td>
                      </tr>
                      <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
@@ -147,12 +148,27 @@
                      </tr>
                 </tbody>
                 </table>
+                <template v-if="formData.report_type == 'advanced_report'">
+                  <FirstTermSingleReport v-if="formData.term ==1" :getStudentRanks="getStudentRanks" :selected_type="formData.font_type" is_for_all_students="false" 
+                  :student_total_number="getStudentRanks?.no_of_students" :padding_steps="padding_steps" />
 
-                <FirstTermSingleReport v-if="formData.term ==1" :getStudentRanks="getStudentRanks" :selected_type="formData.font_type" :padding_steps="padding_steps" />
+                  <SecondTermSingleReport v-if="formData.term ==2" :getStudentRanks="getStudentRanks" :selected_type="formData.font_type" 
+                  is_for_all_students="false"
+                  :student_total_number="getStudentRanks?.no_of_students"  
+                  :padding_steps="padding_steps"/>
 
-                <SecondTermSingleReport v-if="formData.term ==2" :getStudentRanks="getStudentRanks" :selected_type="formData.font_type" :padding_steps="padding_steps"/>
+                  <ThirdTermSingleReport v-if="formData.term ==3" :getStudentRanks="getStudentRanks" 
+                  :selected_type="formData.font_type" is_for_all_students="false" 
+                  :student_total_number="getStudentRanks?.no_of_students" 
+                  :padding_steps="padding_steps"/>
 
-                <ThirdTermSingleReport v-if="formData.term ==3" :getStudentRanks="getStudentRanks" :selected_type="formData.font_type" :padding_steps="padding_steps"/>
+                </template>
+                <template v-else-if="formData.report_type == 'mid_term_report'">
+                  <MidTermSingleReport :getStudentRanks="getStudentRanks" :selected_type="formData.font_type" :padding_steps="padding_steps" is_for_all_students="false" 
+                  :student_total_number="getStudentRanks?.no_of_students" :term="formData.term" />
+                </template>
+
+                
 
                 <table class="mt-2 w-full  text-[10px] text-left text-gray-500 dark:text-gray-400" :style="formData.font_type" >
                 <tbody class=" mt-2">
@@ -184,13 +200,13 @@
                         <td>
                           <p class="flex-wrap w-20"></p>
                          
-                          <hr class="mt-10">
+                          <hr class="mt-5">
                         </td>
                         <td>
-                          <hr class="ml-6 mt-10">
+                          <hr class="ml-6 mt-5">
                         </td>
                         <td>
-                          <hr class="ml-6 mt-10">
+                          <hr class="ml-6 mt-5">
                         </td>
                   </tr>
                 </tbody>
@@ -220,10 +236,10 @@
 </template>
 <template v-slot:printBtns>
     <div class="flex text-xs md:text-sm space-x-4" @mousemove="hideCols(true)" >
-            <button class="w-44 h-8 md:h-10 text-xs md:text-sm rounded-md ring-2 ring-black shadow-lg hover:scale-x-105" @click="print_pdf"><p class="flex pl-2  space-x-2">
+            <!-- <button class="w-44 h-8 md:h-10 text-xs md:text-sm rounded-md ring-2 ring-black shadow-lg hover:scale-x-105" @click="print_pdf"><p class="flex pl-2  space-x-2">
               <svg viewBox="0 0 384 512" class="w-6 h-6 bg-white" xmlns="http://www.w3.org/2000/svg"><path  d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48zm250.2-143.7c-12.2-12-47-8.7-64.4-6.5-17.2-10.5-28.7-25-36.8-46.3 3.9-16.1 10.1-40.6 5.4-56-4.2-26.2-37.8-23.6-42.6-5.9-4.4 16.1-.4 38.5 7 67.1-10 23.9-24.9 56-35.4 74.4-20 10.3-47 26.2-51 46.2-3.3 15.8 26 55.2 76.1-31.2 22.4-7.4 46.8-16.5 68.4-20.1 18.9 10.2 41 17 55.8 17 25.5 0 28-28.2 17.5-38.7zm-198.1 77.8c5.1-13.7 24.5-29.5 30.4-35-19 30.3-30.4 35.7-30.4 35zm81.6-190.6c7.4 0 6.7 32.1 1.8 40.8-4.4-13.9-4.3-40.8-1.8-40.8zm-24.4 136.6c9.7-16.9 18-37 24.7-54.7 8.3 15.1 18.9 27.2 30.1 35.5-20.8 4.3-38.9 13.1-54.8 19.2zm131.6-5s-5 6-37.3-7.8c35.1-2.6 40.9 5.4 37.3 7.8z"/></svg>
               <font class="pt-1">Print PDF</font></p>
-            </button>
+            </button> -->
     </div>
 
     
@@ -264,6 +280,7 @@
   import FirstTermSingleReport from '../../components/report_form/advanced_reports/first_term_single_report.vue'
   import SecondTermSingleReport from '../../components/report_form/advanced_reports/second_term_single_report.vue'
   import ThirdTermSingleReport from '../../components/report_form/advanced_reports/third_term_single_report.vue'
+  import MidTermSingleReport from '../../components/report_form/midterm_reports/mid_term_single_report.vue'
   import { studentsStore } from '../../stores/students'
 
 
@@ -282,7 +299,8 @@
         VueQrcode,
         FirstTermSingleReport,
         SecondTermSingleReport,
-        ThirdTermSingleReport
+        ThirdTermSingleReport,
+        MidTermSingleReport
      },
     setup() {
       const store = useUserStore()
@@ -342,6 +360,22 @@
         },
       ])
 
+
+      let reportFormList = ref([
+        {
+          'type':'advanced_report',
+          'value':'End of Term Report Format'
+        },
+        {
+          'type':'mid_term_report',
+          'value':'Mid-Term Report Format'
+        },
+        {
+          'type':'nursery_report',
+          'value':'Colored Report Format'
+        },
+      ])
+
       const steps = ref(1)
       const padding_steps = ref({
         'px':5,
@@ -377,8 +411,9 @@
               term_quiz:0,
               term_exam:0,
               sort_records:localStorage.getItem('currentSort') ?? sortList.value[0].sort,
-              font_type:fontList.value[0].font_value
-      });
+              font_type:fontList.value[0].font_value,
+              report_type:localStorage.getItem('report_type') ?? reportFormList.value[0].type 
+            });
 
 
       let quiz_marks = ref([])
@@ -536,8 +571,15 @@
           return studentsStores.getStudentList(formData.value)
         }
 
-        function setReportFont(){
-           formData.report_type = event.target.value
+        function setReportFormat(){
+          formData.value.report_type = event.target.value
+          localStorage.setItem('report_type',formData.value.report_type)
+          let url = window.location.href
+          let url_Path = url.split('?')
+          var searchParams = new URLSearchParams(window.location.search)
+          searchParams.set('report_type',formData.value.report_type)
+          url = window.location.pathname+'?'+searchParams
+          window.location.href = url
         }
 
         
@@ -557,7 +599,7 @@
         }
       });
   
-      return {currentUser,getUsers,classroomDetails,studentsList,formData,isLoading,studentsMarks,errorStatus,successStatus,closeFeedback,successFeedbackStatus,errorFeedbackStatus,termList,setCurrentTerm,quiz_marks,exam_marks,sortList,inputQuizError,inputExamError,hasValidationError,print_pdf,getStudentRanks,onDataUrlChange,dataUrl,changeDate,selectedDate,steps,goToNext,fontList,setReportFont,padding_steps,paddingSteps}
+      return {currentUser,getUsers,classroomDetails,studentsList,formData,isLoading,studentsMarks,errorStatus,successStatus,closeFeedback,successFeedbackStatus,errorFeedbackStatus,termList,setCurrentTerm,quiz_marks,exam_marks,sortList,inputQuizError,inputExamError,hasValidationError,print_pdf,getStudentRanks,onDataUrlChange,dataUrl,changeDate,selectedDate,steps,goToNext,fontList,padding_steps,paddingSteps,reportFormList,setReportFormat}
     }
   }
   </script>

@@ -2,7 +2,7 @@
   <div class="w-[100px]">&nbsp;</div>
 
   <Alert
-    v-if="getUsers !='' && feedbackStatus == false" :message="getUsers.response.data.password[0]" type="danger" :closeMethod="closeFeedback"/>
+    v-if="getUsers !='' && feedbackStatus == false" :message="getUsers.response.data?.password[0]" type="danger" :closeMethod="closeFeedback"/>
 
 
   <Alert  v-if="errorStatus !='' && errorFeedbackStatus == false && tokenQuery !=undefined" 
@@ -51,10 +51,10 @@
       </div>
 
       <p class="pt-4 pb-3 text-sm font-light text-left">
-        Having trouble in sign in?
+        You forgot your password?
         <router-link to="/auth/resetPassword"
           ><a href="#" class="text-sm font-bold hover:text-[#0673c3]"
-            >Reset Password
+            >Reset it
           </a></router-link
         >
       </p>

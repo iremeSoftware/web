@@ -5,7 +5,7 @@
             </template>
             <template v-slot:contents>
                 <div v-if="loadingStatus.isLoading == false" >
-                        <template v-if="classTeacherClassesList?.length > 0">
+                        <template v-if="classTeacherClassesList?.length > 0 || getUsers.authentications?.includes('add_course')">
                             <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
 
                         <router-link  v-for="a in (getUsers.authentications?.includes('add_course') ?  getClassroomList : classTeacherClassesList)" :value="a.class_id" :key="a.class_id" :to="`${toPage}/${a.class_id}`" @click="showPopUp()" class="flex w-full h-10 rounded-md background-transparent ring-2 ring-[#000000] pl-4 pt-2 hover:shadow-xl hover:scale-105">

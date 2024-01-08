@@ -481,8 +481,8 @@ class MarksController extends Controller
             /**
         * @OA\Get(
         * path="/api/get_marks/all_classes/{school_id}/{class_id}",
-        * operationId="getAnnualReportForm",
-        * tags={"Get annual report form API"},
+        * operationId="getAllStudentsReportForm",
+        * tags={"Get All Students Report Form API"},
         * security={
         *  {
         *  "passport": {}},
@@ -496,6 +496,11 @@ class MarksController extends Controller
         *         name="class_id",
         *         in="path",
         *         description="Class ID",
+        *      ),
+        *      @OA\Parameter(
+        *         name="term",
+        *         in="query",
+        *         description="Term",
         *      ),
         *      @OA\Parameter(
         *         name="limit",
@@ -534,6 +539,7 @@ class MarksController extends Controller
         //$limit=$request->limit;
         //$page=$request->page-1;
         //$offset=ceil($limit*$page);
+        $today = strtotime(date("Y-m-d"));
         $academic_year = academic_year::get();
         $from = strtotime($academic_year[0]->term1_from);
         $to = strtotime($academic_year[0]->term3_to);
@@ -560,8 +566,8 @@ class MarksController extends Controller
             ->get();
 
         $data = [
-            "pointsranges.school_id" => $request->school_id,
-            "pointsranges.class_id" => $request->class_id,
+            "marks_grades.school_id" => $request->school_id,
+            "marks_grades.class_id" => $request->class_id,
             "term" => $request->term,
         ];
 
@@ -692,7 +698,58 @@ class MarksController extends Controller
                 ->orderBy($sort_by, $sort)
                 ->get();
 
-            $student_marks[$i] = $Marks;
+                $student_marks[$all_students[$i]->student_id] = $Marks;
+
+ 
+            if(count($Marks)):
+                foreach($Marks as $key=>$marks)
+                {
+                    $data= array(
+                        'marks_grades.school_id' => $request->school_id,
+                        'marks_grades.class_id' => $request->class_id,
+                        'marks_grades.course_id' => $marks->course_id,
+                        'term'=> $request->term,
+                        );
+
+        
+                     $ranges=PointsRanges::getData($data);
+                    
+                     $student_marks[$marks->student_id][$key]->ranges = $ranges;  
+
+                     $average_marks = DB::table("marks")
+                     ->selectRaw("SUM(`marks`.`term1_quiz`) as term1_quiz")
+                     ->selectRaw("SUM(`marks`.`term2_quiz`) as term2_quiz")
+                     ->selectRaw("SUM(`marks`.`term3_quiz`) as term3_quiz")
+                     ->selectRaw("SUM(`marks`.`term1_total_marks`) as total_term1")
+                     ->selectRaw("SUM(`marks`.`term2_total_marks`) as total_term2")
+                     ->selectRaw("SUM(`marks`.`term3_total_marks`) as total_term3")
+                     ->join("courses", "courses.course_id", "=", "marks.course_id")
+                     ->join("users", "users.account_id", "=", "marks.teacher_id")
+                     ->where([
+                         ["marks.school_id", "=", $request->school_id],
+                         ["marks.class_id", "=", $request->class_id],
+                         ["marks.course_id", "=", $marks->course_id],
+                     ])
+                     ->orderBy("courses.course_name")
+                     ->groupBy("marks.course_id","users.name","courses.course_name")
+                     ->first();
+                     
+                     $student_marks[$marks->student_id][$key]->average = $average_marks;
+     
+                     $Designated_teachers = Designated_teachers::select('users.name','users.email')
+                     ->join("users", "users.account_id", "=", "designated_teachers.teacher_id")
+                     ->where('users.school_id', '=', $request->school_id)
+                     ->where('course_id', '=', $marks->course_id)
+                     ->where('class_id', '=', $request->class_id)
+                     ->first();
+     
+                     $student_marks[$marks->student_id][$key]->teacher = $Designated_teachers;
+                }
+            endif;
+
+                
+              
+
         }
 
         $classroom = classrooms::select("classroom_name")
@@ -704,7 +761,7 @@ class MarksController extends Controller
 
         return response()->json(
             [
-                "Ranges" => $PointsRanges,
+                "term"=>$request->term,
                 "Marks" => $student_marks,
                 "Ranks" => $ranks_from_view,
                 "disciplines" => $disciplines,
